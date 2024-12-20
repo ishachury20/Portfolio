@@ -57,8 +57,8 @@
     <header class="header" id="home">
         <div class="container">
             <div class="infos">
-                <h6 class="subtitle">hello,I'm</h6>
-                <h6 class="title">James Smith</h6>
+                <h6 class="subtitle">Hello, I'm</h6>
+                <h6 class="title">Isha Chury</h6>
                 <p>UI/UX Designer</p>
 
                 <div class="buttons pt-3">
@@ -70,15 +70,15 @@
                     <a class="social-item" href="javascript:void(0)"><i class="ti-facebook"></i></a>
                     <a class="social-item" href="javascript:void(0)"><i class="ti-google"></i></a>
                     <a class="social-item" href="javascript:void(0)"><i class="ti-github"></i></a>
-                    <a class="social-item" href="javascript:void(0)"><i class="ti-twitter"></i></a>
+                    <a class="social-item" href="javascript:void(0)"><i class="ti-instagram"></i></a>
                 </div>
             </div>              
             <div class="img-holder">
-                <img src="public_html/assets/imgs/man.svg" alt="">
+                <img src="public_html/assets/imgs/woman.png" alt="">
             </div>      
         </div>  
 
-        <!-- Header-widget -->
+        <!-- Header-widget (come up with different descriptions)--> 
         <div class="widget">
             <div class="widget-item">
                 <h2>124</h2>
@@ -114,55 +114,77 @@
         </div>
     </section>
 
-    <!-- Service section -->
-    <section id="service" class="section">
-        <div class="container text-center">
-            <h6 class="subtitle">Service</h6>
-            <h6 class="section-title mb-4">What I Do</h6>
-            <p class="mb-5 pb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In alias dignissimos. <br> rerum commodi corrupti, temporibus non quam.</p>
-
-            <div class="row">
-                <div class="col-sm-6 col-md-3 mb-4">
-                    <div class="custom-card card border">
-                        <div class="card-body">
-                            <i class="icon ti-crown"></i>
-                            <h5>UI/UX Design</h5>
-                        </div>
+<!-- Service section -->
+<section id="service" class="section">
+    <div class="container text-center">
+        <h6 class="section-title mb-4">What I Do</h6>
+        <p class="mb-5 pb-4">Discover my services and how I can help elevate your brand.</p>
+        <div class="row">
+            <div class="col-sm-6 col-md-3 mb-4">
+                <div class="custom-card card border service-card" onclick="toggleDetail('uiux-details')">
+                    <div class="card-body">
+                        <i class="icon ti-crown"></i>
+                        <h5>UI/UX Design</h5>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-3 mb-4">
-                    <div class="custom-card card border">
-                        <div class="card-body">
-                            <i class="icon ti-desktop"></i>
-                            <h5>Web Design</h5>
-                        </div>
+                <div class="detail-card" id="uiux-details">
+                    <p>Utilizing user-centered design principles, I create interfaces that are not only visually appealing but also intuitive and engaging.</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 mb-4">
+                <div class="custom-card card border service-card" onclick="toggleDetail('app-details')">
+                    <div class="card-body">
+                        <i class="icon ti-mobile"></i>
+                        <h5>App Design</h5> 
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-3 mb-4">
-                    <div class="custom-card card border">
-                        <div class="card-body">
-                            <i class="icon ti-mobile"></i>
-                            <h5>App Design</h5>
-                        </div>
+                <div class="detail-card" id="app-details">
+                    <p>Designing mobile applications that provide seamless user experiences and innovative features to meet modern needs.</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 mb-4">
+                <div class="custom-card card border service-card" onclick="toggleDetail('game-details')">
+                    <div class="card-body">
+                        <i class="icon ti-desktop"></i> 
+                        <h5>Game Design</h5>
                     </div>
                 </div>
-                <div class="col-sm-6 col-md-3 mb-4">
-                    <div class="custom-card card border">
-                        <div class="card-body">
-                            <i class="icon ti-bar-chart"></i>
-                            <h5>SEO</h5>
-                        </div>
+                <div class="detail-card" id="game-details">
+                    <p>Crafting immersive gaming experiences through storytelling, graphics, and engaging gameplay mechanics.</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 mb-4">
+                <div class="custom-card card border service-card" onclick="toggleDetail('social-details')">
+                    <div class="card-body">
+                        <i class="icon ti-bar-chart"></i>
+                        <h5>Social Media</h5>
                     </div>
+                </div>
+                <div class="detail-card" id="social-details">
+                    <p>Developing effective social media strategies to enhance engagement and build a strong online presence.</p>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- End of Sectoin -->
+    </div>
+
+    <script>
+        function toggleDetail(detailId) {
+            const detailCard = document.getElementById(detailId);
+            // Toggle visibility
+            if (detailCard.style.display === "block") {
+                detailCard.style.display = "none";
+            } else {
+                detailCard.style.display = "block";
+            }
+        }
+        </script>
+
+</section>
+<!-- End of Section -->
 
     <!-- Skills section -->
     <section class="section">
         <div class="container text-center">
-            <h6 class="subtitle">Skills</h6>
             <h6 class="section-title mb-4">Why Choose me</h6>
             <p class="mb-5 pb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In alias dignissimos. <br> rerum commodi corrupti, temporibus non quam.</p>
 
@@ -199,7 +221,6 @@
     <!-- Portfolio section -->
     <section id="portfolio" class="section">
         <div class="container text-center">
-            <h6 class="subtitle">Portfolio</h6>
             <h6 class="section-title mb-4">Check My Wonderful Works</h6>
             <p class="mb-5 pb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In alias dignissimos. <br> rerum commodi corrupti, temporibus non quam.</p>
 
@@ -210,8 +231,7 @@
                         <div class="overlay">
                             <div class="overlay-infos">
                                 <h5>Project Title</h5>
-                                <a href="javascript:void(0)"><i class="ti-zoom-in"></i></a>
-                                <a href="javascript:void(0)"><i class="ti-link"></i></a>
+                                <a href="project-1.html"><i class="ti-link"></i></a> <!-- Link to Project 1 -->
                             </div>  
                         </div>
                     </div>
@@ -276,61 +296,10 @@
     </section>
     <!-- End of portfolio section -->
 
-    <!-- Testmonial Section -->
-    <section id="testmonial" class="section">
-        <div class="container text-center">
-            <h6 class="subtitle">Testmonial</h6>
-            <h6 class="section-title mb-4">What People Say About Me</h6>
-            <p class="mb-5 pb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In alias dignissimos. <br> rerum commodi corrupti, temporibus non quam.</p>
-
-
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="card testmonial-card border">
-                            <div class="card-body">
-                                <img src="public_html/assets/imgs/avatar-1.jpg" alt="">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam nostrum voluptates in enim vel amet?</p>
-                                <h1 class="title">Emma Re</h1>
-                                <h1 class="subtitle">Graphic Designer</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="card testmonial-card border">
-                            <div class="card-body">
-                                <img src="public_html/assets/imgs/avatar-2.jpg" alt="">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam nostrum voluptates in enim vel amet?</p>
-                                <h1 class="title">James Bert</h1>
-                                <h1 class="subtitle">Web Designer</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="card testmonial-card border">
-                            <div class="card-body">
-                                <img src="public_html/assets/imgs/avatar-3.jpg" alt="">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam nostrum voluptates in enim vel amet?</p>
-                                <h1 class="title">Michael Abra</h1>
-                                <h1 class="subtitle">Web Developer</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- End of testmonial section -->
 
     <!-- Blog Section -->
     <section id="blog" class="section">
         <div class="container text-center">
-            <h6 class="subtitle">My Blogs</h6>
             <h6 class="section-title mb-4">Latest News</h6>
             <p class="mb-5 pb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In alias dignissimos. <br> rerum commodi corrupti, temporibus non quam.</p>
 
@@ -407,7 +376,6 @@
     <!-- Contact Section -->
     <section id="contact" class="position-relative section">
         <div class="container text-center">
-            <h6 class="subtitle">Contact</h6>
             <h6 class="section-title mb-4">Get In Touch With Me</h6>
             <p class="mb-5 pb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. In alias dignissimos. <br> rerum commodi corrupti, temporibus non quam.</p>
 

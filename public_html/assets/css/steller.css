@@ -892,6 +892,15 @@ pre code {
   margin-left: 91.66667%;
 }
 
+.detail-card {
+  display: none; /* Hide detail cards initially */
+  margin-top: 25px;
+  background: #f8f8f8;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
 @media (min-width: 576px) {
   .col-sm {
     -webkit-flex-basis: 0;
