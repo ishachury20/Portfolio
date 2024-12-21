@@ -468,6 +468,22 @@ mark,
   text-transform: uppercase;
 }
 
+.icon-xl {
+  font-size: 40px; /* Adjust this value to increase or decrease size */
+}
+
+.icon-link {
+  display: inline-block; /* Make the anchor tag an inline-block for sizing */
+  text-decoration: none !important; 
+  transition: transform 0.3s ease; /* Smooth transition for scaling effect */
+  color: inherit; 
+}
+
+.icon-link:hover {
+  transform: scale(1.1); /* Scale up the icon on hover */
+  color: #343a40; 
+}
+
 .blockquote {
   margin-bottom: 1rem;
   font-size: 1.25rem;
@@ -602,6 +618,7 @@ pre code {
           flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
+
 }
 
 .no-gutters {
@@ -892,14 +909,27 @@ pre code {
   margin-left: 91.66667%;
 }
 
-.detail-card {
-  display: none; /* Hide detail cards initially */
-  margin-top: 25px;
-  background: #f8f8f8;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+
+.section {
+  margin: 20px 0; /* Adjust as needed */
 }
+
+
+/* Detail card style */
+.detail-card {
+  display: none; /* Hide detail card initially */
+  margin-top: 25px; /* Spacing above */
+  background: #f8f8f8; /* Background color */
+  border: 1px solid #ddd; /* Border for the card */
+  border-radius: 5px; /* Rounded corners */
+  padding: 35px; /* Uniform padding */
+  min-height: 200px; /* Set a minimum height for consistent size */
+  height: auto; /* Allow height to adapt to content */
+  box-sizing: border-box; /* Include padding and border in total height */
+  pointer-events: auto; /* Enable interaction */
+  text-align: center; /* Center text horizontally */
+}
+
 
 @media (min-width: 576px) {
   .col-sm {
@@ -7218,7 +7248,7 @@ button.bg-light:focus {
 }
 
 .bg-dark {
-  background-color: #343a40 !important;
+  background-color: #f6f6f6 !important;
 }
 
 a.bg-dark:hover, a.bg-dark:focus,
@@ -7244,7 +7274,7 @@ button.bg-dark:focus {
 }
 
 .border-right {
-  border-right: 1px solid #dee2e6 !important;
+  border-right: 1px solid #9d9d9d !important;
 }
 
 .border-bottom {
@@ -10823,7 +10853,7 @@ a.text-warning:hover, a.text-warning:focus {
 }
 
 .text-danger {
-  color: #F85C70 !important;
+  color: #f47a58 !important;
 }
 
 a.text-danger:hover, a.text-danger:focus {
@@ -10836,6 +10866,10 @@ a.text-danger:hover, a.text-danger:focus {
 
 a.text-light:hover, a.text-light:focus {
   color: #cbd3da !important;
+}
+
+.text-medium {
+  color: #6a6c6d !important;
 }
 
 .text-dark {
@@ -11188,6 +11222,9 @@ pre {
   color: #ff7a57;
 }
 
+.service-card {
+  cursor: pointer; /* Change cursor to pointer when hovering over service cards */
+}
 .custom-card:hover, .custom-card:active {
   background: #ff7a57;
   color: #fff;
