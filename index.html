@@ -53,7 +53,7 @@
             <div class="infos">
                 <h6 class="subtitle">Hello, I'm</h6>
                 <h6 class="title">Isha Chury</h6>
-                <p>UI/UX Designer</p>
+                <p>UCSC Student</p>
 
                 <div class="buttons pt-3">
                     <button class="btn btn-primary rounded">HIRE ME</button>
@@ -75,18 +75,37 @@
         <!-- Header-widget (come up with different descriptions)--> 
         <div class="widget">
             <div class="widget-item">
-                <h2>20+</h2>
-                <p>Games Created</p>
-            </div>
-            <div class="widget-item">
-                <h2>15+</h2>
-                <p>Projects Completed</p>
-            </div>
-            <div class="widget-item">
-                <h2>30+</h2>
-                <p>Designs Posted</p>
+                <h2 id="role-title">Social Media Assistant</h2>
             </div>
         </div>
+        <script>
+            const roles = ["Social Media Assistant", "Game Developer", "UI/UX Designer"];
+            let currentIndex = 0;
+            let cycleCount = 0; // Counter for how many complete cycles have occurred
+        
+            function changeRole() {
+                // Get the element where the role is displayed
+                const roleTitle = document.getElementById('role-title');
+        
+                // Update the role title with the current index
+                roleTitle.textContent = roles[currentIndex];
+        
+                currentIndex++; // Increment index for the next role
+                
+                if (currentIndex >= roles.length) {
+                    currentIndex = 0; // Reset to first role
+                    cycleCount++; // Increment the cycle count
+                }
+        
+                // Stop after two cycles
+                if (cycleCount >= 2) {
+                    clearInterval(roleChangeInterval); // Clear the interval when the limit is reached
+                }
+            }
+        
+            // Change the role every 3 seconds
+            const roleChangeInterval = setInterval(changeRole, 3000);
+        </script>
     </header>
     <!-- End of Page Header -->
     
@@ -99,7 +118,7 @@
                 </div>
                 <div class="pl-md-4 col-md-9">
                     <h6 class="title">Isha Chury</h6>
-                    <p class="subtitle">Majored in Computer Science: Game Design</p>
+                    <p class="subtitle">Major in Computer Science: Game Design</p>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident, pariatur, aperiam aut autem voluptas odit. Odio ducimus delectus totam sed aliquam sequi praesentium mollitia, illum repudiandae quidem quod, magni magnam.</p>
                     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim, eius, nam. Quo praesentium qui temporibus voluptatum, facilis aliquid eligendi fugiat beatae neque inventore non. Laborum repellendus consequatur ullam voluptatum asperiores.</p>
                     <button class="btn btn-primary rounded mt-3">DOWNLOAD CV</button>                   
@@ -192,7 +211,7 @@
                 <div class="col-sm-6">
                     <h6 class="mb-3">C / C++</h6>
                     <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 89%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span>89%</span></div>
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span>89%</span></div>
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -210,13 +229,13 @@
                 <div class="col-sm-6">
                     <h6 class="mb-3">Phaser</h6>
                     <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 95%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span>95%</span></div>
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 85%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span>95%</span></div>
                     </div>
                 </div>
                 <div class="col-sm-6">
                     <h6 class="mb-3">Unity</h6>
                     <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 90%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span>90%</span></div>
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span>90%</span></div>
                     </div>
                 </div>
             </div>  
@@ -224,12 +243,11 @@
     </section>
     <!-- End of Skills sections -->
 
-
     <section class="section bg-dark text-center">
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-md-3 col-lg-3">
-                    <div class="row">
+                    <div class="row ">
                         <div class="col-5 text-right text-medium border-right py-3">
                             <div class="m-auto">
                                 <a href="https://itch.io/profile/ishachury20" class="icon-link">
@@ -276,7 +294,9 @@
             </div>
         </div>
     </section>
-    <!-- End of gray bar -->
+
+    <!-- Add empty div for spacing -->
+    <div style="height: 70px;"></div> <!-- Adjust height as needed -->
 
     <!-- Portfolio section -->
     <section id="portfolio" class="section">
@@ -296,10 +316,10 @@
                         </div>
                     </div>
                     <div class="img-wrapper">
-                        <img src="public_html/assets/imgs/folio-2.jpg" alt="">
+                        <img src="public_html/assets/imgs/slugcents-media.png" alt="">
                         <div class="overlay">
                             <div class="overlay-infos">
-                                <h5>Project Title</h5>
+                                <h5>SlugCents Social Media</h5>
                                 <a href="javascript:void(0)"><i class="ti-zoom-in"></i></a>
                                 <a href="javascript:void(0)"><i class="ti-link"></i></a>
                             </div>                              
@@ -312,8 +332,7 @@
                         <div class="overlay">
                             <div class="overlay-infos">
                                 <h5>PetPrep</h5>
-                                <a href="javascript:void(0)"><i class="ti-zoom-in"></i></a>
-                                <a href="javascript:void(0)"><i class="ti-link"></i></a>
+                                <a href="https://docs.google.com/presentation/d/1p8KFQdyxQpAQyLVRmoxvDRN3Y1-78u1NtJytSJuKYZg/edit?usp=sharing"><i class="ti-link"></i></a>
                             </div>  
                         </div>
                     </div>
@@ -334,16 +353,15 @@
                         <div class="overlay">
                             <div class="overlay-infos">
                                 <h5>EduConnect</h5>
-                                <a href="javascript:void(0)"><i class="ti-zoom-in"></i></a>
-                                <a href="javascript:void(0)"><i class="ti-link"></i></a>
+                                <a href="https://www.figma.com/proto/mq72DDaOSe6j958zuiPSkV/Team-16-HW-7---Poster?page-id=0%3A1&node-id=14-49&p=f&viewport=397%2C312%2C0.04&t=CrhaI8PXm7rRTcu2-1&scaling=min-zoom&content-scaling=fixed"><i class="ti-link"></i></a>
                             </div>  
                         </div>
                     </div>
                     <div class="img-wrapper">
-                        <img src="public_html/assets/imgs/folio-6.jpg" alt="">
+                        <img src="public_html/assets/imgs/browser-newbkg.png" alt="">
                         <div class="overlay">
                             <div class="overlay-infos">
-                                <h5>Project Title</h5>
+                                <h5>Browser Games</h5>
                                 <a href="javascript:void(0)"><i class="ti-zoom-in"></i></a>
                                 <a href="javascript:void(0)"><i class="ti-link"></i></a>
                             </div>                              
@@ -368,7 +386,7 @@
                     <div class="card border mb-4">
                         <img src="public_html/assets/imgs/blog-1.jpg" alt="" class="card-img-top w-100">
                         <div class="card-body">
-                            <h5 class="card-title">Designe for Everyone</h5>
+                            <h5 class="card-title">130 Project Paper</h5>
                             <div class="post-details">
                                 <a href="javascript:void(0)">Posted By: Admin</a>
                                 <a href="javascript:void(0)"><i class="ti-thumb-up"></i> 456</a>
@@ -383,7 +401,7 @@
                     <div class="card border mb-4">
                         <img src="public_html/assets/imgs/blog-2.jpg" alt="" class="card-img-top w-100">
                         <div class="card-body">
-                            <h5 class="card-title">Web Layouts</h5>
+                            <h5 class="card-title">Immersion Study</h5>
                             <div class="post-details">
                                 <a href="javascript:void(0)">Posted By: Admin</a>
                                 <a href="javascript:void(0)"><i class="ti-thumb-up"></i> 456</a>
@@ -398,7 +416,7 @@
                     <div class="card border mb-4">
                         <img src="public_html/assets/imgs/blog-3.jpg" alt="" class="card-img-top w-100">
                         <div class="card-body">
-                            <h5 class="card-title">Bootstrap Framework</h5>
+                            <h5 class="card-title">176 Game</h5>
                             <div class="post-details">
                                 <a href="javascript:void(0)">Posted By: Admin</a>
                                 <a href="javascript:void(0)"><i class="ti-thumb-up"></i> 456</a>

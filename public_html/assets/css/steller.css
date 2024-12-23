@@ -914,6 +914,18 @@ pre code {
   margin: 20px 0; /* Adjust as needed */
 }
 
+.widget-item {
+  opacity: 1; /* Start fully visible */
+  transition: opacity 0.5s ease; /* Smooth transition for opacity */
+}
+
+.fade-out {
+  opacity: 0; /* Invisible state */
+}
+
+.fade-in {
+  opacity: 1; /* Fully visible state */
+}
 
 /* Detail card style */
 .detail-card {
@@ -11117,6 +11129,8 @@ pre {
   position: relative;
   width: 100%;
   z-index: 8;
+  border-radius: 1px; /* Optional: Smooth corners on image */
+  border: 1px solid #ebebeb;
 }
 
 .img-wrapper .overlay {
@@ -11220,6 +11234,37 @@ pre {
   font-size: 40px;
   margin-bottom: 18px;
   color: #ff7a57;
+}
+
+.carousel-control-prev, 
+.carousel-control-next {
+    width: 75px; /* Adjust the size of the controls */
+    height: 650px; /* Ensure the height is sufficient for icons */
+    color: #000 !important; 
+}
+
+.carousel-control-prev i,
+.carousel-control-next i {
+    line-height: 50px; /* Center the icons vertically within the buttons */
+    color: #000 !important;
+}
+
+
+
+#imageCarousel {
+  max-width: 1110px; /* Set the desired maximum width */
+  margin: 0 auto; /* Center the carousel */
+  overflow: hidden; /* Hide the overflow if the image is larger */
+  padding-bottom: 100px;
+  border-radius: 5px;
+}
+
+.carousel-inner img {
+  width: 100%; /* Ensure images take full width of the carousel */
+  height: auto; /* Maintain aspect ratio */
+  max-height: 800px; /* Set a maximum height for the carousel */
+  border-radius: 5px;
+  border: 1px solid #dfe2e6;
 }
 
 .service-card {

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Start your development with Steller landing page.">
+    <meta name="author" content="Devcrud">
+    <title>Steller Landing page | Free Bootstrap 4.1 landing page</title>
+    <!-- font icons -->
+    <link rel="stylesheet" href="public_html/assets/vendors/themify-icons/css/themify-icons.css">
+    <!-- Bootstrap + Steller main styles -->
+    <link rel="stylesheet" href="public_html/assets/css/steller.css">
+
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+    <!-- Page navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" data-spy="affix" data-offset-top="0">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="public_html/logo.png" alt=""></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    <!-- Change the href here to point to your main page (link to paper? link to slides?) -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>  <!-- Link to the main page -->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#service">Skills</a>
+                    </li>                   
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">Portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#blog">Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="- btn btn-primary rounded ml-4" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>          
+    </nav>
+    <!-- End of page navigation -->
+
+    <header class="header" id="home">
+        <div class="container">
+            <div class="infos">
+                <h6 class="title">Gratitude</h6>
+                <p>Tech4Good Labs | UCSC</p>
+
+                <div class="buttons pt-3">
+                    <a href="https://gratitude-ucsc.web.app/#/onboarding/welcome-page" class="btn btn-primary rounded">VIEW PROJECT</a>
+                    <a href="https://tech4good.soe.ucsc.edu/" class="btn btn-dark rounded">LEARN MORE</a>
+                </div>      
+                <div class="socials mt-4">
+                    <a class="social-item" href="javascript:void(0)"><i class="ti-facebook"></i></a>
+                    <a class="social-item" href="javascript:void(0)"><i class="ti-google"></i></a>
+                    <a class="social-item" href="javascript:void(0)"><i class="ti-github"></i></a>
+                    <a class="social-item" href="javascript:void(0)"><i class="ti-instagram"></i></a>
+                </div>
+            </div>              
+            <div class="img-holder">
+                <img src="public_html/assets/imgs/woman.png" alt="">
+            </div>      
+        </div>  
+
+        <!-- Header-widget (come up with different descriptions)--> 
+    </header>
+    <!-- End of Page Header -->
+
+    <!-- About section -->
+    <section id="about" class="section mt-3">
+        <div class="container mt-5">
+            <div class="row text-center text-md-left">
+                <div class="col-md-3">
+                    <img src="public_html/assets/imgs/gratitude-main.png" alt="" class="img-thumbnail mb-4">
+                </div>
+                <div class="pl-md-4 col-md-9">
+                    <h6 class="title">Community in Virtual Spaces</h6>
+                    <p class="subtitle">Participating in Gratitude Practices</p>
+                    <p>This study, conducted by the Tech4Good Lab at UCSC, explores ways to foster positive social interactions by creating a platform designed to encourage individuals to express gratitude. </p>
+                    <p>Online communities play a crucial role in forming and maintaining relationships, but they can also negatively impact mental well-being. This study focuses on mitigating these negative effects by promoting prosocial behavior through the concept of a "gratitude cycle." The aim is to understand how digital platforms can be designed to reduce negativity and cultivate a more supportive and uplifting online environment. </p>
+                    <!--<button class="btn btn-primary rounded mt-3">DOWNLOAD CV</button>   -->                
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Service section -->
+<section id="service" class="section" style="padding-top: 10px;">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-sm-6 col-md-3 mb-4">
+                <div class="custom-card card border service-card" onclick="toggleDetail('uiux-details')">
+                    <div class="card-body">
+                        <i class="icon ti-face-smile"></i>
+                        <h5>Members</h5>
+                    </div>
+                </div>
+                <div class="detail-card" id="uiux-details">
+                    <p>Utilizing user-centered design principles, I create interfaces that are not only visually appealing but also intuitive and engaging.</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 mb-4">
+                <div class="custom-card card border service-card" onclick="toggleDetail('app-details')">
+                    <div class="card-body">
+                        <i class="icon ti-bar-chart"></i>
+                        <h5>Skills</h5> 
+                    </div>
+                </div>
+                <div class="detail-card" id="app-details">
+                    <p>Designing mobile applications that provide seamless user experiences and innovative features to meet modern needs.</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 mb-4">
+                <div class="custom-card card border service-card" onclick="toggleDetail('game-details')">
+                    <div class="card-body">
+                        <i class="icon ti-pencil"></i> 
+                        <h5>Tools</h5>
+                    </div>
+                </div>
+                <div class="detail-card" id="game-details">
+                    <p>Crafting immersive gaming experiences through storytelling, graphics, and engaging gameplay mechanics.</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 mb-4">
+                <div class="custom-card card border service-card" onclick="toggleDetail('social-details')">
+                    <div class="card-body">
+                        <i class="icon ti-agenda"></i>
+                        <h5>V1 Study</h5>
+                    </div>
+                </div>
+                <div class="detail-card" id="social-details">
+                    <p>Developing effective social media strategies to enhance engagement and build a strong online presence.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDetail(detailId) {
+            const detailCard = document.getElementById(detailId);
+            // Toggle visibility
+            if (detailCard.style.display === "block") {
+                detailCard.style.display = "none";
+            } else {
+                detailCard.style.display = "block";
+            }
+        }
+    </script>
+    <div style="padding-top: 110px;"></div>
+    <div class="container text-center">
+    <h6 class="section-title mb-4">Project Background</h6>
+    <p class="mb-5 pb-4">Our findings from the previous V1 study revealed a mix of concerns and benefits associated with sharing gratitude online. Some participants were apprehensive about appearing "performative" when posting notes, while others felt that the lack of privacy led to a sense of vulnerability, discouraging frequent sharing. Despite these concerns, participants highlighted several benefits, including reduced stress, the opportunity to recall positive memories, and moments of self-reflection. 
+    </p>
+</div>
+</section>
+<!-- End of Section -->
+
+
+<div id="imageCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="public_html/assets/imgs/gratitude-old.png" class="d-block w-100" alt="Project 1">
+            <div class="carousel-caption d-none d-md-block">
+            </div>
+        </div>
+        <div class="carousel-item">
+            <img src="public_html/assets/imgs/gratitude-oldupload.png" class="d-block w-100" alt="Project 2">
+            <div class="carousel-caption d-none d-md-block">
+            </div>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+        <i class="ti-angle-left" style="font-size: 24px; color: #212121;"></i> <!-- Change icon and style -->
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+        <i class="ti-angle-right" style="font-size: 24px; color: #343a40;"></i> <!-- Change icon and style -->
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+<!--<section class="section text-center">
+    <div class="container">
+        <h6 class="section-title text-danger mb-4">Project Challenges</h6>
+        <div style="height: 15px;"></div> 
+        <div class="row">
+            <div class="col-md-4">
+                <p class="text-dark">How do we address the concerns of vulnerability and risk while still creating cycles of positivity and promoting authentic individual reflection to foster community interaction?</p>
+            </div>
+            <div class="col-md-4">
+                <p class="text-dark">How do we ensure that individuals don’t misinterpret the nature of these gratitude practices and are encouraged to engage in a genuine positive reflection of their life experiences?
+                </p>
+            </div>
+            <div class="col-md-4">
+                <p class="text-dark">How do we allow user agency and community while also allowing for a communal space encouraging others to discuss their various experiences and engage with one another? 
+                </p>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+
+<!-- Add empty div for spacing -->
+<div style="height: 70px;"></div> <!-- Adjust height as needed -->
+
+<section class="section bg-dark text-center">
+    <div class="container">
+        <div class="row align-items-end"> <!-- Changed align-items-center to align-items-end -->
+            <div class="col-sm-9 text-center text-sm-left">
+                <h6 class="title">Project Challenges</h6>
+                <div style="height: 10px;"></div>
+                <p class="mb-3">How do we address the concerns of vulnerability and risk while still creating cycles of positivity and promoting authentic individual reflection to foster community interaction?</p>
+                <p class="mb-3">How do we ensure that individuals don’t misinterpret the nature of these gratitude practices and are encouraged to engage in a genuine positive reflection of their life experiences?</p>
+                <div style="height: 20px;"></div>
+                <a href="https://gratitude.soe.ucsc.edu/#/landing" class="btn btn-primary rounded">VIEW V1 PROTOTYPE</a>
+                
+            </div>
+            <div class="col-sm-3 text-center"> 
+                <img src="public_html/assets/imgs/browser-new.png" alt="Image Description" class="img-fluid" style="margin-top: auto;"> <!-- Align image at the bottom -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<div style="height: 120px;"></div> <!-- Adjust height as needed -->
+
+<div class="container text-center">
+    <h6 class="section-title mb-4">Onboarding Flow</h6>
+    <p class="mb-5 pb-4"> 
+        We designed an onboarding experience for first-time users to explain key features and guide them through the platform. This includes introducing the "gratitude cycle," which encourages users to express gratitude and promote pro-social behavior. AI enhances this cycle by using GPT and prompt engineering to identify potential recipients from gratitude notes and deliver them to users in those groups. This personalized experience aims to increase engagement and connect research objectives with user-driven actions.
+    </p>
+<div> 
+
+    <div id="imageCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="public_html/assets/imgs/gratitude-old.png" class="d-block w-100" alt="Project 1">
+                <div class="carousel-caption d-none d-md-block">
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="public_html/assets/imgs/gratitude-oldupload.png" class="d-block w-100" alt="Project 2">
+                <div class="carousel-caption d-none d-md-block">
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+            <i class="ti-angle-left" style="font-size: 24px; color: #212121;"></i> <!-- Change icon and style -->
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+            <i class="ti-angle-right" style="font-size: 24px; color: #343a40;"></i> <!-- Change icon and style -->
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Contact Section 
+<section id="contact" class="position-relative section" style="margin-top: 4%;"> 
+    <div class="container text-center">
+        <div class="contact text-left">
+            <div class="form">
+                <h6 class="subtitle">  </h6>
+                <h6 class="section-title mb-4">Onboarding Flow</h6>
+                <form>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="contact-message" id="" cols="30" rows="5" class="form-control" placeholder="Message"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block rounded w-lg">Send Message</button>
+                </form>
+            </div>
+            <div class="contact-infos">
+                <div class="item">
+                    <i class="ti-location-pin"></i>
+                    <div class="">
+                        <h5>Location</h5>
+                        <p> Santa Cruz, California</p>
+                    </div>                          
+                </div>
+                <div class="item">
+                    <i class="ti-mobile"></i>
+                    <div>
+                        <h5>Phone Number</h5>
+                        <p>(508) 736-9135</p>
+                    </div>                          
+                </div>
+                <div class="item">
+                    <i class="ti-email"></i>
+                    <div class="mb-0">
+                        <h5>Email Address</h5>
+                        <p>ishachury20@gmail.com</p>
+                    </div>
+                </div>
+            </div>                  
+        </div>
+    </div>  
+    <div id="map">
+        <img src="public_html/assets/imgs/gratitude-main.png" alt="Project Image" style="width: 90%; height: auto; border-radius: 5px;">
+        <div class="overlay" style="
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 160%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+        border-radius: 5px; /* Matches the image's border radius */
+        z-index: 1;
+    ">
+    </div>     
+    <div style="height: 250px;"></div>   
+</section>
+ End of Contact Section -->
+
+
+
+
+
+<body> 
