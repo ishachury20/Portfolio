@@ -11611,8 +11611,8 @@ pre {
 .header .container .img-holder img {
   width: 100%;
   max-width: 620px;
-  -webkit-filter: drop-shadow(0 -4px 20px rgba(206, 212, 218, 0.4));
-          filter: drop-shadow(0 -4px 20px rgba(206, 212, 218, 0.4));
+  -webkit-filter: none; /*drop-shadow(0 -4px 20px rgba(206, 212, 218, 0.4)); */ 
+          filter: none; /*drop-shadow(0 -4px 20px rgba(206, 212, 218, 0.4)); */ 
   margin-left: auto;
   margin-right: -2rem;
 }

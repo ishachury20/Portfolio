@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Start your development with Steller landing page.">
+    <meta name="author" content="Devcrud">
+    <title>Steller Landing page | Free Bootstrap 4.1 landing page</title>
+    <!-- font icons -->
+    <link rel="stylesheet" href="public_html/assets/vendors/themify-icons/css/themify-icons.css">
+    <!-- Bootstrap + Steller main styles -->
+    <link rel="stylesheet" href="public_html/assets/css/steller.css">
+
+</head>
+
+<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+    <!-- Page navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" data-spy="affix" data-offset-top="0">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="public_html/logo.png" alt=""></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto align-items-center">
+                    <!-- Change the href here to point to your main page (link to paper? link to slides?) -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>  <!-- Link to the main page -->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#service">Skills</a>
+                    </li>                   
+                    <li class="nav-item">
+                        <a class="nav-link" href="#portfolio">Portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#blog">Works</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="- btn btn-primary rounded ml-4" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>          
+    </nav>
+    <!-- End of page navigation -->
+
+    <header class="header" id="home">
+        <div class="container">
+            <div class="infos">
+                <h6 class="title">EduConnect</h6>
+                <p>Human-Centered Design Research | UCSC</p>
+
+                <div class="buttons pt-3">
+                    <a href="https://gratitude-ucsc.web.app/#/onboarding/welcome-page" class="btn btn-primary rounded">VIEW PROJECT</a>
+                    <a href="https://tech4good.soe.ucsc.edu/" class="btn btn-dark rounded">LEARN MORE</a>
+                </div>      
+                <div class="socials mt-4">
+                    <a class="social-item" href="javascript:void(0)"><i class="ti-facebook"></i></a>
+                    <a class="social-item" href="javascript:void(0)"><i class="ti-google"></i></a>
+                    <a class="social-item" href="javascript:void(0)"><i class="ti-github"></i></a>
+                    <a class="social-item" href="javascript:void(0)"><i class="ti-instagram"></i></a>
+                </div>
+            </div>              
+            <div class="img-holder">
+                <img src="public_html/assets/imgs/laptop.png" alt="">
+            </div>      
+        </div>  
+
+    </header>
+    <!-- End of Page Header -->
+
+    <!-- About section -->
+    <section id="about" class="section mt-3">
+        <div class="container mt-5">
+            <div class="row text-center text-md-left">
+                <div class="col-md-3">
+                    <img src="public_html/assets/imgs/gratitude-main.png" alt="" class="img-thumbnail mb-4">
+                </div>
+                <div class="pl-md-4 col-md-9">
+                    <h6 class="title">Communication about Education</h6>
+                    <p class="subtitle">Understanding New Technologies</p>
+                    <p>EduConnect allows teachers and parents to communicate and remain updated about various types of technologies, both inside and outside of the classroom. </p>
+                    <p>Online communities play a crucial role in forming and maintaining relationships, but they can also negatively impact mental well-being. This study focuses on mitigating these negative effects by promoting prosocial behavior through the concept of a "gratitude cycle." The aim is to understand how digital platforms can be designed to reduce negativity and cultivate a more supportive and uplifting online environment. </p>
+                    <!--<button class="btn btn-primary rounded mt-3">DOWNLOAD CV</button>   -->                
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- Service section -->
+<section id="service" class="section" style="padding-top: 10px;">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-sm-6 col-md-3 mb-4">
+                <div class="custom-card card border service-card" onclick="toggleDetail('uiux-details')">
+                    <div class="card-body">
+                        <i class="icon ti-face-smile"></i>
+                        <h5>Members</h5>
+                    </div>
+                </div>
+                <div class="detail-card" id="uiux-details">
+                    <p>Utilizing user-centered design principles, I create interfaces that are not only visually appealing but also intuitive and engaging.</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 mb-4">
+                <div class="custom-card card border service-card" onclick="toggleDetail('app-details')">
+                    <div class="card-body">
+                        <i class="icon ti-bar-chart"></i>
+                        <h5>Skills</h5> 
+                    </div>
+                </div>
+                <div class="detail-card" id="app-details">
+                    <p>Designing mobile applications that provide seamless user experiences and innovative features to meet modern needs.</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 mb-4">
+                <div class="custom-card card border service-card" onclick="toggleDetail('game-details')">
+                    <div class="card-body">
+                        <i class="icon ti-pencil"></i> 
+                        <h5>Tools</h5>
+                    </div>
+                </div>
+                <div class="detail-card" id="game-details">
+                    <p>Crafting immersive gaming experiences through storytelling, graphics, and engaging gameplay mechanics.</p>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-3 mb-4">
+                <div class="custom-card card border service-card" onclick="toggleDetail('social-details')">
+                    <div class="card-body">
+                        <i class="icon ti-time"></i>
+                        <h5>Duration</h5>
+                    </div>
+                </div>
+                <div class="detail-card" id="social-details">
+                    <p>Developing effective social media strategies to enhance engagement and build a strong online presence.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDetail(detailId) {
+            const detailCard = document.getElementById(detailId);
+            // Toggle visibility
+            if (detailCard.style.display === "block") {
+                detailCard.style.display = "none";
+            } else {
+                detailCard.style.display = "block";
+            }
+        }
+    </script>
+    <div style="padding-top: 110px;"></div>
+    <div class="container text-center">
+    <h6 class="section-title mb-4">Project Background</h6>
+    <p class="mb-5 pb-4">
+        This project was completed under the guidance of Professor David Lee in the CMPM 178 - Human Centered Design Research course. As students learning the design research process, we conducted interviews with the PVUSD community, and performed the entire design research process from qualitative analysis to brainstorming, ideation, and creating a fully-designed solution to real world user needs. This project focused on communication between the teaching staff and parents around various technologies used or referenced in class. 
+    <p> 
+</div>
+</section>
+<!-- End of Section -->
+
+<!-- Images -->
+<div id="imageCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="public_html/assets/imgs/gratitude-old.png" class="d-block w-100" alt="Project 1">
+            <div class="carousel-caption d-none d-md-block">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- large gray bar -->
+<section class="section bg-dark text-center">
+    <div class="container">
+        <div class="row align-items-end"> <!-- Changed align-items-center to align-items-end -->
+            <div class="col-sm-9 text-center text-sm-left">
+                <h6 class="title">Project Challenge</h6>
+                <div style="height: 10px;"></div>
+                <p class="mb-3">Parent-teacher communication is very crucial to a child’s education success; however, several factors hinder the communication, and it is crucial to address them. For example, parents, having time constraint, personal situation limitation, or language barrier, do not have the chance to communicate with the teacher to understand what their children are facing during study. Parents are unable to know their children’s progress and therefore not able to provide assistance. If such barriers can be lifted, the children’s learning can be drastically improved.
+                </p>
+                <div style="height: 20px;"></div>
+                <a href="https://gratitude.soe.ucsc.edu/#/landing" class="btn btn-primary rounded">VIEW THEMATIC ANALYSIS</a>
+                
+            </div>
+            <div class="col-sm-3 text-center"> 
+                <img src="public_html/assets/imgs/browser-new.png" alt="Image Description" class="img-fluid" style="margin-top: auto;"> <!-- Align image at the bottom -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<div style="height: 150px;"></div> 
+<section id="proposed-solution" class="section" style="margin-top: 0; padding-top: 10px;">
+    <div class="container text-center">
+        <h6 class="section-title mb-4">Proposed Solution</h6>
+        <p class="mb-5 pb-4">
+            To begin our project, we spent the first two weeks conducting a qualitative analysis...
+        </p>
+    </div>
+</section>
+
+<!-- Blog Section -->
+<section id="blog" class="section" style="margin-top: -20px; padding-top: 30px;"> <!-- Adjusted margin-top to -20px -->
+    <div class="container text-center">
+        <div class="row text-left">
+            <div class="col-md-4">
+                <div class="card border mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">Benefits</h5>
+                        <p>Users noted benefits including recalling positive memories...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">Suggestions</h5>
+                        <p>Users suggested showing all of the platform's features...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">Improvements</h5>
+                        <p>Users mentioned issues around appearing excessively performative...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About section -->
+<section id="about" class="section mt-4" style="margin-top: 30px; padding-top: 30px">
+    <div class="container mt-5">
+        <div class="row text-center text-md-left">
+            <div class="col-md-3">
+                <img src="public_html/assets/imgs/gratitude-main.png" alt="" class="img-thumbnail mb-4" style="height: 250px; width: auto;"> <!-- Set height as needed -->
+            </div>
+            <div class="pl-md-4 col-md-9">
+                <h6 class="title">Needfinding</h6>
+                <p class="subtitle">Understanding New Technologies</p>
+                <p>To begin our project, we spent the first two weeks conducting a qualitative analysis of the given transcript of user interviews within the Parajo Valley High School District. We qualitatively coded, analyzed, and conducted thematic analyses to find themes within each user group. Based on these themes, we also created problem statements formed by specific insights from each user group to better identify and understand the core needs of each group. For the sake of relevancy within this poster, we will showcase the insights found within our target user group, parents within the Parajo Valley District.  </p>           
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+    <div id="imageCarousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="public_html/assets/imgs/gratitude-old.png" class="d-block w-100" alt="Project 1">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Project 1 Title</h5>
+                    <p>Description of Project 1.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="public_html/assets/imgs/gratitude-oldupload.png" class="d-block w-100" alt="Project 2">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Project 2 Title</h5>
+                    <p>Description of Project 2.</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#imageCarousel" role="button" data-slide="prev">
+            <i class="ti-angle-left" style="font-size: 24px; color: #212121;"></i>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#imageCarousel" role="button" data-slide="next">
+            <i class="ti-angle-right" style="font-size: 24px; color: #343a40;"></i>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+<body> 
