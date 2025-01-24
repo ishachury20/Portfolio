@@ -3063,6 +3063,12 @@ fieldset:disabled a.btn {
   border-color: #343a40;
 }
 
+.btn-medium {
+  color: #fff;
+  background-color: #727272;
+  border-color: #727272;
+}
+
 .btn-dark:hover {
   color: #fff;
   background-color: #23272b;
@@ -11130,7 +11136,7 @@ pre {
   width: 100%;
   z-index: 8;
   border-radius: 1px; /* Optional: Smooth corners on image */
-  border: 1px solid #ebebeb;
+
 }
 
 .img-wrapper .overlay {
