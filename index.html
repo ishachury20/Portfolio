@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="public_html/assets/vendors/themify-icons/css/themify-icons.css">
     <!-- Bootstrap + Steller main styles -->
     <link rel="stylesheet" href="public_html/assets/css/steller.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=League+Gothic&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
 
@@ -49,55 +48,66 @@
     <!-- End of page navibation -->
 
     <!-- Page Header -->
-    <header class="header hero-modern" id="home">
-        <div class="container d-flex flex-column align-items-center justify-content-center text-center">
-            
-            <div class="w-100 mb-4">
-                <div class="pill-dark">
-                    <span class="text-muted">Hi, I’m</span> <span class="text-highlight">&lt;/Isha Chury&gt;</span>
+    <header class="header" id="home">
+        <div class="container">
+            <div class="infos">
+                <h6 class="subtitle">Hello, I'm</h6>
+                <h6 class="title">Isha Chury</h6>
+                <p>UCSC Student</p>
+
+                <div class="buttons pt-3">
+                    <button class="btn btn-primary rounded">HIRE ME</button>
+                    <a href="https://raw.githubusercontent.com/ishachury20/Portfolio/main/CV_IshaChury.pdf
+                    " class="btn btn-dark rounded" download="IshaChury_CV.pdf">DOWNLOAD CV</a>
+
+                </div>      
+
+                <div class="socials mt-4">
+                    <a class="social-item" href="https://facebook.com/isha.chury.9"><i class="ti-facebook"></i></a>
+                    <a class="social-item" href="https://www.linkedin.com/in/isha-chury"><i class="ti-link"></i></a>
+                    <a class="social-item" href="https://github.com/ishachury20"><i class="ti-github"></i></a>
+                    <a class="social-item" href="https://www.instagram.com/ishachury/"><i class="ti-instagram"></i></a>
                 </div>
+            </div>              
+            <div class="img-holder">
+                <img src="public_html/assets/imgs/woman.png" alt="">
+            </div>      
+        </div>  
+
+        <!-- Header-widget (come up with different descriptions)--> 
+        <div class="widget">
+            <div class="widget-item">
+                <h2 id="role-title">Social Media Assistant</h2>
             </div>
-    
-            <div class="w-100 position-relative text-center my-2">
-                <div class="hero-title-wrapper">
-                    
-                    <div class="floating-tag tag-left d-none d-md-block">
-                        <i class="ti-location-arrow text-pink cursor-icon"></i>
-                        <span class="badge-pink">Located in the bay area</span>
-                    </div>
-    
-                    <h1 class="hero-big-title">Product Designer</h1>
-    
-                    <div class="floating-tag tag-right d-none d-md-block">
-                        <i class="ti-location-arrow text-purple cursor-icon"></i>
-                        <span class="badge-purple">MS HCI @ UCSC</span>
-                    </div>
-                </div>
-            </div>
-    
-            <div class="w-100 mt-3 mb-5">
-                <p class="hero-subtitle">
-                    Using game design principles to build<br>
-                    intuitive and engaging systems
-                </p>
-            </div>
-    
-            <div class="hero-footer d-flex flex-wrap justify-content-center align-items-center gap-3">
-                <div class="social-squares mr-md-4">
-                    <a href="https://itch.io/profile/ishachury20" class="social-square"><i class="ti-game"></i></a>
-                    <a href="#" class="social-square"><i class="ti-pencil-alt"></i></a>
-                    <a href="https://facebook.com/isha.chury.9" class="social-square"><i class="ti-facebook"></i></a>
-                    <a href="https://www.instagram.com/ishachury/" class="social-square"><i class="ti-instagram"></i></a>
-                    <a href="https://github.com/ishachury20" class="social-square"><i class="ti-github"></i></a>
-                    <a href="https://www.linkedin.com/in/isha-chury" class="social-square"><i class="ti-linkedin"></i></a>
-                </div>
-    
-                <div class="status-pill mt-3 mt-md-0">
-                    <span class="dot-green"></span> Available to work
-                </div>
-            </div>
-    
         </div>
+        <script>
+            const roles = ["Social Media Assistant", "Game Developer", "UI/UX Designer"];
+            let currentIndex = 0;
+            let cycleCount = 0; // Counter for how many complete cycles have occurred
+        
+            function changeRole() {
+                // Get the element where the role is displayed
+                const roleTitle = document.getElementById('role-title');
+        
+                // Update the role title with the current index
+                roleTitle.textContent = roles[currentIndex];
+        
+                currentIndex++; // Increment index for the next role
+                
+                if (currentIndex >= roles.length) {
+                    currentIndex = 0; // Reset to first role
+                    cycleCount++; // Increment the cycle count
+                }
+        
+                // Stop after two cycles
+                if (cycleCount >= 2) {
+                    clearInterval(roleChangeInterval); // Clear the interval when the limit is reached
+                }
+            }
+        
+            // Change the role every 3 seconds
+            const roleChangeInterval = setInterval(changeRole, 3000);
+        </script>
     </header>
     <!-- End of Page Header -->
     
