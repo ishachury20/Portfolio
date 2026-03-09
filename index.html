@@ -1,603 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Start your development with Steller landing page.">
-    <meta name="author" content="Devcrud">
-    <title>Isha Chury | Portfolio</title>
-    <!-- font icons -->
-    <link rel="stylesheet" href="public_html/assets/vendors/themify-icons/css/themify-icons.css">
-    <!-- Bootstrap + Steller main styles -->
-    <link rel="stylesheet" href="public_html/assets/css/steller.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Isha Chury | Portfolio</title>
+  <link rel="stylesheet" href="public_html/assets/vendors/themify-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="public_html/assets/css/steller.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 </head>
-<body data-spy="scroll" data-target=".navbar" data-offset="40" id="home">
+<body>
 
-    <!-- Page navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" data-spy="affix" data-offset-top="0">
-        <div class="container">
-            <a class="navbar-brand" href="#"><img src="public_html/" alt=""></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+  <header class="topbar">
+  <div class="brand-block">
+    <h1>Isha Chury</h1>
+    <p>Product Designer</p>
+  </div>
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#home">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#service">Skills</a>
-                    </li>                   
-                    <li class="nav-item">
-                        <a class="nav-link" href="#portfolio">Portfolio</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#blog">Essays</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="- btn btn-primary rounded ml-4" href="#contact">Contact</a>
-                    </li>
-                </ul>
-            </div>
-        </div>          
+  <div class="nav-wrapper">
+
+    <nav class="floating-nav">
+      <a href="#work" class="active">Work</a>
+      <a href="#sandbox" class="nav-sandbox">Sandbox</a>
+      <a href="#about">About</a>
+      <a href="CV_IshaChury.pdf" class="nav-resume" target="_blank" rel="noopener noreferrer">
+        Resume ↗
+      </a>
     </nav>
-    <!-- End of page navibation -->
 
-    <!-- Page Header -->
-    <header class="header" id="home">
-        <div class="container">
-            <div class="infos">
-                <h6 class="subtitle">Hello, I'm</h6>
-                <h6 class="title">Isha Chury</h6>
-                <p>UCSC Student</p>
+    <!-- Circle OUTSIDE the nav -->
+    <div class="mobile-menu">
+      <div class="at-circle">@</div>
 
-                <div class="buttons pt-3">
-                    <button class="btn btn-primary rounded">HIRE ME</button>
-                    <a href="https://raw.githubusercontent.com/ishachury20/Portfolio/main/CV_IshaChury.pdf
-                    " class="btn btn-dark rounded" download="IshaChury_CV.pdf">DOWNLOAD CV</a>
-
-                </div>      
-
-                <div class="socials mt-4">
-                    <a class="social-item" href="https://facebook.com/isha.chury.9"><i class="ti-facebook"></i></a>
-                    <a class="social-item" href="https://www.linkedin.com/in/isha-chury"><i class="ti-link"></i></a>
-                    <a class="social-item" href="https://github.com/ishachury20"><i class="ti-github"></i></a>
-                    <a class="social-item" href="https://www.instagram.com/ishachury/"><i class="ti-instagram"></i></a>
-                </div>
-            </div>              
-            <div class="img-holder">
-                <img src="public_html/assets/imgs/woman.png" alt="">
-            </div>      
-        </div>  
-
-        <!-- Header-widget (come up with different descriptions)--> 
-        <div class="widget">
-            <div class="widget-item">
-                <h2 id="role-title">Social Media Assistant</h2>
-            </div>
-        </div>
-        <script>
-            const roles = ["Social Media Assistant", "Game Developer", "UI/UX Designer"];
-            let currentIndex = 0;
-            let cycleCount = 0; // Counter for how many complete cycles have occurred
-        
-            function changeRole() {
-                // Get the element where the role is displayed
-                const roleTitle = document.getElementById('role-title');
-        
-                // Update the role title with the current index
-                roleTitle.textContent = roles[currentIndex];
-        
-                currentIndex++; // Increment index for the next role
-                
-                if (currentIndex >= roles.length) {
-                    currentIndex = 0; // Reset to first role
-                    cycleCount++; // Increment the cycle count
-                }
-        
-                // Stop after two cycles
-                if (cycleCount >= 2) {
-                    clearInterval(roleChangeInterval); // Clear the interval when the limit is reached
-                }
-            }
-        
-            // Change the role every 3 seconds
-            const roleChangeInterval = setInterval(changeRole, 3000);
-        </script>
-    </header>
-    <!-- End of Page Header -->
-    
-    <!-- About section -->
-    <section id="about" class="section mt-3">
-        <div class="container mt-5">
-            <div class="row text-center text-md-left">
-                <div class="col-md-3">
-                    <img src="public_html/assets/imgs/HEFWA_photo.png" alt="" class="img-thumbnail mb-4">
-                </div>
-                <div class="pl-md-4 col-md-9">
-                    <h6 class="title">Isha Chury</h6>
-                    <p class="subtitle">Major in Computer Science: Game Design</p>
-                    <p>
-                        Hello! I'm Isha, an aspiring UI/UX Designer with a focus on creating accessible, equitable, and user-centered digital experiences. I'm currently completing my undergraduate degree at the University of California, Santa Cruz. A fun fact about me is that I'm a volunteer at the Santa Cruz County Animal Shelter!
-                    </p>               
-                    </p>              
-                </div>
-            </div>
-        </div>
-    </section>
-
-<!-- Service section -->
-<section id="service" class="section">
-    <div class="container text-center">
-        <h6 class="section-title mb-4">My Skills</h6>
-        <p class="mb-5 pb-4">These are some of the key skills I've developed through both my academic and professional experiences.  </p>
-        <div class="row">
-            <div class="col-sm-6 col-md-3 mb-4">
-                <div class="custom-card card border service-card" onclick="toggleDetail('uiux-details')">
-                    <div class="card-body">
-                        <i class="icon ti-crown"></i>
-                        <h5>UI/UX Design</h5>
-                    </div>
-                </div>
-                <div class="detail-card" id="uiux-details">
-                    <p>I create intuitive, user-centered interfaces that prioritize seamless and engaging experiences.</p>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-3 mb-4">
-                <div class="custom-card card border service-card" onclick="toggleDetail('app-details')">
-                    <div class="card-body">
-                        <i class="icon ti-mobile"></i>
-                        <h5>App Design</h5> 
-                    </div>
-                </div>
-                <div class="detail-card" id="app-details">
-                    <p>I design accessible, equitable and intuitive mobile interfaces for real-world applications.</p>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-3 mb-4">
-                <div class="custom-card card border service-card" onclick="toggleDetail('game-details')">
-                    <div class="card-body">
-                        <i class="icon ti-desktop"></i> 
-                        <h5>Game Design</h5>
-                    </div>
-                </div>
-                <div class="detail-card" id="game-details">
-                    <p>I design and develop engaging and immersive games with a focus on player experience.</p>
-                </div>
-            </div>
-            <div class="col-sm-6 col-md-3 mb-4">
-                <div class="custom-card card border service-card" onclick="toggleDetail('social-details')">
-                    <div class="card-body">
-                        <i class="icon ti-bar-chart"></i>
-                        <h5>Social Media</h5>
-                    </div>
-                </div>
-                <div class="detail-card" id="social-details">
-                    <p>I utilize social media campaigns to effectively promote content and increase outreach.</p>
-                </div>
-            </div>
-        </div>
+      <div class="mobile-dropdown">
+        <a href="#sandbox">Sandbox</a>
+        <a href="CV_IshaChury.pdf" target="_blank">Resume ↗</a>
+      </div>
     </div>
 
-    <script>
-        function toggleDetail(detailId) {
-            const detailCard = document.getElementById(detailId);
-            // Toggle visibility
-            if (detailCard.style.display === "block") {
-                detailCard.style.display = "none";
-            } else {
-                detailCard.style.display = "block";
-            }
-        }
-        </script>
+  </div>
+</header>
 
+  <main class="site-shell">
+
+  <section class="hero-window">
+  <div class="hero-card-container">
+    <img src="public_html/assets/imgs/full-title-UI.png" alt="Isha Chury Product Design Hero" class="hero-full-img">
+    
+    </div>
 </section>
-<!-- End of Section -->
 
-    <!-- Skills section -->
-    <section class="section">
-        <div class="container text-center">
-            <h6 class="section-title mb-4">My Proficiencies</h6>
-            <p class="mb-5 pb-4">These are the frameworks, tools, and programming languages I've utilized for a range <br>of tasks, including developing games, creating social media campaigns, and prototyping designs.</p>
+    <div class="scroll-row">
+      <div class="scroll-pill">
+        <span class="scroll-icon">↓</span>
+        <span>Scroll to view case studies</span>
+      </div>
+    </div>
 
-            <div class="row text-left">
-                <div class="col-sm-6">
-                    <h6 class="mb-3">Figma</h6>
-                    <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 89%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span>89%</span></div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <h6 class="mb-3">C / C++</h6>
-                    <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span>89%</span></div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <h6 class="mb-3">Canva / Photoshop </h6>
-                    <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 83%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span>83%</span></div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <h6 class="mb-3">Javascript</h6>
-                    <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 83%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span>83%</span></div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <h6 class="mb-3">Phaser</h6>
-                    <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 85%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span>95%</span></div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <h6 class="mb-3">Unity</h6>
-                    <div class="progress">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 75%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"><span>90%</span></div>
-                    </div>
-                </div>
-            </div>  
-        </div>
-    </section>
-    <!-- End of Skills sections -->
-
-    <section class="section bg-dark text-center">
-        <div class="container">
-            <div class="row justify-content-center text-center">
-                <div class="col-md-3 col-lg-3">
-                    <div class="row ">
-                        <div class="col-5 text-right text-medium border-right py-3">
-                            <div class="m-auto">
-                                <a href="https://itch.io/profile/ishachury20" class="icon-link">
-                                    <i class="ti-game icon-xl"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-7 text-left py-3">
-                            <h1 class="text-danger font-weight-bold font40">10+</h1>
-                            <p class="text-dark mb-1">Games Created</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-lg-3">
-                    <div class="row">
-                        <div class="col-5 text-right text-medium border-right py-3">
-                            <div class="m-auto">
-                                <a href="https://github.com/ishachury20" class="icon-link">
-                                    <i class="ti-github icon-xl"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-7 text-left py-3">
-                            <h1 class="text-danger font-weight-bold font40">15+</h1>
-                            <p class="text-dark mb-1">Projects Done</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-lg-3">
-                    <div class="row">
-                        <div class="col-5 text-right text-medium border-right py-3">
-                            <div class="m-auto">
-                                <a href="https://www.instagram.com/ucscslugcents/" class="icon-link">
-                                    <i class="ti-instagram icon-xl"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-7 text-left py-3">
-                            <h1 class="text-danger font-weight-bold font40">30+</h1>
-                            <p class="text-dark mb-1">Designs Posted</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Add empty div for spacing -->
-    <div style="height: 70px;"></div> <!-- Adjust height as needed -->
-
-
-    <section id="about" class="section mt-3">
-        <div class="container mt-5">
-            <h6 class="section-title mb-4 text-center">Work Experience</h6>
-            <div class="row text-center text-md-left">
-                <div class="col-md-3">
-                    <img src="public_html/assets/imgs/slugcents-media.png" alt="" class="img-thumbnail mb-4">
-                </div>
-                <div class="pl-md-4 col-md-9">
-                    <p class="subtitle">SlugCents Financial Wellness Program</p>
-                    <p>
-                        As a Project Assistant for the SlugCents program, I developed and completed social media campaigns to effectively communicate financial resources available to UCSC students. This involved collaborating with coworkers to create social media posts, flyers, and other outreach materials. This role gave me valuable experience in community outreach and allowed me to contribute to a program that directly benefited students by alleviating financial stress and promoting their academic success. 
-                        <p>
-                            <a href="https://www.instagram.com/ucscslugcents/" target="_blank" rel="noopener noreferrer">
-                                <button class="btn btn-primary rounded mt-3">VIEW INSTAGRAM</button>
-                            </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio section -->
-    <section id="portfolio" class="section">
-        <div class="container text-center">
-            <h6 class="section-title mb-4">My Projects</h6>
-            <p class="mb-5 pb-4">These are some of the projects I've worked on. Hover over <br>each image, and click the link icon to view the project and its corresponding details.</p>
-    
-            <div class="row">
-                <!-- Project 1 -->
-                <div class="col-sm-4">
-                    <div class="img-wrapper" style="position: relative; overflow: hidden; width: 100%; padding-top: 75%; border: none">
-                        <img src="public_html/assets/imgs/gratitude-main.png" alt="" 
-                             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; border: 1px solid #ebebeb">
-                        <div class="overlay">
-                            <div class="overlay-infos">
-                                <h5>Gratitude</h5>
-                                <a href="https://www.figma.com/proto/ts7z8woFU3npbKC4e6Yq7f/Gratitude-Poster?page-id=0%3A1&node-id=1-1492&p=f&viewport=205%2C550%2C0.11&t=xRMbKb2Ju03xKbEv-1&scaling=min-zoom&content-scaling=fixed"><i class="ti-link"></i></a>
-                            </div>  
-                        </div>
-                    </div>
-                    <div class="project-description mt-3">
-                        <div class="description-box">
-                            <p>An app designed to foster positivity and gratitude by encouraging users to reflect on and write about their experiences.</p>
-                        </div>
-                    </div>               
-                </div>
-    
-                <!-- Project 2 -->
-                <div class="col-sm-4">
-                    <div class="img-wrapper" style="position: relative; overflow: hidden; width: 100%; padding-top: 75%;">
-                        <img src="public_html/assets/imgs/petprep-updated.png" alt="" 
-                             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: left; border: 1px solid #ebebeb">
-                        <div class="overlay">
-                            <div class="overlay-infos">
-                                <h5>PetPrep</h5>
-                                <a href="https://docs.google.com/presentation/d/1p8KFQdyxQpAQyLVRmoxvDRN3Y1-78u1NtJytSJuKYZg/edit?usp=sharing"><i class="ti-link"></i></a>
-                            </div>  
-                        </div>
-                    </div>
-                    <div class="project-description mt-3">
-                        <div class="description-box">
-                            <p>A platform aimed at assisting first-time pet owners and potential adopters by providing essential resources and information</p>
-                        </div>
-                    </div>              
-                </div>
-    
-                <!-- Project 3 -->
-                <div class="col-sm-4">
-                    <div class="img-wrapper" style="position: relative; overflow: hidden; width: 100%; padding-top: 75%;">
-                        <img src="public_html/assets/imgs/EduConnect.png" alt="" 
-                             style="position: absolute; top: 0%; left: 0; width: 100%; height: 100%; object-fit: cover; border: 1px solid #ebebeb">
-                        <div class="overlay">
-                            <div class="overlay-infos">
-                                <h5>EduConnect</h5>
-                                <a href="https://www.figma.com/proto/mq72DDaOSe6j958zuiPSkV/EduConnect?page-id=0%3A1&node-id=14-49&p=f&viewport=91%2C-1201%2C0.22&t=9Q6O5RNimtctBDrU-1&scaling=min-zoom&content-scaling=fixed"><i class="ti-link"></i></a>
-                            </div>  
-                        </div>
-                    </div>
-                    <div class="project-description mt-3">
-                        <div class="description-box">
-                            <p>A platform designed to connect parents and educators, facilitating communication on various technologies utilized within the classroom.</p>
-                        </div>
-                    </div>            
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <style>
-        .description-box {
-            background-color: #f9f9f9; /* Light background color */
-            border: 1px solid #ebebeb; /* Border around the box */
-            padding: 15px; /* Padding for inner spacing */
-            border-radius: 8px; /* Rounded corners */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-        }
-        .description-box p {
-            margin: 0; /* Remove default margins from <p> */
-            color: #333; /* Text color */
-        }
-    </style>
-    
-    
-    <!-- End of portfolio section -->
-
-
-    <!-- Blog Section -->
-    <section id="blog" class="section">
-        <div class="container text-center">
-            <h6 class="section-title mb-4">Essays and Studies</h6>
-            <p class="mb-5 pb-4">
-                These are some of the papers and presentations I've worked on, exploring 
-                various elements of games including immersion, player engagement, and system design. Press the more details button to view team contributions, skills developed, and project outcomes. 
+    <section id="work" class="featured-work">
+      <article class="case-study-card">
+        <div class="case-study-top">
+          <div class="case-study-copy">
+            <h3>
+              Genesis
+              <span>• Founding Designer</span>
+              <span>• 0 to 1 Product</span>
+            </h3>
+            <p>
+              Connecting individuals to local moving services through a centralized platform
             </p>
-    
-            <div class="row text-left">
-                <!-- First Project -->
-                <div class="col-md-4">
-                    <div class="card border mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Impact of Diegetic UI</h5>
-                            <div class="post-details"></div>
-                            <p>A research paper exploring the effects of diegetic user interfaces in games and their impact on player immersion.</p>
-                            <a href="https://docs.google.com/document/d/1-d9v-DazMWfcEjqqbj0nq9EPlb7JEwN4F6zK2nnIjjw/edit?usp=sharing">View Paper</a>
-                        </div>
-                    </div>
-                    <!-- Full-width button -->
-                    <button class="btn btn-light mt-3 w-100" onclick="toggleDetails('details1')">More Details</button>
-                    <!-- Details box outside the card -->
-                    <div id="details1" class="details-box mt-3" style="display: none;">
-                        <p>Leveraging skills in playtesting, researching, and analyzing, the project culminated in a research paper exploring the effects of diegetic UI. <br><br> Team: Isha Chury (writing lead and survey creation), Damon Phan (interview outreach lead), Nhat Thai (survey and outreach) and Elot Zhang (survey and writing)</p>
-                    </div>
-                </div>
-    
-                <!-- Second Project -->
-                <div class="col-md-4">
-                    <div class="card border mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Game Systems</h5>
-                            <div class="post-details"></div>
-                            <p>Documentation outlining the core systems, rules, and intended objectives for the TreeHuggers game.</p>
-                            <a href="https://docs.google.com/document/d/1FN4BwPIhdTkicG-rnb-RXRzME6y-yvMN9to2BQFehjU/edit?usp=sharing">View Paper</a>
-                        </div>
-                    </div>
-                    <!-- Full-width button -->
-                    <button class="btn btn-light mt-3 w-100" onclick="toggleDetails('details2')">More Details</button>
-                    <!-- Details box outside the card -->
-                    <div id="details2" class="details-box mt-3" style="display: none;">
-                        <p>Leveraging skills in developing and refining game systems, the project culminated in the creation of a board game. <br><br> Team: Isha Chury (documentation lead), Jade Hernandez (design lead), Jorge Ortiz (game developer) and Yihan Wang (art direction) </p>
-                    </div>
-                </div>
-    
-                <!-- Third Project -->
-                <div class="col-md-4">
-                    <div class="card border mb-4">
-                        <div class="card-body">
-                            <h5 class="card-title">Immersion in Games</h5>
-                            <div class="post-details"></div>
-                            <p>A presentation and corresponding game analyzing elements of immersion and player engagement.</p>
-                            <a href="https://docs.google.com/presentation/d/1TjR5OrdOSbLSjza5CxCNK-8MOm20L-uwj0A7b08OGxw/edit?usp=sharing">View Project</a>
-                        </div>
-                    </div>
-                    <!-- Full-width button -->
-                    <button class="btn btn-light mt-3 w-100" style="border-radius: 0px;" onclick="toggleDetails('details3')">More Details</button>
-                    <!-- Details box outside the card -->
-                    <div id="details3" class="details-box mt-3" style="display: none;">
-                        <p>Leveraging skills in designing and developing games, the project culminated in the creation of an interactive game analyzing elements of immersion. <br><br> Team: Isha Chury (lead game designer and developer) </p>
-                    </div>
-                </div>
-            </div>
+          </div>
+
+          <div class="case-study-lock">
+            <i class="ti-lock"></i>
+          </div>
         </div>
+
+        <a href="project-1.html" class="case-study-image-wrap">
+          <img
+            src="public_html/assets/imgs/browser-new.png"
+            alt="Genesis case study preview"
+            class="case-study-image"
+          >
+        </a>
+      </article>
     </section>
-    
-    <script>
-        function toggleDetails(id) {
-            const detailsBox = document.getElementById(id);
-            if (detailsBox.style.display === "none" || detailsBox.style.display === "") {
-                detailsBox.style.display = "block";
-            } else {
-                detailsBox.style.display = "none";
-            }
-        }
-    </script>
-    
-    <style>
-        .details-box {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            max-width: 100%;
-        }
-    </style>
-    
 
-    <!-- Hire me section -->
-    <section class="bg-gray p-0 section">
-        <div class="container">
-            <div class="card bg-primary">
-                <div class="card-body text-light">
-                    <div class="row align-items-center">
-                        <div class="col-sm-9 text-center text-sm-left">
-                            <h5 class="mt-3">Hire Me For Your Project</h5>
-                            <p class="mb-3"></p>
-                        </div>
-                        <div class="col-sm-3 text-center text-sm-right">
-                            <button class="btn btn-light rounded">Hire Me!</button>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-        </div>
-    </section>      
-    <!-- End od Hire me section. -->
-
-    <!-- Contact Section -->
-    <section id="contact" class="position-relative section">
-        <div class="container text-center">
-            <h6 class="section-title mb-4">Get In Touch With Me</h6>
-            <p class="mb-5 pb-4">I’d love to hear from you! Whether you have a project in mind, <br> want to collaborate, or just want to say hello, feel free to reach out.</p>
-
-            <div class="contact text-left">
-                <div class="form">
-                    <h6 class="subtitle">Let's Connect</h6>
-                    <h6 class="section-title mb-4">Get In Touch</h6>
-                    <form>
-                        <div class="form-group">
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Email" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea name="contact-message" id="" cols="30" rows="5" class="form-control" placeholder="Message"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block rounded w-lg">Send Message</button>
-                    </form>
-                </div>
-                <div class="contact-infos">
-                    <div class="item">
-                        <i class="ti-location-pin"></i>
-                        <div class="">
-                            <h5>Location</h5>
-                            <p> Santa Cruz, California</p>
-                        </div>                          
-                    </div>
-                    <div class="item">
-                        <i class="ti-mobile"></i>
-                        <div>
-                            <h5>Phone Number</h5>
-                            <p>(508) 736-9135</p>
-                        </div>                          
-                    </div>
-                    <div class="item">
-                        <i class="ti-email"></i>
-                        <div class="mb-0">
-                            <h5>Email Address</h5>
-                            <p>ishachury20@gmail.com</p>
-                        </div>
-                    </div>
-                </div>                  
-            </div>
-        </div>  
-        <div id="map">
-            <iframe src="https://snazzymaps.com/embed/61257"></iframe>
-        </div>      
+    <section id="sandbox" class="tools-panel">
+      <div class="tool-chip"><img src="public_html/assets/imgs/logo.svg" alt="Tool icon"></div>
+      <div class="tool-chip"><span>F</span></div>
+      <div class="tool-chip"><span>Ps</span></div>
+      <div class="tool-chip"><span>N</span></div>
+      <div class="tool-chip"><span>A</span></div>
+      <div class="tool-chip"><span>V</span></div>
+      <div class="tool-chip"><span>U</span></div>
+      <div class="tool-chip"><span>JS</span></div>
+      <div class="tool-chip"><span>C++</span></div>
+      <div class="tool-chip"><span>Ph</span></div>
+      <div class="tool-chip"><span>G</span></div>
+      <div class="tool-chip"><span>✦</span></div>
     </section>
-    <!-- End of Contact Section -->
 
-    <!-- Page Footer -->
-    <footer class="page-footer">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-sm-6">
-                    <p>Copyright <script>document.write(new Date().getFullYear())</script> &copy; <a href="http://www.devcrud.com" target="_blank">DevCRUD</a></p>
-                </div>
-                <div class="col-sm-6">
-                    <div class="socials">
-                        <a class="social-item" href="https://facebook.com/isha.chury.9"><i class="ti-facebook"></i></a>
-                    <a class="social-item" href="https://www.linkedin.com/in/isha-chury"><i class="ti-link"></i></a>
-                    <a class="social-item" href="https://github.com/ishachury20"><i class="ti-github"></i></a>
-                    <a class="social-item" href="https://www.instagram.com/ishachury/"><i class="ti-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer> 
-    <!-- End of page footer -->
-	
-	<!-- core  -->
-    <script src="public_html/assets/vendors/jquery/jquery-3.4.1.js"></script>
-    <script src="public_html/assets/vendors/bootstrap/bootstrap.bundle.js"></script>
-    <!-- bootstrap 3 affix -->
-	<script src="public_html/assets/vendors/bootstrap/bootstrap.affix.js"></script>
+    <section id="about" class="about-panel">
+      <div class="about-card">
+        <h4>About</h4>
+        <p>
+          I’m Isha, a product designer with a background in game design and a focus on
+          accessible, thoughtful, and engaging digital experiences.
+        </p>
+      </div>
+    </section>
 
-    <!-- steller js -->
-    <script src="public_html/assets/js/steller.js"></script>
+  </main>
 
 </body>
 </html>
