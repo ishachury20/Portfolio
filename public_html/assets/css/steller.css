@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
 
 :root {
   --bg: #ffffff;
@@ -16,6 +16,7 @@
   --radius-pill: 999px;
   --green: #207221;
 }
+
 
 * {
   box-sizing: border-box;
@@ -44,10 +45,10 @@ a {
   text-decoration: none;
 }
 
-/* Layout */
+/* --- Layout --- */
 .topbar,
 .site-shell {
-  width: min(1120px, calc(100% - 48px));
+  width: min(1220px, calc(100% - 48px));
   margin: 0 auto;
 }
 
@@ -55,7 +56,7 @@ a {
   z-index: 999;
   padding: 40px 0 20px;
   display: flex;
-  align-items: center; /* Vertically align name and nav */
+  align-items: center;
   justify-content: space-between;
   position: relative;
 }
@@ -67,13 +68,13 @@ a {
 .brand-block {
   position: relative;
   z-index: 10;
+  flex-shrink: 0;
 }
 
-/* Brand */
 .brand-block h1 {
   margin: 0;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.15rem; /* Shrunk from 1.7rem */
+  font-size: 1.15rem;
   line-height: 1.2;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -83,17 +84,25 @@ a {
 .brand-block p {
   margin: 2px 0 0;
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.8rem; /* Shrunk from 0.95rem */
+  font-size: 0.8rem;
   font-weight: 500;
   color: var(--muted);
   letter-spacing: 0.01em;
 }
 
-/* Floating nav */
+/* --- Navigation --- */
+.nav-wrapper {
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
 .floating-nav {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%); /* This forces it to the exact horizontal center */
+  transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
   gap: 1px;
@@ -120,28 +129,17 @@ a {
   color: var(--text);
   border: 1px solid #DBDBDB;
   position: relative;
-  
-  /* Resetting height and padding to keep bubble inside the pill */
-  height: calc(100% - 6px); /* Creates a 3px vertical gap top and bottom */
+  height: calc(100% - 6px);
   margin: 3px 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  /* Glow Effect */
   box-shadow: 0 0 12px rgba(224, 223, 223, 0.4);
-}
-
-.floating-nav a:hover {
-  background: rgba(0, 0, 0, 0.03);
 }
 
 .floating-nav a.active::before {
   content: "";
   position: absolute;
-  
-  /* 1. Pull the line up exactly to the outer nav border */
-  /* This value usually needs to be -(padding + border-width) */
   top: -11px; 
   left: 50%;
   transform: translateX(-50%);
@@ -149,561 +147,416 @@ a {
   height: 2px;
   background-color: #AAAAAA;
   border-radius: 2px;
-  
-  /* 2. Ensure it sits on top of the nav-bar's own border */
   z-index: 110; 
 }
 
-
-/* Hero */
+/* --- Hero Section --- */
+/* Force-center the Hero Window */
 .hero-window {
-  position: relative; /* Essential for the overlay to work */
-  width: 88%;
-  max-width: 1000px;
-  margin: 0 auto;
-  border: none;
-  background: none;
-  box-shadow: none;
-  overflow: visible; /* Allows the image shadow to breathe */
+  display: block !important;
+  width: 100vw !important; /* Full width of the browser window */
+  position: relative !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: -50vw !important; /* Center anchor */
+  margin-right: -50vw !important;
+  padding-top: 75px; /* Adjust this to push it down from your name */
+  padding-bottom: 20px;
+  text-align: center;
+  overflow: visible !important;
 }
 
-.hero-bg-img {
+.hero-card-container {
+  position: relative; 
+  display: inline-block;
+  width: 71% !important; /*62*/
+  max-width: 1080px !important;
+  margin: 0 auto !important;
+  flex-direction: column; /* Stacks image then pill vertically */
+  align-items: center;
+  z-index: 1;
+}
+
+.controller-wrapper {
+  position: absolute;
+  /* Adjust these percentages to match where the controller sits in your design */
+  bottom: -36%;  /* Pushes it slightly off the bottom edge */
+  left: -5%;    /* Adjust horizontal position */
+  width: 70%;   /* Size of the controller relative to the whole card */
+  z-index: 20 !important;/* Ensures it sits on top of the base image */
+  
+  /* Smooth 'Jump' Transition */
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+}
+
+/* The Hover 'Jump' Effect */
+.controller-wrapper:hover {
+  transform: translateY(-15px) scale(1.02);
+}
+
+.floating-controller {
   width: 100%;
   height: auto;
   display: block;
 }
 
-.hero-overlay-content {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Vertical center */
-  /* 2. Padding ensures text stays INSIDE the image and traffic dots */
-  padding: 20px 10% 210px; 
-  box-sizing: border-box;
-  z-index: 10;
-}
-
-.window-bar {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  height: 26px;
-  padding-left: 10px;
-  border-radius: 18px 18px 0 0;
-  background: rgba(0, 0, 0, 0.03);
-}
-
-.dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.dot.red {
-  background: #f3a89f;
-}
-
-.dot.yellow {
-  background: #edcf75;
-}
-
-.dot.green {
-  background: #76cf72;
-}
-
-.hero-content {
+.hero-full-img {
+  width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  margin: 0 auto !important;
   position: relative;
-  z-index: 2;
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  align-items: center;
-  gap: 40px;
+  z-index: 5;
+}
+
+
+/* --- Featured Work --- */
+
+.genesis-card {
+  /* Copying your Hero's specific layout logic */
+  display: block !important;
+  overflow: hidden !important;
+  width: 100vw !important; 
+  position: relative !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: -50vw !important; 
+  margin-right: -50vw !important;
   
-  /* Adjust padding so text sits below the Title-card's top bar */
-  padding: 120px 72px 0; 
+  /* Vertical spacing to separate from the hero */
+  margin-top: 110px; 
+  margin-bottom: 80px;
+  z-index: 1;
+  text-align: center;
+  clip-path: inset(0 12% 0 12%);
+  pointer-events: auto;
 }
 
-.hero-text h2 {
-  font-size: 2.45rem !important; /* Forces 2-line stretch */
-  line-height: 1.1;
-  max-width: 900px;
-  color: #1a1a1a;
-
+/* Ensure the background image inside follows the same scale */
+.genesis-base-img {
+  /* This must match the size of your full-title-UI-2 image */
+  width: 74.5%; 
+  max-width: 1080px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  z-index: 1;
 }
 
-.hero-text em {
-  font-style: italic;
-  font-family: Georgia, "Times New Roman", serif;
-  font-weight: 600;
-}
-
-.hero-meta {
-  display: flex;
-  gap: 24px;
-  align-items: center;
-}
-
-.hero-meta p {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(0.7rem, 1.2vw, 1rem) !important;
-  color: #666;
-  margin: 0;
-}
-
-.hero-meta .meta-strong {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.hero-meta p:not(.meta-strong) {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.95rem;
-  color: var(--muted);
-}
-
-.hero-graphic {
+/* --- The Interactive Mockup Layer --- */
+.genesis-mockup-overlay {
   position: absolute;
-  left: 70px;
-  bottom: -40px;
-  width: 420px;
-  opacity: 0.16;
-  filter: grayscale(100%);
+  /* Use percentages so it scales WITH the container */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -40%); 
+  width: 67%; 
+  z-index: 10;
+  pointer-events: none; 
+  transition: transform 0.4s ease, filter 0.4s ease;
+} 
+
+.genesis-card::before {
+  content: "";
+  position: absolute;
+  
+  /* 1. THE ANCHOR: Lock these in. 
+     Do not change these in the hover state. 
+  */
+  left: 50%;
+  bottom: 5%; 
+  transform: translateX(-50%); 
+
+  /* 2. THE SIZE: Fixed. */
+  width: 70%; 
+  height: 70%; 
+  
+  /* 3. THE GRADIENT: Your specific green */
+  background: radial-gradient(
+    circle at 50% 100%, 
+    rgba(153, 202, 154, 0.743) 40%, 
+    transparent 75%
+  );
+  
+  /* 4. THE VISIBILITY: Start at 0 */
+  opacity: 0;
+  z-index: 2; 
+  clip-path: inset(15% 0% 0% 0%);
+  transition: opacity 0.5s ease-in-out;
+  
+  /* Prevents any weird mouse-flickering */
   pointer-events: none;
 }
 
-/* Scroll cue */
-.scroll-row {
-  display: flex;
-  justify-content: flex-end;
-  padding: 26px 2px 86px;
+/* --- THE HOVER ACTION --- */
+.genesis-card:hover::before {
+  opacity: 1;
 }
 
-.scroll-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 16px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.42);
-  color: var(--muted);
-  font-size: 0.9rem;
-  box-shadow: var(--shadow-soft);
+.genesis-card:hover .genesis-mockup-overlay {
+  /* 7. MOCKUP STABILITY: 
+     Ensure this matches the resting state of the image exactly.
+  */
+  transform: translate(-50%, -40.5%); 
+  filter: brightness(1.02); 
+  cursor: pointer;
 }
 
-.scroll-icon {
-  width: 22px;
-  height: 22px;
-  display: grid;
-  place-items: center;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  font-size: 0.8rem;
+.genesis-card:hover .genesis-mockup-overlay {
+  /* 7. MOCKUP STABILITY: 
+     Ensure this matches the resting state of the image exactly.
+  */
+  transform: translate(-50%, -40.5%); 
+  filter: brightness(1.02); 
+  cursor: pointer;
 }
 
-/* Featured work */
-.featured-work {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-}
-
-.case-study-card {
-  padding: 42px 42px 0;
-  background: linear-gradient(180deg, #f7f7f6 0%, #f2f2ef 100%);
-  border: 1.5px solid var(--line-strong);
-  border-radius: var(--radius-xl);
-  box-shadow:
-    inset 0 0 0 4px rgba(255, 255, 255, 0.45),
-    var(--shadow-card);
-  overflow: hidden;
-}
-
-.case-study-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 24px;
-  margin-bottom: 32px;
-}
-
-.case-study-copy h3 {
-  margin: 0 0 10px;
-  font-size: 2rem;
-  line-height: 1.1;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-}
-
-.case-study-copy h3 span {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--muted);
-  letter-spacing: 0;
-}
-
-.case-study-copy p {
-  margin: 0;
-  max-width: 720px;
-  font-size: 1.08rem;
-  color: var(--text);
-}
-
-.case-study-lock {
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  display: grid;
-  place-items: center;
-  color: var(--muted);
-  background: rgba(255, 255, 255, 0.5);
-  flex-shrink: 0;
-}
-
-.case-study-image-wrap {
-  display: block;
-  border-radius: 22px 22px 0 0;
-  overflow: hidden;
-  transition: transform 0.25s ease;
-}
-
-.case-study-image-wrap:hover {
-  transform: translateY(-2px);
-}
-
-.case-study-image {
+.mockup-img {
   width: 100%;
   height: auto;
-  border-radius: 22px 22px 0 0;
 }
 
-/* Tools */
-.tools-panel {
-  margin-top: 70px;
+/* Base style for all blobs */
+.genesis-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 5; /* Higher than base image, lower than mockup */
+  transition: all 1.2s ease-in-out;
+}
+
+/* Customize the 3 circles to stack/overlap */
+.blob-1 {
+  position: absolute;
+  /* 1. Use vw so the circle shrinks with the screen */
+  width: 64vw;  
+  height: 64vw; 
+  /* Keeps it a perfect circle before the container clips it */
+  border-radius: 50%;
+  
+  background-color: rgba(32, 114, 33, 0.04); 
+  filter: none !important; 
+  
+  /* 2. Positioning */
+  left: 50%;
+  /* Using a percentage for 'top' keeps its vertical spot consistent */
+  top: 35%; 
+  transform: translate(-50%, -5%);
+  
+  z-index: 5; 
+  clip-path: inset(10% 0 49.5% 0);
+  pointer-events: none;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  animation: megaPulse 3.5s infinite ease-in-out;
+}
+
+.blob-2 {
+  position: absolute;
+  /* 1. Use vw so the circle shrinks with the screen */
+  width: 58vw;  
+  height: 58vw; 
+  /* Keeps it a perfect circle before the container clips it */
+  border-radius: 50%;
+  
+  background-color: rgba(32, 114, 33, 0.09); 
+  filter: none !important; 
+  
+  /* 2. Positioning */
+  left: 50%;
+  /* Using a percentage for 'top' keeps its vertical spot consistent */
+  top: 45%; 
+  transform: translate(-50%, -5%);
+  
+  z-index: 5; 
+  clip-path: inset(0 0 53% 0);
+  pointer-events: none;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  animation: megaPulse 3.5s infinite ease-in-out;
+}
+
+.blob-3 {
+  position: absolute;
+  /* 1. Use vw so the circle shrinks with the screen */
+  width: 52vw;  
+  height: 52vw; 
+  /* Keeps it a perfect circle before the container clips it */
+  border-radius: 50%;
+  
+  background-color: rgba(32, 114, 33, 0.09); 
+  filter: none !important; 
+  
+  /* 2. Positioning */
+  left: 50%;
+  /* Using a percentage for 'top' keeps its vertical spot consistent */
+  top: 50%; 
+  transform: translate(-50%, -5%);
+  
+  z-index: 5; 
+  clip-path: inset(0 0 53% 0);
+  pointer-events: none;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+  animation: megaPulse 3.5s infinite ease-in-out;
+}
+
+
+
+/* --- Tools & About --- */
+.stack-container {
+  display: block !important;
+  width: 100vw !important; /* Full width of the browser window */
+  position: relative !important;
+  left: 50% !important;
+  right: 50% !important;
+  margin-left: -50vw !important; /* Center anchor */
+  margin-right: -50vw !important;
+}
+
+.stack-bar-img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Individual Icon Styling */
+.stack-icon {
+  position: absolute;
+  top: 50%; /* Center vertically */
+  transform: translate(-50%, -50%); /* Offset its own center */
+  
+  /* Use % for width so icons scale with the bar */
+  width: 4.5%; 
+  height: auto;
+  
+  z-index: 10;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* --- The Alignment Grid --- */
+/* Adjust these % values to line up with your 'stack-container.png' */
+.icon-1  { left: 8%; }
+.icon-2  { left: 16%; }
+.icon-3  { left: 24%; }
+.icon-4  { left: 32%; }
+.icon-5  { left: 40%; }
+.icon-6  { left: 48%; }
+.icon-7  { left: 56%; }
+.icon-8  { left: 64%; }
+.icon-9  { left: 72%; }
+.icon-10 { left: 80%; }
+.icon-11 { left: 88%; }
+.icon-12 { left: 95%; }
+
+/* --- The Interaction --- */
+.stack-icon:hover {
+  /* We must keep the -50% X-translate so it doesn't jump sideways */
+  transform: translate(-50%, -70%) scale(1.2);
+  filter: brightness(1.1);
+  cursor: pointer;
+}
+/* --- The Effect --- */
+.stack-icon:hover {
+  transform: scale(1.2) translateY(-8px); /* Pops up and grows */
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); /* Adds depth on hover */
+}
+
+/* --- Mobile Menu (@ Circle) --- */
+.mobile-menu {
+  position: relative;
+  display: none;
+}
+
+.at-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid #e6e6e6;
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: 26px;
-  background: rgba(255, 255, 255, 0.36);
-  box-shadow: var(--shadow-soft);
+  background: white;
+  cursor: pointer;
 }
-
-.tool-chip {
-  width: 58px;
-  height: 58px;
-  border-radius: 16px;
-  border: 1px solid #ddddda;
-  display: grid;
-  place-items: center;
-  background: #fafaf9;
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.95),
-    0 4px 10px rgba(0, 0, 0, 0.04);
-  color: #4f4f4f;
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-.tool-chip img {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
-
-/* About */
-.about-panel {
-  padding-top: 56px;
-}
-
-.about-card {
-  padding: 34px;
-  border: 1.5px solid var(--line);
-  border-radius: 26px;
-  background: rgba(255, 255, 255, 0.36);
-  box-shadow: var(--shadow-soft);
-}
-
-.about-card h4 {
-  margin: 0 0 14px;
-  font-size: 1.35rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-}
-
-.about-card p {
-  margin: 0;
-  max-width: 720px;
-  color: #666;
-  font-size: 1.03rem;
-  line-height: 1.75;
-}
-
-/* NAV WRAPPER */
-
-.nav-wrapper{
-z-index: 1000;
-display:flex;
-align-items:center;
-gap:10px;
-margin-left:auto;
-}
-
-/* @ CIRCLE */
-
-.mobile-menu{
-position:relative;
-display:none;
-}
-
-.at-circle{
-width:42px;
-height:42px;
-border-radius:50%;
-border:1px solid #e6e6e6;
-display:flex;
-align-items:center;
-justify-content:center;
-font-family:'Be Vietnam Pro', sans-serif;
-background:white;
-cursor:pointer;
-}
-
-/* DROPDOWN */
 
 .mobile-dropdown {
   display: none;
   position: absolute;
-  top: calc(100% + 10px); /* Positions it exactly below the circle */
+  top: calc(100% + 10px);
   right: 0;
-  padding-top: 12px;
   background: white;
   border: 1px solid #eee;
   border-radius: 12px;
-  padding: 8px 0;
   min-width: 160px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.12); /* Slightly deeper shadow */
-  z-index: 1001; /* Highest level */
-}
-.dropdown-content {
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 8px 0;
-  min-width: 160px;
-  box-shadow: var(--shadow-soft);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+  z-index: 1001;
 }
 
-/* 3. The Hover Trigger - targeting the parent wrapper */
+.mobile-dropdown a {
+  display: block;
+  padding: 10px 16px;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
 .nav-wrapper:hover .mobile-dropdown {
   display: block;
 }
 
-/* 4. The Bridge: An invisible box that fills the gap */
-.mobile-dropdown::before {
-  content: "";
-  position: absolute;
-  top: -20px; /* Reaches up to the @ pill */
-  left: 0;
-  right: 0;
-  height: 20px;
-  background: transparent;
-}
-
-.mobile-dropdown a{
-display:block;
-padding:10px 16px;
-text-decoration:none;
-color:black;
-font-family:'Space Grotesk', sans-serif;
-}
-
-.mobile-dropdown a:hover{
-background:#f5f5f5;
-}
-
-.mobile-menu:hover .mobile-dropdown{
-display:block;
-}
-
-.at-circle:hover + .mobile-dropdown,
-.nav-wrapper:hover .mobile-dropdown {
-  display: block;
-}
-
-/* MOBILE BEHAVIOR */
-
-@media (max-width:768px){
-
-.floating-nav .nav-sandbox,
-.floating-nav .nav-resume{
-display:none;
-}
-
-.mobile-menu{
-display:block;
-}
-
-
-}
-
-/* Responsive */
+/* --- Responsive Ladder --- */
 @media (max-width: 900px) {
-  .topbar {
-    /* Increase the width from min-width to a safer percentage */
-    width: 92%; 
-    padding: 34px 0; /* Keep vertical padding but remove extra horizontal squeeze */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 0 auto;
-  }
-
-  /* Ensure the brand block doesn't shrink too much */
-  .brand-block {
-    flex-shrink: 0;
-    margin-right: 20px;
-  }
-
-  .hero-overlay-content {
-    /* Pulling text up slightly more for tablets */
-    padding: 60px 50px 0 !important; 
-  }
-  
-  .hero-text h2 {
-    /* Forces a smaller mid-range size */
-    font-size: 1.7rem !important; 
-    max-width: 100%;
-  }
-
-  .hero-content {
-    grid-template-columns: 1fr;
-    padding: 56px 36px 0;
-  }
-
-  .hero-meta {
-    justify-self: start;
-  }
-
-  .hero-graphic {
-    width: 320px;
-    left: 32px;
-    bottom: -20px;
-  }
+  .topbar { width: 92%; padding: 34px 0; }
+  .hero-window { padding-top: 75px; }
+  .hero-card-container { width: 90%; }
 }
 
 @media (max-width: 700px) {
-  .topbar,
-  .site-shell {
-    width: min(100% - 24px, 1120px);
-  }
-
-  /* Right-justify the entire nav group */
-  .nav-wrapper {
-    display: flex;
-    flex: 1;               
-    justify-content: flex-end; 
-    align-items: center;
-    gap: 10px;
-  }
-  .floating-nav a.active {
-    background: #E0DFDF !important;
-    border-color: #DBDBDB;
-    /* Maintain the glow on mobile */
-    box-shadow: 0 0 15px rgba(224, 223, 223, 0.6);
-  }
-
-  .floating-nav a.active::before {
-    /* Adjust this value (likely -8px or -9px) until it sits 
-       perfectly on the line in mobile view */
-    top: -9px; 
-    
-    /* Ensuring the line remains crisp on smaller screens */
-    width: 20px; 
-    height: 2px;
-  }
-
-  /* Break the desktop 'absolute' centering */
+  .topbar, .site-shell { width: calc(100% - 24px); }
+  
+  .nav-wrapper { flex: 1; justify-content: flex-end; }
+  
   .floating-nav {
-    display: flex;
-    align-items: center;
+    position: relative;
+    left: auto;
+    transform: none;
     height: 42px;
-    position: relative;    /* Peels off the absolute layer */
-    left: auto;            /* Cancels 'left: 50%' */
-    transform: none;       /* Cancels the desktop centering transform */
-    margin: 0;
   }
 
   .floating-nav a {
-  padding: 6px 10px; /* Slimmer for mobile */
-  font-size: 0.75rem !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    padding: 6px 12px;
+    font-size: 0.75rem !important;
   }
 
-  .floating-nav a.active {
-    background: #eeeeee;
-    /* Ensure the gray box fits the new smaller height */
-    height: 100%; 
-  }
+  .floating-nav .nav-sandbox,
+  .floating-nav .nav-resume { display: none; }
 
-  /* Show the circle on mobile only */
-  .at-circle {
-    display: flex;
-    flex-shrink: 0;        
-  }
+  .mobile-menu { display: block; }
 
-  /* Hide 'Resume' text to save space */
-  .resume-text {
-    display: none;
-  }
-
-  .hero-window {
-    width: 92%; /* Give it a bit more room on mobile */
-  }
-
-  .hero-overlay-content {
-    /* Reduce top padding so text doesn't slide off the bottom */
-    padding: 55px 30px 0 !important; 
-    justify-content: flex-start; /* Push text up slightly on mobile */
-  }
-
-  .hero-text h2 {
-    /* Shrinking the minimum and base scaling */
-    font-size: clamp(1rem, 5vw, 1.2rem) !important; 
-    line-height: 1.2;
-    max-width: 100%; /* Allows it to use the full width of the card */
-    margin-bottom: 12px;
-  }
-
-  .hero-meta {
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .hero-meta p {
-    font-size: 0.75rem !important; /* Tiny but legible */
-    line-height: 1.3;
-  }
-
-  /* Remaining layout fixes */
-  .scroll-row { padding-bottom: 52px; }
-  .case-study-card { padding: 24px 24px 0; }
+  .hero-window { padding-top: 27px; }
+  .hero-card-container { width: 95%; }
+  
   .case-study-top { flex-direction: column; }
-  .case-study-copy h3 { font-size: 1.55rem; }
-  .case-study-copy h3 span { display: block; margin-top: 6px; }
-  .tools-panel { gap: 12px; padding: 18px; }
-  .tool-chip { width: 52px; height: 52px; }
+  .case-study-copy h3 { font-size: 1.6rem; }
+}
+
+@keyframes megaPulse {
+  0% {
+    /* Starting position */
+    transform: translate(-50%, -5%) scale(1);
+    filter: brightness(1) blur(0px);
+    opacity: 0.7;
+  }
+  50% {
+    /* 1. Scale up more (5% instead of 2%) 
+       2. Increase brightness to make the green 'pop'
+       3. Add a slight blur to create a 'bloom' effect
+    */
+    transform: translate(-50%, -5%) scale(1.05);
+    filter: brightness(1.3) blur(2px);
+    opacity: 1;
+  }
+  100% {
+    /* Back to rest */
+    transform: translate(-50%, -5%) scale(1);
+    filter: brightness(1) blur(0px);
+    opacity: 0.7;
+  }
 }
