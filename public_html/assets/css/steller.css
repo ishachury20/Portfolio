@@ -100,7 +100,7 @@ a {
 }
 
 .floating-nav {
-  position: absolute;
+  position: fixed !important;
   left: 50%;
   transform: translateX(-50%);
   display: inline-flex;
@@ -160,8 +160,8 @@ a {
   right: 50% !important;
   margin-left: -50vw !important; /* Center anchor */
   margin-right: -50vw !important;
-  padding-top: 75px; /* Adjust this to push it down from your name */
-  padding-bottom: 20px;
+  padding-top: 5%; /* Adjust this to push it down from your name */
+  padding-bottom: 13.5%;
   text-align: center;
   overflow: visible !important;
 }
@@ -223,10 +223,9 @@ a {
   right: 50% !important;
   margin-left: -50vw !important; 
   margin-right: -50vw !important;
+  margin-bottom: 7%;
   
   /* Vertical spacing to separate from the hero */
-  margin-top: 110px; 
-  margin-bottom: 80px;
   z-index: 1;
   text-align: center;
   clip-path: inset(0 12% 0 12%);
@@ -400,16 +399,14 @@ a {
 }
 
 
-
 /* --- Tools & About --- */
 .stack-container {
   display: block !important;
-  width: 100vw !important; /* Full width of the browser window */
+  width: 72% !important; /* Full width of the browser window */
+  margin: 0 auto !important; 
   position: relative !important;
-  left: 50% !important;
-  right: 50% !important;
-  margin-left: -50vw !important; /* Center anchor */
-  margin-right: -50vw !important;
+  height: auto;
+  margin-bottom: 10% !important;
 }
 
 .stack-bar-img {
@@ -420,44 +417,37 @@ a {
 
 /* Individual Icon Styling */
 .stack-icon {
-  position: absolute;
-  top: 50%; /* Center vertically */
-  transform: translate(-50%, -50%); /* Offset its own center */
+  position: absolute !important; /* Pulls them out of the vertical list */
+  top: 50% !important;
+  width: 5.7% !important;
+  height: auto !important;
+  z-index: 10 !important;
   
-  /* Use % for width so icons scale with the bar */
-  width: 4.5%; 
-  height: auto;
-  
-  z-index: 10;
+  /* Centering math */
+  transform: translate(-50%, -50%) !important;
   transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-/* --- The Alignment Grid --- */
-/* Adjust these % values to line up with your 'stack-container.png' */
-.icon-1  { left: 8%; }
-.icon-2  { left: 16%; }
-.icon-3  { left: 24%; }
-.icon-4  { left: 32%; }
-.icon-5  { left: 40%; }
-.icon-6  { left: 48%; }
-.icon-7  { left: 56%; }
-.icon-8  { left: 64%; }
-.icon-9  { left: 72%; }
-.icon-10 { left: 80%; }
-.icon-11 { left: 88%; }
-.icon-12 { left: 95%; }
+/* 4. THE HORIZONTAL MAP */
+.icon-1  { left: 7.7%  !important; }  /* Margin 1 */
+.icon-2  { left: 15.4% !important; }  /* Gap 1 */
+.icon-3  { left: 23.1% !important; }  /* Gap 2 */
+.icon-4  { left: 30.8% !important; }  /* Gap 3 */
+.icon-5  { left: 38.5% !important; }  /* Gap 4 */
+.icon-6  { left: 46.2% !important; }  /* Gap 5 */
+.icon-7  { left: 53.9% !important; }  /* Gap 6 (Center point) */
+.icon-8  { left: 61.6% !important; }  /* Gap 7 */
+.icon-9  { left: 69.3% !important; }  /* Gap 8 */
+.icon-10 { left: 77.0% !important; }  /* Gap 9 */
+.icon-11 { left: 84.7% !important; }  /* Gap 10 */
+.icon-12 { left: 92.3% !important; }  /* Margin 2 (92.3% + 7.7% = 100%) */
 
 /* --- The Interaction --- */
 .stack-icon:hover {
-  /* We must keep the -50% X-translate so it doesn't jump sideways */
-  transform: translate(-50%, -70%) scale(1.2);
-  filter: brightness(1.1);
-  cursor: pointer;
-}
-/* --- The Effect --- */
-.stack-icon:hover {
-  transform: scale(1.2) translateY(-8px); /* Pops up and grows */
-  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1)); /* Adds depth on hover */
+  /* Lift it up (-75%) and scale it while keeping horizontal center (-50%) */
+  transform: translate(-50%, -75%) scale(1.1) !important;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+  z-index: 20 !important; /* Ensure hovered icon is on top */
 }
 
 /* --- Mobile Menu (@ Circle) --- */
@@ -504,7 +494,7 @@ a {
 /* --- Responsive Ladder --- */
 @media (max-width: 900px) {
   .topbar { width: 92%; padding: 34px 0; }
-  .hero-window { padding-top: 75px; }
+
   .hero-card-container { width: 90%; }
 }
 
