@@ -31,3 +31,25 @@ $(document).ready(function(){
     });
 });
 
+/* --- Mobile Menu Toggle Logic --- */
+$(document).ready(function() {
+  const $trigger = $('.mobile-menu-trigger');
+
+  // 1. Listen for the click on the @ circle
+  $trigger.on('click', function(e) {
+    // Prevent the click from 'bubbling' up (which would trigger the close-menu logic immediately)
+    e.stopPropagation(); 
+    $(this).toggleClass('is-active');
+  });
+
+  // 2. 'Click-Away' Logic: Close the menu if the user clicks anywhere else on the screen
+  $(document).on('click', function() {
+    $trigger.removeClass('is-active');
+  });
+
+  // 3. Prevent the dropdown itself from closing the menu when the user clicks inside it
+  $('.mobile-dropdown').on('click', function(e) {
+    e.stopPropagation();
+  });
+});
+

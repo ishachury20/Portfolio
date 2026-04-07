@@ -20,76 +20,130 @@
 
     <div class="nav-wrapper">
       <nav class="floating-nav">
-        <a href="#home" class="active">Work</a>
-        <a href="#sandbox" class="nav-sandbox">Sandbox</a>
-        <a href="#about">About</a>
-        <a href="CV_IshaChury.pdf" class="nav-resume" target="_blank" rel="noopener noreferrer">
-          Resume ↗
-        </a>
+        <a href="#Work" class="active">Work</a>
+        <a href="#Sandbox" class="nav-desktop-only">Sandbox</a>
+        <a href="#About">About</a>
       </nav>
 
-      <div class="mobile-menu">
-        <div class="at-circle">@</div>
+      <div class="mobile-menu-trigger" id="mobileMenuTrigger">
+        <div class="at-circle">
+          <span class="at-icon">@</span>
+          <span class="close-icon">✕</span>
+        </div>
+        
         <div class="mobile-dropdown">
-          <a href="#sandbox">Sandbox</a>
-          <a href="CV_IshaChury.pdf" target="_blank">Resume ↗</a>
+          <a href="#Sandbox">Sandbox</a>
+          <a href="CV_IshaChury.pdf" target="_blank">Resume</a>
         </div>
       </div>
     </div>
+
+    <div class="nav-resume-btn desktop-only">
+      <a href="CV_IshaChury.pdf" target="_blank">Resume</a>
+    </div>
   </header>
 
-  <section class="hero-window">
-    <div class="hero-card-container">
-      <img src="public_html/assets/imgs/full-title-UI-2.png" alt="Isha Chury Product Design Hero" class="hero-full-img">
-      <div class="controller-wrapper">
-      <img src="public_html/assets/imgs/game-controller-v2.png" alt="Interactive Controller" class="floating-controller">
-    </div>
-  </div>
-  </section>
+  <main class="site-shell">
+    
+    <section class="hero-window">
+      <div class="hero-card-container">
+        <img src="public_html/assets/imgs/full-title-UI-2.png" alt="Isha Chury Product Design Hero" class="hero-full-img">
+        <div class="controller-wrapper">
+          <img src="public_html/assets/imgs/game-controller-v2.png" alt="Interactive Controller" class="floating-controller">
+        </div>
+      </div>
+    </section>
 
-  <article class="case-study-card genesis-card">
-    <a href="project-1.html">
-      
-      <img src="public_html/assets/imgs/genesis-container.png" class="genesis-base-img">
+    <article class="case-study-card genesis-card" id="Work">
+      <a href="project-1.html">
+        <img src="public_html/assets/imgs/genesis-container.png" class="genesis-base-img" alt="Genesis Project Base">
 
-      <div class="genesis-blob blob-1"></div>
-      <div class="genesis-blob blob-2"></div>
-      <div class="genesis-blob blob-3"></div>
+        <div class="genesis-blob blob-1"></div>
+        <div class="genesis-blob blob-2"></div>
+        <div class="genesis-blob blob-3"></div>
 
-      <div class="genesis-mockup-overlay">
-        <img src="public_html/assets/imgs/card-genesis-preview.png" class="mockup-img">
+        <div class="genesis-mockup-overlay">
+          <img src="public_html/assets/imgs/card-genesis-preview.png" class="mockup-img" alt="Genesis App Preview">
+        </div>
+      </a>
+    </article>
+
+    <section id="stack" class="stack-window">
+  <div class="stack-container">
+    <img src="public_html/assets/imgs/stack-container.png" alt="Tech Stack Container" class="stack-bar-img">
+    
+    <div class="icon-overlays">
+      <div class="stack-icon-wrapper icon-0">
+        <img src="public_html/assets/imgs/tools-card.png" class="stack-icon" alt="Design Tools">
+        <span class="tooltip">My Tech Stack</span>
       </div>
 
-    </a>
-  </article>
+      <div class="icon-divider"></div>
 
-<section id="stack" class="tech-stack-section">
-  <div class="stack-container">
-    
-    <img src="public_html/assets/imgs/stack-container.png" alt="Tech Stack Container" class="stack-bar-img">
+      <div class="stack-icon-wrapper icon-1">
+        <img src="public_html/assets/imgs/asana-card.png" class="stack-icon" alt="Asana">
+        <span class="tooltip">Asana</span>
+      </div>
 
-    <div class="icon-overlays">
-      <img src="public_html/assets/imgs/asana-card.png" class="stack-icon icon-1">
-      <img src="public_html/assets/imgs/slack-card.png" class="stack-icon icon-2">
-      <img src="public_html/assets/imgs/notion-card.png" class="stack-icon icon-3">
-      <img src="public_html/assets/imgs/dovetail-card.png" class="stack-icon icon-4">
-      <img src="public_html/assets/imgs/figma-card.png" class="stack-icon icon-5">
-      <img src="public_html/assets/imgs/photoshop-card.png" class="stack-icon icon-6">
-      <img src="public_html/assets/imgs/management-card.png" class="stack-icon icon-7">
-      <img src="public_html/assets/imgs/claude-card.png" class="stack-icon icon-8">
-      <img src="public_html/assets/imgs/lovable-card.png" class="stack-icon icon-9">
-      <img src="public_html/assets/imgs/webflow-card.png" class="stack-icon icon-10">
-      <img src="public_html/assets/imgs/vscode-card.png" class="stack-icon icon-11">
-      <img src="public_html/assets/imgs/unity-card.png" class="stack-icon icon-12">
+      <div class="stack-icon-wrapper icon-2">
+        <img src="public_html/assets/imgs/slack-card.png" class="stack-icon" alt="Slack">
+        <span class="tooltip">Slack</span>
+      </div>
+
+      <div class="stack-icon-wrapper icon-3">
+        <img src="public_html/assets/imgs/notion-card.png" class="stack-icon" alt="Notion">
+        <span class="tooltip">Notion</span>
+      </div>
+
+      <div class="stack-icon-wrapper icon-4">
+        <img src="public_html/assets/imgs/dovetail-card.png" class="stack-icon" alt="Dovetail">
+        <span class="tooltip">Dovetail</span>
+      </div>
+
+      <div class="stack-icon-wrapper icon-5">
+        <img src="public_html/assets/imgs/figma-card.png" class="stack-icon" alt="Figma">
+        <span class="tooltip">Figma</span>
+      </div>
+
+      <div class="stack-icon-wrapper icon-6">
+        <img src="public_html/assets/imgs/photoshop-card.png" class="stack-icon" alt="Photoshop">
+        <span class="tooltip">Photoshop</span>
+      </div>
+
+      <div class="stack-icon-wrapper icon-7">
+        <img src="public_html/assets/imgs/management-card.png" class="stack-icon" alt="Management">
+        <span class="tooltip">ProtoPie</span>
+      </div>
+
+      <div class="stack-icon-wrapper icon-8">
+        <img src="public_html/assets/imgs/claude-card.png" class="stack-icon" alt="Claude AI">
+        <span class="tooltip">Claude</span>
+      </div>
+
+      <div class="stack-icon-wrapper icon-9">
+        <img src="public_html/assets/imgs/lovable-card.png" class="stack-icon" alt="Lovable">
+        <span class="tooltip">Lovable</span>
+      </div>
+
+      <div class="stack-icon-wrapper icon-10">
+        <img src="public_html/assets/imgs/webflow-card.png" class="stack-icon" alt="Webflow">
+        <span class="tooltip">Webflow</span>
+      </div>
+
+      <div class="stack-icon-wrapper icon-11">
+        <img src="public_html/assets/imgs/vscode-card.png" class="stack-icon" alt="VS Code">
+        <span class="tooltip">VS Code</span>
+      </div>
+
+      <div class="stack-icon-wrapper icon-12">
+        <img src="public_html/assets/imgs/unity-card.png" class="stack-icon" alt="Unity">
+        <span class="tooltip">Unity</span>
+      </div>
     </div>
-
   </div>
 </section>
 
-
-  </main>
-
-  <script src="public_html/assets/vendors/jquery/jquery-3.4.1.js"></script>
+  </main> <script src="public_html/assets/vendors/jquery/jquery-3.4.1.js"></script>
   <script src="public_html/assets/js/steller.js"></script>
 
 </body>
