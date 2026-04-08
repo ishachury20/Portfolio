@@ -50,7 +50,6 @@ a {
 .site-shell {
   width: min(1920px, calc(100% - 48px));
   margin: 0 auto;
-  padding-bottom: 72px;
 }
 
 /* --- Fluid Layout Strategy --- */
@@ -254,7 +253,7 @@ a {
   width: 100% !important; 
   position: relative !important;
   /* Replicating the vertical spacing you have for Genesis */
-  padding-top: 11%; /*LOOK AT THI*/
+  padding-top: clamp(105px, 20vh, 140px) !important;
   padding-bottom: 11%;
   text-align: center;
   overflow: visible !important;
@@ -271,6 +270,7 @@ a {
   width: min(100%, 1080px) !important; 
   margin: 0 auto !important;
   z-index: 1;
+  
 }
 
 /* 2. The Hero Base Image: Matching .genesis-base-img */
@@ -293,10 +293,6 @@ a {
   */
   left: 35%;
   transform: translateX(-50%) !important;
-  
-  /* 4. VERTICAL LOCK: 
-     Adjusting position based on percentage of the 1080px container 
-  */
   bottom: -30%; 
   
   /* 5. SIZE LOCK: 
@@ -305,10 +301,12 @@ a {
   width: 57% !important; 
   height: auto;
   clip-path: inset(25% 25% 25% 20%);
-  z-index: 20 !important;
+  z-index: 50 !important;
   cursor: pointer;
+  pointer-events: auto !important;
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
 
 /* --- Interaction --- */
 .controller-wrapper:hover {
@@ -322,7 +320,6 @@ a {
   display: block;
 }
 
-
 /* --- Featured Work: The Anchor --- */
 .genesis-card {
   position: relative !important;
@@ -334,7 +331,6 @@ a {
   /* This ensures nothing "leaks" out when scaling */
   overflow: hidden !important; 
   text-align: center;
-  clip-path: inset(0 9% 0 9%);
 }
 
 /* 2. The Base Image: This defines the height of the container */
@@ -364,7 +360,6 @@ a {
   );
   opacity: 0;
   z-index: 2; 
-  clip-path: inset(15% 0% 0% 0%);
   transition: opacity 0.5s ease-in-out;
 }
 
@@ -423,8 +418,60 @@ a {
   filter: brightness(1.02);
 }
 
+/* --- THE CLIPPING FIX --- */
+
+/* 1. Remove clipping from parents so tooltips aren't cut off */
+.hero-card-container, 
+.genesis-card {
+  pointer-events: none !important;
+}
+
+.hero-card-container::after,
+.genesis-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%; 
+  height: 100%;
+  
+  /* The sensor IS interactive */
+  pointer-events: auto !important;
+  z-index: 1; /* Sits over the image but under the tooltip */
+}
+
+.genesis-card a {
+  position: relative;
+  /* Higher than the ::after sensor (1) and tooltips if necessary */
+  z-index: 10 !important; 
+  pointer-events: auto !important;
+  display: block;
+}
+
+/* 2. Create the clipping zone for the visuals */
+.clipped-visual-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* Safety net */
+}
+
+/* 3. Apply specific cutoffs to the visuals only */
+.hero-clip {
+  /* Top: 0 | Right: 2% | Bottom: -10% | Left: 2% */
+  /* -10% on the bottom ensures the controller doesn't get cut at the floor */
+  clip-path: inset(0% 2% -10% 2%) !important;
+  width: 100% !important;
+  position: relative;
+  overflow: visible !important; /* Crucial to let overlays 'bleed' out if needed */
+}
+
+.genesis-clip {
+  clip-path: inset(0 9% 0 9%);
+}
+
 /* --- Tools & About --- */
-/* --- Tech Stack: The Anchor --- */
 
 /* 1. THE FULL-WIDTH ANCHOR (Matches .hero-window) */
 .stack-window {
@@ -489,13 +536,13 @@ a {
 /* 2. THE TOOLTIP: Hidden by default */
 .tooltip {
   position: absolute;
-  bottom: 160%; /* Sits above the icon */
+  bottom: 170%; /* Sits above the icon */
   background: rgba(255, 255, 255, 0.9);
   color: #1a1a1a;
   padding: 8px 12px;
   border-radius: 12px;
   font-family: 'Inter', sans-serif;
-  font-size: clamp(0.7rem, 0.9vw, 0.8rem);
+  font-size: clamp(0.7rem, 1vw, 0.75rem);
   font-weight: 300;
   white-space: nowrap;
   
@@ -518,7 +565,7 @@ a {
 }
 
 .stack-icon-wrapper:hover .stack-icon {
-  transform: translateY(-15px) scale(1.15) !important;
+  transform: translateY(-25%) scale(1.15) !important;
   filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
 }
 
@@ -647,6 +694,129 @@ a {
 
 .mobile-dropdown a:hover {
   background: #e0dfdf4d;
+}
+
+/* --- THE BLURRED CIRCLE CURSOR --- */
+.custom-cursor {
+  width: 18px;
+  height: 18px;
+  
+  backdrop-filter: blur(0.75px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none !important; /* Crucial: lets clicks pass through */
+  z-index: 999999;
+  transform: translate(-50%, -50%); /* Centers the circle on the mouse tip */
+  transition: width 0.3s ease, height 0.3s ease, background 0.3s ease;
+
+  background: rgba(50, 50, 50, 0.05);
+  border: 1px solid rgba(50, 50, 50, 0.3);;
+  will-change: left, top;
+}
+
+.controller-wrapper, 
+.controller-wrapper img, 
+.controller-wrapper:hover {
+  cursor: none !important;
+}
+
+/* Hide the default cursor everywhere */
+html, body, a, button, .at-circle, .stack-icon-wrapper {
+  cursor: none !important;
+}
+
+/* --- INTERACTIVE STATE --- */
+/* When hovering over a link, the circle grows and changes color */
+.custom-cursor.is-hovering {
+  width: 20px;
+  height: 20px;
+  background: rgba(50, 50, 50, 0.08); /* Match your Genesis green */
+  border: 1px solid rgba(30, 30, 30, 0.2);
+}
+
+.cursor-label {
+  position: fixed !important; 
+  z-index: 1000000 !important; 
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px;
+
+  padding: clamp(20px, 1.2vw, 24px) clamp(12px, 2vw, 20px) !important;
+  border-radius: 20px !important; /* Matching your Tech Stack radius */
+
+  color: #1a1a1a !important;
+  font-family: 'Inter', sans-serif !important; 
+  font-size: clamp(0.7rem, 1vw, 0.8rem) !important;
+  font-weight: 300 !important; /* Matching the 'Inter' weight */
+  line-height: 1 !important;
+  white-space: nowrap;
+
+  background: rgba(250, 250, 252, 0.98) !important; 
+  border: 1.5px solid #E0DFDF !important; /* Default grey outline for projects */
+  color: #1a1a1a !important;
+
+  /* --- 4. STATE & ANIMATION --- */
+  pointer-events: none !important;
+  opacity: 0;
+  visibility: hidden;
+  justify-content: center;
+  
+  /* Matching the Tech Stack 'Pop' animation */
+  transform: scale(0.95) translateY(5px);
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hero-card-container .cursor-label {
+  background: rgb(251, 255, 251) !important; /* Very subtle green tint */
+  border: 1.5px solid rgba(19, 138, 21, 0.346) !important; /* Using your #207221 green */
+}
+
+/* THE REVEAL */
+.hero-card-container:hover .cursor-label,
+.genesis-card:hover .cursor-label {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: scale(1) translateY(0) !important;
+}
+
+.hero-card-container .cursor-label::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background-color: rgb(71, 147, 72);
+  border-radius: 50%;
+  display: inline-block;
+  /* Optional: Add a pulse effect to the dot */
+  box-shadow: 0 0 0 rgba(32, 114, 33, 0.148);
+  animation: statusPulse 2s infinite;
+}
+
+.genesis-card .cursor-label {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border: 1.5px solid #3333334c !important; /* Bold dark outline for 'View Project' */
+}
+
+@keyframes statusPulse {
+  0% { box-shadow: 0 0 0 0px rgba(48, 139, 50, 0.5); }
+  70% { box-shadow: 0 0 0 6px rgba(32, 114, 33, 0); }
+  100% { box-shadow: 0 0 0 0px rgba(32, 114, 33, 0); }
+}
+
+/* --- THE GLOBAL TOOLTIP SYSTEM --- */
+
+.hover-trigger {
+  position: relative !important;
+  cursor: none !important; /* Ensures our custom blurred circle is the only cursor */
+}
+
+/* THE REVEAL */
+.hover-trigger:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -50%) scale(1); /* Snaps to center */
 }
 
 /* --- 4. THE ADAPTIVE TRIGGER (Half-Screen Switch) --- */

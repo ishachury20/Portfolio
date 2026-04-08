@@ -53,3 +53,37 @@ $(document).ready(function() {
   });
 });
 
+$(document).ready(function() {
+  const cursor = document.querySelector('.custom-cursor');
+  const cursorLabels = document.querySelectorAll('.cursor-label');
+
+	document.addEventListener('mousemove', (e) => {
+		const x = e.clientX;
+		const y = e.clientY;
+
+		// Move the cursor circle
+		cursor.style.left = x + 'px';
+		cursor.style.top = y + 'px';
+
+		cursorLabels.forEach(label => {
+			if (window.getComputedStyle(label).visibility === "visible") {
+				// Tighter offset (20px) to match the compact feel of the Tech Stack
+				const tightOffset = Math.max(20, window.innerWidth * 0.02); 
+				
+				label.style.left = (x + tightOffset) + 'px'; 
+				
+				// Centering vertically on the cursor
+				const labelHeight = label.offsetHeight;
+				label.style.top = (y - (labelHeight / 2)) + 'px';
+			}
+		});
+	});
+  // --- Interaction Hover State ---
+  // Add .hero-card-container and .genesis-card to the interactive list
+  const interactiveElements = document.querySelectorAll('a, button, .at-circle, .stack-icon-wrapper, .controller-wrapper, .hero-card-container, .genesis-card');
+
+  interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('is-hovering'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('is-hovering'));
+  });
+});
