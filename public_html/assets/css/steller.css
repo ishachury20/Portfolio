@@ -7,7 +7,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=League+Gothic&display=swap');
 
-
 :root {
   --bg: #ffffff;
   --surface: #f7f7f5;
@@ -41,7 +40,6 @@ body {
   color: var(--text);
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
 }
 
 /* --- RESTORED: Original Navigation CSS --- */
@@ -50,13 +48,13 @@ body {
   position: fixed !important; 
   top: 10px; left: 0; right: 0;
   margin: 0 auto !important; 
-  width: min(92%, calc(100% - 28px)) !important; 
+  width: 92% !important; 
   max-width: 1400px;
   z-index: 999;
   display: flex;
   align-items: center;
   justify-content: space-between; /* Keeps brand left and resume right */
-  padding: clamp(14px, 1.6vw, 20px) clamp(18px, 3vw, 40px); /* Internal spacing within the pill */
+  padding: 20px 40px; /* Internal spacing within the pill */
   background: transparent; 
   overflow: visible !important;
   color: #ffffff !important;
@@ -128,7 +126,7 @@ flex: 0 1 auto; /* Only take the space needed */
 }
 
 .floating-nav a {
-  padding: 10px clamp(16px, 2vw, 24px);
+  padding: 10px 24px;
   border-radius: 100px;
   font-size: clamp(0.75rem, 0.9vw, 0.88rem);
   font-weight: 500;
@@ -185,7 +183,7 @@ flex: 0 1 auto; /* Only take the space needed */
 }
 
 .nav-resume-btn a {
-  padding: 10px clamp(16px, 2vw, 24px);
+  padding: 10px 24px;
   border-radius: 100px;
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(0.75rem, 0.9vw, 0.88rem);
@@ -313,7 +311,7 @@ flex: 0 1 auto; /* Only take the space needed */
 .mobile-menu-trigger.is-active .mobile-dropdown { display: block; }
 
 .site-shell {
-  width: min(92%, calc(100% - 28px)) !important; 
+  width: 92% !important; 
   /* Match the topbar's maximum width */
   max-width: 1400px !important; 
   margin: 0 auto !important;
@@ -392,8 +390,8 @@ flex: 0 1 auto; /* Only take the space needed */
   width: 100%;
   background: #191919;
   color: #ffffff;
-  padding-top: clamp(115px, 12vw, 140px); /* Space for the floating header */
-  padding-bottom: clamp(120px, 15vw, 205px);
+  padding-top: 140px; /* Space for the floating header */
+  padding-bottom: 205px;
   overflow: hidden;
 }
 
@@ -416,16 +414,15 @@ flex: 0 1 auto; /* Only take the space needed */
 }
 
 .hero-text {
-  flex: 1 1 420px;
-  min-width: 0;
+  flex: 0 1 auto;
   text-align: left;
 }
 
 .hero-title {
-  font-family: 'Alexandria', sans-serif;
-  font-size: clamp(2.4rem, 6.4vw, 4rem);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(3.5rem, 8vw, 6rem);
   line-height: 0.85;
-  font-weight: 650;
+  font-weight: 800;
   margin: 0 0 16px -4px; /* Slight negative margin for font-whitespace fix */
   letter-spacing: -0.04em;
   color: #ffffff;
@@ -433,7 +430,7 @@ flex: 0 1 auto; /* Only take the space needed */
 
 .hero-subtitle {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(0.95rem, 1.35vw, 1.1rem);
+  font-size: 1.1rem;
   color: #666; /* Muted grey from screenshot */
   margin-bottom: 24px;
   font-weight: 500;
@@ -444,13 +441,13 @@ flex: 0 1 auto; /* Only take the space needed */
   line-height: 1.6;
   opacity: 0.85;
   margin-bottom: 40px;
-  font-size: clamp(0.95rem, 1.25vw, 1.05rem);
+  font-size: 1.05rem;
 }
 
 /* Social Buttons */
 .social-links { display: flex; gap: 15px; }
 .social-icon {
-  width: clamp(40px, 4vw, 45px); height: clamp(40px, 4vw, 45px);
+  width: 45px; height: 45px;
   border-radius: 12px;
   background: rgba(255,255,255,0.1);
   display: flex; align-items: center; justify-content: center;
@@ -463,10 +460,9 @@ flex: 0 1 auto; /* Only take the space needed */
 
 .hero-visual {
   margin-left: auto !important; 
-  margin-right: clamp(0px, 5vw, 80px) !important; 
-  width: clamp(280px, 36vw, 500px) !important;
-  height: auto;
-  aspect-ratio: 1;
+  margin-right: 80px !important; 
+  width: 500px !important;
+  height: 500px;
   position: relative;
   display: flex;
   justify-content: center;
@@ -483,11 +479,11 @@ flex: 0 1 auto; /* Only take the space needed */
   margin: 0 auto !important; 
   
   /* Use 92% to match your topbar's gutter exactly */
-  width: min(92%, calc(100% - 28px)) !important; 
+  width: 92% !important; 
   max-width: 1400px !important; 
   
   /* Dynamic padding: It grows/shrinks proportionally with the screen */
-  padding: 0 clamp(0px, 4vw, 56px) !important; 
+  padding: 0 4% !important; 
   
   /* Smoothes out the layout recalculations */
   transition: padding 0.3s ease-out; 
@@ -496,9 +492,8 @@ flex: 0 1 auto; /* Only take the space needed */
 /* --- THE VISUAL CONTAINER --- */
 .hero-visual {
   margin-left: auto !important; 
-  width: clamp(280px, 36vw, 500px); 
-  height: auto;
-  aspect-ratio: 1;
+  width: 500px; 
+  height: 500px;
   position: relative;
   /* Crucial: prevents any rogue pixels from showing outside the 1180px track */
   /* overflow: hidden; */ /* Uncomment this only if you want a hard cut-off */
@@ -515,29 +510,30 @@ flex: 0 1 auto; /* Only take the space needed */
 
 .hero-card {
   position: absolute;
-  width: clamp(300px, 39vw, 540px); /* Adjusted size */
+  width: 540px; /* Adjusted size */
 }
 
 /* Precision Docking inside the 400px box */
 .card-tilted {
   /* 2. SHIFT FURTHER LEFT: Moving it away from the front card */
-  left: clamp(-230px, -15vw, -100px) !important; 
+  left: -230px !important; 
   /* 3. MOVE UP: Using a smaller bottom or larger top value */
-  top: clamp(-100px, -7vw, -42px) !important; 
+  top: -100px !important; 
   transform: rotate(-1deg) !important;
   z-index: 1 !important;
   opacity: 0.8; /* Keeps the focus on the front card */
+  
 }
 
 .card-straight {
   right: 0;
-  top: clamp(-160px, -18vw, -70px);
+  top: -55%;
   transform: rotate(1deg);
   z-index: 2;
 }
 
 .hero-card img {
-  width: clamp(115%, 10vw, 150%);
+  width: 150%;
   height: auto;
   display: block;
   /* This helps the image edges blend if the jpg isn't pure black #000 */
@@ -633,20 +629,6 @@ flex: 0 1 auto; /* Only take the space needed */
 
 .sandbox-card-text h4 { font-size: 1.8rem; margin: 0 0 15px; }
 
-@media (max-width: 1100px) {
-  .hero-layout {
-    gap: clamp(20px, 3vw, 42px);
-  }
-
-  .hero-full-wrapper .site-shell {
-    padding: 0 !important;
-  }
-
-  .hero-visual {
-    margin-right: 0 !important;
-  }
-}
-
 /* --- 7. FOOTER --- */
 .site-footer { padding: 120px 0 60px; }
 .hook-line { border-bottom: 1px solid var(--line); padding-bottom: 30px; margin-bottom: 40px; }
@@ -665,64 +647,12 @@ flex: 0 1 auto; /* Only take the space needed */
   .hero-text { margin-left: 0 !important; width: 100%; }
 
   .hero-visual { 
-    order: -1;
-    width: min(100%, 520px) !important;
-    margin: 0 0 clamp(36px, 8vw, 60px) !important;
-    justify-content: flex-start;
+    order: -1; width: 100%; justify-content: flex-start; margin-bottom: 60px;
   }
   
-  .hero-cards-container { width: 100%; height: clamp(245px, 58vw, 350px); }
-
-  .hero-card {
-    width: clamp(280px, 74vw, 430px);
-  }
-
-  .card-tilted {
-    left: clamp(-135px, -20vw, -54px) !important;
-    top: clamp(-62px, -8vw, -26px) !important;
-  }
-
-  .card-straight {
-    right: clamp(-44px, -7vw, 0px);
-    top: clamp(-96px, -13vw, -44px);
-  }
+  .hero-cards-container { width: 100%; height: 350px; }
   
   .sandbox-carousel { flex-direction: column; }
-}
-
-@media (max-width: 520px) {
-  .topbar {
-    height: 70px !important;
-    min-height: 70px !important;
-    padding: 0 16px !important;
-  }
-
-  .at-circle {
-    width: 44px;
-    height: 44px;
-  }
-
-  .hero-full-wrapper {
-    padding-top: 100px;
-  }
-
-  .hero-title {
-    font-size: clamp(2.05rem, 13vw, 2.75rem);
-  }
-
-  .hero-bio {
-    max-width: 100%;
-  }
-
-  .site-footer {
-    padding-top: 70px !important;
-  }
-
-  .footer-bottom {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 18px;
-  }
 }
 
 /* --- 9. CUSTOM CURSOR & PILL --- */
