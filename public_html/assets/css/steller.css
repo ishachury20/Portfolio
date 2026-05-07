@@ -1,4 +1,12 @@
+/* =========================================================
+* Steller Landing page Styles
+* Integrated with User Wireframe Layout (2026)
+* RESTORED: Original Navigation & Fluid Topbar
+========================================================= */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=League+Gothic&display=swap');
+
 
 :root {
   --bg: #ffffff;
@@ -17,9 +25,9 @@
   --green: #207221;
 }
 
-
 * {
   box-sizing: border-box;
+  cursor: none !important; /* Forces use of custom cursor */
 }
 
 html {
@@ -29,71 +37,53 @@ html {
 body {
   margin: 0;
   background: var(--bg);
+  background-color: var(--bg);
   color: var(--text);
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
-img {
-  display: block;
-  max-width: 100%;
-}
+/* --- RESTORED: Original Navigation CSS --- */
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* --- Layout --- */
-.topbar,
-.site-shell {
-  width: min(1920px, calc(100% - 48px));
-  margin: 0 auto;
-}
-
-/* --- Fluid Layout Strategy --- */
 .topbar {
   position: fixed !important; 
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 10px; left: 0; right: 0;
   margin: 0 auto !important; 
-  width: 92% !important; 
-  max-width: 1920px;
+  width: min(92%, calc(100% - 28px)) !important; 
+  max-width: 1400px;
   z-index: 999;
   display: flex;
   align-items: center;
-  justify-content: space-between; 
-  padding: 25px 2% 60px;
-  
-  /* REMOVED: background, blur, and mask from here */
+  justify-content: space-between; /* Keeps brand left and resume right */
+  padding: clamp(14px, 1.6vw, 20px) clamp(18px, 3vw, 40px); /* Internal spacing within the pill */
   background: transparent; 
   overflow: visible !important;
+  color: #ffffff !important;
 }
 
 .topbar::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -1; /* Sits behind the text/links */
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: -1; 
   
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: var(--radius-pill);
+  /* THE BLACK PILL STYLING */
+  background: #191919 !important; /* Solid dark grey/black */
+  border: 1px solid rgb(38, 38, 38); /*32*/ 
+  border-radius: 30px; /* Creates the pill shape */
   
-  /* THE MASK: Now only affects the background, not the dropdown */
-  mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  /* Effects */
+  backdrop-filter: blur(15px); /* CHECK EFFECT */ 
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  
+  /* Remove the mask-image if you want the pill to be solid and not fade out */
   pointer-events: none;
 }
 
 .brand-block {
-  flex: 1 1 30%; /* Grows/Shrinks, basis is 30% */
+  flex: 1 0 30%;
   display: flex;
   flex-direction: column;
 }
@@ -101,505 +91,119 @@ a {
 .brand-block h1 {
   margin: 0;
   font-family: 'Space Grotesk', sans-serif;
-  
-  /* --- THE FLUID MAGIC --- 
-     Minimum: 0.95rem (approx 15px)
-     Ideal: 1.2vw (Scales with window width)
-     Maximum: 1.25rem (approx 20px)
-  */
   font-size: clamp(0.95rem, 1.2vw, 1.25rem);
-  
-  line-height: 1.1; /* Tighter leading for 'Space Grotesk' headers */
+  line-height: 1.1;
   font-weight: 700;
-  letter-spacing: -0.03em; /* Slightly tighter for that premium 'Stadia' feel */
-  color: #1a1a1a;
-  white-space: nowrap; /* Prevents your name from ever splitting into two lines */
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  white-space: nowrap;
 }
 
 .brand-block p {
   margin: 1px 0 0;
   font-family: 'Space Grotesk', sans-serif;
-  
-  /* Scale the subtitle slightly smaller than the H1 */
   font-size: clamp(0.7rem, 0.8vw, 0.85rem);
-  
   font-weight: 500;
-  color: var(--muted);
-  letter-spacing: 0.01em;
+  color: #D1D1D1;
 }
 
-.nav-resume-btn {
-  flex: 1 1 30%; 
-  display: flex;
-  justify-content: flex-end; 
-  align-items: center;
-  /* This ensures the container spans the height of the topbar */
-  height: 100%; 
-}
-
-.nav-resume-btn a {
-  /* 1. MATCHING YOUR NAV PADDING */
-  padding: 10px 24px;
-  border-radius: 100px;
-  
-  /* 2. TYPOGRAPHY */
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(0.75rem, 0.9vw, 0.88rem);
-  font-weight: 500;
-  color: #1a1a1a;
-  text-decoration: none;
-  
-  /* 3. THE HEIGHT FIX: 
-     If calc(100% - 6px) is failing, it's because the parent 
-     topbar doesn't have a fixed height. Use an explicit pixel height 
-     to force the rectangle to show. 
-  */
-  height: 42px; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  
-  /* 4. THE TRANSITION */
-  background: transparent;
-  border: 1px solid transparent;
-  transition: background 0.2s ease-in-out, border 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-.nav-resume-btn a:hover {
-  /* 5. THE REVEAL: Matching your .active Work state */
-  background: rgba(224, 223, 223, 0.2); 
-  border: 1px solid rgba(219, 219, 219, 0.5);
-}
-
-/* --- Navigation --- */
 .nav-wrapper {
-  z-index: 1000;
+flex: 0 1 auto; /* Only take the space needed */
   display: flex;
   align-items: center;
+  justify-content: center; /* Center the nav pill */
   gap: 10px;
-  margin-left: auto;
+  z-index: 1000;
 } 
 
 .floating-nav {
-  flex: 0 1 auto; /* Only takes the space it needs */
   display: inline-flex;
   align-items: center;
   padding: 5px;
-  border: 1px solid rgba(133, 133, 133, 0.4);
+  border: 1px solid rgba(168, 168, 168, 0.7);
   border-radius: 100px;
-  background: rgba(255, 255, 255, 0.7);
-  /* 6. Ensures links don't wrap to a second line */
+  background: rgba(25, 25, 25, 1);
   white-space: nowrap; 
   gap: 8px; 
 }
 
-.floating-nav a:not(.active):hover {
-  /* 3. MATCHING VISUALS: 
-     Using the same background as your active state, or slightly more transparent 
-  */
-  background: rgba(224, 223, 223, 0.2); 
-  color: var(--text);
-  border: 1px solid rgba(219, 219, 219, 0.5); /* Subtle border like the active state */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  border-radius: 100px;
-}
-
-/* Ensure the nav links have a base transition so the hover isn't 'snappy' */
 .floating-nav a {
-  padding: 10px 24px;
-  border-radius: 100px; /* Essential for the rounded rectangle shape */
-  font-size: 0.88rem;
+  padding: 10px clamp(16px, 2vw, 24px);
+  border-radius: 100px;
   font-size: clamp(0.75rem, 0.9vw, 0.88rem);
   font-weight: 500;
-  transition: background 0.2s ease-in-out, box-shadow 0.2s ease-in-out, color 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: calc(100% - 6px);
-  margin: 3px 0;
+  text-decoration: none;
+  color: #ffffff !important;
 }
 
 .floating-nav a.active {
-  background: #E0DFDF;
-  color: var(--text);
-  border: 1px solid #DBDBDB;
-  border-radius: 100px; 
+  background: #434343;
   position: relative;
-  height: calc(100% - 6px);
-  margin: 3px 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 12px rgba(224, 223, 223, 0.5);
-  box-shadow: 0 0 12px rgba(224, 223, 223, 1);
+  
+  /* Multiple shadows create a more realistic, far-reaching glow */
+  box-shadow: 
+    /* 1. The Core: A tight, bright center */
+    0 0 15px rgba(255, 255, 255, 0.2), 
+    /* 2. The Bloom: The main drama that spreads wide */
+    0 0 40px rgba(255, 255, 255, 0.15), 
+    /* 3. The Atmosphere: A very faint, massive reach */
+    0 0 80px rgba(255, 255, 255, 0.158);
+  
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .floating-nav a.active::before {
   content: "";
   position: absolute;
-  top: -10px; 
+  top: -6px; /* Position it slightly above the pill's top edge */
   left: 50%;
-  transform: translateX(-50%);
-  width: 24px;
-  height: 2px;
-  background-color: #AAAAAA;
-  border-radius: 2px;
-  z-index: 110; 
-}
-
-/* --- Hero Section: The Anchor --- */
-.hero-window {
-  display: block !important;
-  width: 100% !important; 
-  position: relative !important;
-  /* Replicating the vertical spacing you have for Genesis */
-  padding-top: clamp(105px, 20vh, 140px) !important;
-  padding-bottom: 11%;
-  text-align: center;
-  overflow: visible !important;
-}
-
-/* --- The Centered Container (The Master Logic) --- */
-.hero-card-container {
-  position: relative !important; 
-  display: block !important;
+  transform: translateX(-50%); /* Centers the line perfectly */
   
-  /* 1. MATCHING GENESIS MARGIN LOGIC: 
-     Stays 1080px until the screen hits it, then shrinks at 92% 
-  */
-  width: min(100%, 1080px) !important; 
-  margin: 0 auto !important;
-  z-index: 1;
+  /* 1. THE LINE DIMENSIONS */
+  width: 26px;  /* Adjust this to make the line longer or shorter */
+  height: 2px;  /* Thickness of the line */
   
-}
-
-/* 2. The Hero Base Image: Matching .genesis-base-img */
-.hero-full-img {
-  /* Using 80% to match your Genesis base image width inside the anchor */
-  width: 80% !important; 
-  height: auto !important;
-  margin: 0 auto !important;
-  display: block !important;
-  position: relative;
-  z-index: 5;
-}
-
-/* --- The Interactive Controller Overlay --- */
-.controller-wrapper {
-  position: absolute !important;
+  /* 2. THE LOOK */
+  background: #c8c8c8; /* Bright white highlight */
+  border-radius: 10px; /* Rounds the ends of the sliver */
   
-  /* 3. COORDINATE SYNC: 
-     Centered horizontally within the 1080px container.
-  */
-  left: 35%;
-  transform: translateX(-50%) !important;
-  bottom: -30%; 
+  /* 3. OPTIONAL: Give the line its own tiny glow */
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
   
-  /* 5. SIZE LOCK: 
-     Matches the 70% width logic from your genesis-mockup-overlay
-  */
-  width: 57% !important; 
-  height: auto;
-  clip-path: inset(25% 25% 25% 20%);
-  z-index: 50 !important;
-  cursor: pointer;
-  pointer-events: auto !important;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-
-/* --- Interaction --- */
-.controller-wrapper:hover {
-  /* Only vertical lift while maintaining horizontal center (-50%) */
-  transform: translate(-50%, -15px) scale(1.02) !important;
-}
-
-.floating-controller {
-  width: 100% !important;
-  height: auto !important;
-  display: block;
-}
-
-/* --- Featured Work: The Anchor --- */
-.genesis-card {
-  position: relative !important;
-  display: block !important;
-  /* 1. Controlling the size of the whole "System" here */
-  width: min(100%, 1080px) !important;
-  margin: 0 auto 7% !important;
-  
-  /* This ensures nothing "leaks" out when scaling */
-  overflow: hidden !important; 
-  text-align: center;
-}
-
-/* 2. The Base Image: This defines the height of the container */
-.genesis-base-img {
-  width: 84%; 
-  height: auto;
-  margin: 0 auto;
-  display: block;
-  z-index: 1;
-}
-
-/* 3. The Glow: Centered and locked to the container bottom */
-.genesis-card::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 5%; /* Locked to 8% from the bottom of the card */
-  transform: translateX(-50%); 
-  
-  /* Sized relative to the card, not the screen */
-  width: 70%; 
-  height: 60%; 
-  background: radial-gradient(
-    circle at 50% 100%, 
-    rgba(153, 202, 154, 0.743) 40%, 
-    transparent 75%
-  );
-  opacity: 0;
-  z-index: 2; 
-  transition: opacity 0.5s ease-in-out;
-}
-
-/* 4. The Mockup Overlay: Sized relative to the Base Image area */
-.genesis-mockup-overlay {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  /* Using a fixed percentage here ensures it never drifts */
-  transform: translate(-50%, -40%); 
-  width: 75%; /* Adjust this to fit your base image perfectly */
+  /* Ensuring it's visible */
   z-index: 10;
-  transition: transform 0.4s ease, filter 0.4s ease;
-} 
-
-/* 5. The Blobs: CONVERTED FROM VW TO % 
-   This is the key to locking them together.
-*/
-/* --- Base Blob Logic --- */
-.blob-1, .blob-2, .blob-3 {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%); /* Horizontal center anchor */
-  border-radius: 50%;
-  z-index: 5;
-  aspect-ratio: 1 / 1; 
-  height: auto !important; /* Let aspect-ratio handle the height */
-  pointer-events: none;
-  animation: megaPulse 3.5s infinite ease-in-out;
 }
 
-.blob-1 { 
-  width: 72%; 
-  top: 32.5%; /* Adjust this to move the highest curve up or down */
-  background-color: rgba(32, 114, 33, 0.04); 
-  clip-path: inset(10% 0 47.5% 0); /* Perfect cut at the equator */
-}
-
-.blob-2 { 
-  width: 63%; 
-  top: 41.5%; 
-  background-color: rgba(32, 114, 33, 0.07); 
-  clip-path: inset(0 0 48.5% 0); 
-}
-
-.blob-3 { 
-  width: 55%; 
-  top: 47.5%; 
-  background-color: rgba(32, 114, 33, 0.1); 
-  clip-path: inset(0 0 47.75% 0); 
-}
-/* --- Hover Sync --- */
-.genesis-card:hover::before { opacity: 1; }
-.genesis-card:hover .genesis-mockup-overlay {
-  transform: translate(-50%, -40.25%); 
-  filter: brightness(1.02);
-}
-
-/* --- THE CLIPPING FIX --- */
-
-/* 1. Remove clipping from parents so tooltips aren't cut off */
-.hero-card-container, 
-.genesis-card {
-  pointer-events: none !important;
-}
-
-.hero-card-container::after,
-.genesis-card::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%; 
-  height: 100%;
-  
-  /* The sensor IS interactive */
-  pointer-events: auto !important;
-  z-index: 1; /* Sits over the image but under the tooltip */
-}
-
-.genesis-card a {
-  position: relative;
-  /* Higher than the ::after sensor (1) and tooltips if necessary */
-  z-index: 10 !important; 
-  pointer-events: auto !important;
-  display: block;
-}
-
-/* 2. Create the clipping zone for the visuals */
-.clipped-visual-area {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden; /* Safety net */
-}
-
-/* 3. Apply specific cutoffs to the visuals only */
-.hero-clip {
-  /* Top: 0 | Right: 2% | Bottom: -10% | Left: 2% */
-  /* -10% on the bottom ensures the controller doesn't get cut at the floor */
-  clip-path: inset(0% 2% -10% 2%) !important;
-  width: 100% !important;
-  position: relative;
-  overflow: visible !important; /* Crucial to let overlays 'bleed' out if needed */
-}
-
-.genesis-clip {
-  clip-path: inset(0 9% 0 9%);
-}
-
-/* --- Tools & About --- */
-
-/* 1. THE FULL-WIDTH ANCHOR (Matches .hero-window) */
-.stack-window {
-  display: block !important;
-  width: 100% !important; 
-  position: relative !important;
-  padding-top: 5%; 
-  padding-bottom: 10%;
-  text-align: center;
-  overflow: visible !important;
-}
-
-/* 2. THE CENTERED CONTAINER (Matches .hero-card-container) */
-.stack-container {
-  position: relative !important; 
-  display: block !important;
-  
-  /* Stays 1080px until the screen hits it, then shrinks */
-  width: min(100%, 1080px) !important; 
-  margin: 0 auto !important;
-  z-index: 1;
-}
-
-/* 3. THE BAR IMAGE (Matches .hero-full-img) */
-.stack-bar-img {
-  /* Set this to 76% to match your Hero, or smaller to shrink the bar */
-  width: 80% !important; 
-  height: auto !important;
-  margin: 0 auto !important;
-  display: block !important;
-  position: relative;
-  z-index: 5;
-}
-
-/* 4. THE ICONS: Positioned relative to the .stack-container */
-.stack-icon {
-  position: relative !important; /* Changed from absolute */
-  width: 100% !important; /* Takes up the full width of the wrapper */
-  height: auto !important;
-  display: block;
-  z-index: 11 !important;
-  
-  /* Centering is now handled by the wrapper's flexbox */
-  transform: none !important; 
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.stack-icon-wrapper {
-  position: absolute !important;
-  top: 50% !important;
-  /* Centering math for the wrapper */
-  transform: translate(-50%, -50%) !important; 
+.nav-resume-btn {
+  flex: 1 0 30%; /* Take up 30% to match brand-block and maintain center balance */
   display: flex;
-  flex-direction: column;
+  justify-content: flex-end; /* Align resume button to the far right */
+}
+
+.nav-resume-btn a {
+  padding: 10px clamp(16px, 2vw, 24px);
+  border-radius: 100px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(0.75rem, 0.9vw, 0.88rem);
+  font-weight: 500;
+  color: #D6D6D6;
+  height: 42px; 
+  display: flex;
   align-items: center;
-  z-index: 10;
-  /* Make sure the wrapper doesn't have 0 height */
-  height: auto; 
-  width: 4.5%; 
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
 }
 
-/* 2. THE TOOLTIP: Hidden by default */
-.tooltip {
-  position: absolute;
-  bottom: 170%; /* Sits above the icon */
-  background: rgba(255, 255, 255, 0.9);
-  color: #1a1a1a;
-  padding: 8px 12px;
-  border-radius: 12px;
-  font-family: 'Inter', sans-serif;
-  font-size: clamp(0.7rem, 1vw, 0.75rem);
-  font-weight: 300;
-  white-space: nowrap;
-  
-  /* Initial State (Invisible) */
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(5px) scale(0.95);
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  
-  box-shadow: 0 4px 12px rgba(0,0,0,0.);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  pointer-events: none; /* User can't accidentally click the tooltip */
+.nav-resume-btn a:hover {
+  background: rgb(51, 51, 51); 
+  border: 1px solid rgba(104, 104, 104, 1);
 }
 
-/* 3. THE HOVER EFFECT: Show tooltip and lift icon */
-.stack-icon-wrapper:hover .tooltip {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0) scale(1);
-}
-
-.stack-icon-wrapper:hover .stack-icon {
-  transform: translateY(-25%) scale(1.15) !important;
-  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
-}
-
-/* --- THE TECH STACK GRID --- */
-
-/* 1. THE PRIMARY ICON: Locked at your start point */
-.icon-0  { left: 14% !important; } 
-
-/* 2. THE DIVIDER: Moved closer to Icon-0 to tighten the 'Primary' group */
-.icon-divider {
-  position: absolute;
-  top: 50%;
-  left: 18% !important; /* Shifted from 20% to 18.5% */
-  transform: translateY(-50%);
-  width: 0.1%;
-  height: 45% !important; /* Slightly shorter for a cleaner look */
-  background: #E0DFDF; /* Slightly darker for better visibility */
-  z-index: 10;
-}
-
-.icon-1  { left: 22.5% !important; } 
-.icon-2  { left: 28.27% !important; } 
-.icon-3  { left: 34.04% !important; } 
-.icon-4  { left: 39.81% !important; } 
-.icon-5  { left: 45.59% !important; } 
-.icon-6  { left: 51.36% !important; } 
-.icon-7  { left: 57.13% !important; } 
-.icon-8  { left: 62.90% !important; } 
-.icon-9  { left: 68.68% !important; } 
-.icon-10 { left: 74.45% !important; } 
-.icon-11 { left: 80.22% !important; }
-.icon-12 { left: 86% !important; } 
-
-/* --- 2. The @ Trigger (Hidden on Desktop) --- */
+/* --- MOBILE TRIGGER --- */
 .mobile-menu-trigger {
   display: none; 
   position: relative;
@@ -610,16 +214,16 @@ a {
   width: 50px;
   height: 50px;
   position: relative; /* Anchor for the icons */
-  background: #ffffff;
+  background: #191919;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  border: 1px solid rgba(133, 133, 133, 0.4);
+  border: 1px solid rgba(168, 168, 168, 0.7);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* The @ and X should sit on top of each other, toggled by opacity */
 .at-icon, .close-icon {
   position: absolute;
   font-family: 'Space Grotesk', sans-serif;
@@ -628,42 +232,12 @@ a {
   transition: all 0.3s ease;
 }
 
-/* Hide X by default and rotate it */
 .close-icon {
   opacity: 0;
   transform: rotate(-90deg);
 }
 
-/* --- 3. The Dropdown: Hidden until Hover --- */
-.mobile-menu-trigger {
-  display: none;
-  position: relative;
-  align-items: center;
-}
-
-.mobile-dropdown {
-  display: none;
-  opacity: 0;
-  position: absolute;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
-  top: calc(100% + 12px);
-  right: 0;
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 12px;
-  min-width: 150px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-  padding: 8px;
-  z-index: 1100;
-}
-
-.mobile-menu-trigger.is-active .at-circle {
-  background: #e0dfdf85; /* Darker 'Close' state */
-  color: #1a1a1a;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-}
-
+/* When active (clicked), swap the icons */
 .mobile-menu-trigger.is-active .at-icon {
   opacity: 0;
   transform: rotate(90deg);
@@ -674,185 +248,487 @@ a {
   transform: rotate(0deg);
 }
 
-.mobile-menu-trigger.is-active .mobile-dropdown {
-  display: block; /* Forces the element into existence */
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto; /* Allows users to click the links */
-}
-
-.mobile-dropdown a {
-  display: block;
-  padding: 12px 16px;
-  color: #1a1a1a;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: background 0.2s ease;
-}
-
-.mobile-dropdown a:hover {
-  background: #e0dfdf4d;
-}
-
-/* --- THE BLURRED CIRCLE CURSOR --- */
-.custom-cursor {
-  width: 18px;
-  height: 18px;
-  
-  backdrop-filter: blur(0.75px);
-  -webkit-backdrop-filter: blur(4px);
-  border-radius: 50%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  pointer-events: none !important; /* Crucial: lets clicks pass through */
-  z-index: 999999;
-  transform: translate(-50%, -50%); /* Centers the circle on the mouse tip */
-  transition: width 0.3s ease, height 0.3s ease, background 0.3s ease;
-
-  background: rgba(50, 50, 50, 0.05);
-  border: 1px solid rgba(50, 50, 50, 0.3);;
-  will-change: left, top;
-}
-
-.controller-wrapper, 
-.controller-wrapper img, 
-.controller-wrapper:hover {
-  cursor: none !important;
-}
-
-/* Hide the default cursor everywhere */
-html, body, a, button, .at-circle, .stack-icon-wrapper {
-  cursor: none !important;
-}
-
-/* --- INTERACTIVE STATE --- */
-/* When hovering over a link, the circle grows and changes color */
-.custom-cursor.is-hovering {
-  width: 20px;
-  height: 20px;
-  background: rgba(50, 50, 50, 0.08); /* Match your Genesis green */
-  border: 1px solid rgba(30, 30, 30, 0.2);
-}
-
-.cursor-label {
-  position: fixed !important; 
-  z-index: 1000000 !important; 
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px;
-
-  padding: clamp(20px, 1.2vw, 24px) clamp(12px, 2vw, 20px) !important;
-  border-radius: 20px !important; /* Matching your Tech Stack radius */
-
-  color: #1a1a1a !important;
-  font-family: 'Inter', sans-serif !important; 
-  font-size: clamp(0.7rem, 1vw, 0.8rem) !important;
-  font-weight: 300 !important; /* Matching the 'Inter' weight */
-  line-height: 1 !important;
-  white-space: nowrap;
-
-  background: rgba(250, 250, 252, 0.98) !important; 
-  border: 1.5px solid #E0DFDF !important; /* Default grey outline for projects */
-  color: #1a1a1a !important;
-
-  /* --- 4. STATE & ANIMATION --- */
-  pointer-events: none !important;
-  opacity: 0;
-  visibility: hidden;
-  justify-content: center;
-  
-  /* Matching the Tech Stack 'Pop' animation */
-  transform: scale(0.95) translateY(5px);
-  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.hero-card-container .cursor-label {
-  background: rgb(251, 255, 251) !important; /* Very subtle green tint */
-  border: 1.5px solid rgba(19, 138, 21, 0.346) !important; /* Using your #207221 green */
-}
-
-/* THE REVEAL */
-.hero-card-container:hover .cursor-label,
-.genesis-card:hover .cursor-label {
-  opacity: 1 !important;
-  visibility: visible !important;
-  transform: scale(1) translateY(0) !important;
-}
-
-.hero-card-container .cursor-label::before {
-  content: "";
-  width: 7px;
-  height: 7px;
-  background-color: rgb(71, 147, 72);
-  border-radius: 50%;
-  display: inline-block;
-  /* Optional: Add a pulse effect to the dot */
-  box-shadow: 0 0 0 rgba(32, 114, 33, 0.148);
-  animation: statusPulse 2s infinite;
-}
-
-.genesis-card .cursor-label {
-  background: rgba(255, 255, 255, 0.98) !important;
-  border: 1.5px solid #3333334c !important; /* Bold dark outline for 'View Project' */
-}
-
-@keyframes statusPulse {
-  0% { box-shadow: 0 0 0 0px rgba(48, 139, 50, 0.5); }
-  70% { box-shadow: 0 0 0 6px rgba(32, 114, 33, 0); }
-  100% { box-shadow: 0 0 0 0px rgba(32, 114, 33, 0); }
-}
-
-/* --- THE GLOBAL TOOLTIP SYSTEM --- */
-
-.hover-trigger {
-  position: relative !important;
-  cursor: none !important; /* Ensures our custom blurred circle is the only cursor */
-}
-
-/* THE REVEAL */
-.hover-trigger:hover .tooltip {
-  opacity: 1;
-  visibility: visible;
-  transform: translate(-50%, -50%) scale(1); /* Snaps to center */
-}
-
-/* --- 4. THE ADAPTIVE TRIGGER (Half-Screen Switch) --- */
+/* --- ADAPTIVE TRIGGER: Mobile Pill Layout --- */
 @media (max-width: 850px) {
-  /* Hide the redundant items */
   .nav-desktop-only, 
   .desktop-only {
     display: none !important;
   }
   
-  /* Show the @ Satellite next to the bar */
+  .topbar {
+    top: 10px !important;
+    width: 96% !important;
+    max-width: none !important;
+    /* CRITICAL: Setting height to a small fixed value 
+       Forces the pill to be thin regardless of inherited styles 
+    */
+    height: 80px !important; 
+    min-height: 80px !important; 
+    
+    /* Zero out padding to let the fixed height control the look */
+    padding: 0 25px !important; 
+    display: flex !important;
+    align-items: center !important; /* Vertically centers the content inside the thin bar */
+  }
+
+  /* Resetting the pseudo-element pill for mobile */
+  .topbar::before {
+    border-radius: 25px; /* Tighter rounding for smaller screens */
+  }
+
+  .nav-wrapper {
+    flex: 0 1 auto;
+    margin-left: auto; 
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
   .mobile-menu-trigger {
     display: flex;
   }
+
+  /* Ensure the brand text scales down to stay inside the pill */
+  .brand-block h1 {
+    font-size: 1rem !important;
+  }
+  .brand-block p {
+    font-size: 0.75rem !important;
+  }
 }
 
-@keyframes megaPulse {
-  0% {
-    /* Starting position */
-    transform: translate(-50%, -5%) scale(1);
-    filter: brightness(1) blur(0px);
-    opacity: 0.7;
+.mobile-dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 12px;
+  min-width: 150px;
+  box-shadow: var(--shadow-card);
+  padding: 8px;
+}
+
+.mobile-menu-trigger.is-active .mobile-dropdown { display: block; }
+
+.site-shell {
+  width: min(92%, calc(100% - 28px)) !important; 
+  /* Match the topbar's maximum width */
+  max-width: 1400px !important; 
+  margin: 0 auto !important;
+  display: block;
+  position: relative;
+  /*border: 1px dashed red; */ 
+}
+
+/* --- 3. FOOTER STYLING REFINEMENT --- */
+.site-footer {
+  /* Matching the exact width and padding logic of the topbar */
+  width: 92% !important; 
+  max-width: 1285px; /* Matching your specified header cap */
+  margin: 0 auto !important;
+  padding-left: 2% !important;
+  padding-right: 2% !important;
+  
+  /* Vertical spacing */
+  padding-top: 120px !important;
+  padding-bottom: 60px !important;
+  
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  left: 0;
+  right: 0;
+}
+
+.hook-line {
+  width: 100%;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 20px;
+  margin-bottom: 40px;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+/* --- 4. MOBILE MENU ICON FIX --- */
+/* This ensures the @ and X overlap perfectly within the circle */
+.at-circle {
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.at-icon, .close-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers both icons on top of each other */
+  transition: all 0.3s ease;
+}
+
+.close-icon {
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+.mobile-menu-trigger.is-active .at-icon {
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.mobile-menu-trigger.is-active .close-icon {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+/* --- THE FULL SCREEN BACKGROUND --- */
+.hero-full-wrapper {
+  width: 100%;
+  background: #191919;
+  color: #ffffff;
+  padding-top: clamp(115px, 12vw, 140px); /* Space for the floating header */
+  padding-bottom: clamp(120px, 15vw, 205px);
+  overflow: hidden;
+}
+
+
+/* Ensure the hero layout uses the full width of the 1180px shell */
+.hero-layout {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  /* Creates a minimum 40px gap that pushes the cards away from the text */
+  gap: clamp(20px, 5vw, 100px);
+}
+
+.hero-full-wrapper .site-shell,
+.hero-text,
+.hero-visual {
+  /* This makes the resizing feel 'expensive' and smooth */
+  transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.hero-text {
+  flex: 1 1 420px;
+  min-width: 0;
+  text-align: left;
+}
+
+.hero-title {
+  font-family: 'Alexandria', sans-serif;
+  font-size: clamp(2.4rem, 6.4vw, 4rem);
+  line-height: 0.85;
+  font-weight: 650;
+  margin: 0 0 16px -4px; /* Slight negative margin for font-whitespace fix */
+  letter-spacing: -0.04em;
+  color: #ffffff;
+}
+
+.hero-subtitle {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(0.95rem, 1.35vw, 1.1rem);
+  color: #666; /* Muted grey from screenshot */
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.hero-bio {
+  max-width: 460px;
+  line-height: 1.6;
+  opacity: 0.85;
+  margin-bottom: 40px;
+  font-size: clamp(0.95rem, 1.25vw, 1.05rem);
+}
+
+/* Social Buttons */
+.social-links { display: flex; gap: 15px; }
+.social-icon {
+  width: clamp(40px, 4vw, 45px); height: clamp(40px, 4vw, 45px);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.1);
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: all 0.3s ease;
+}
+.social-icon:hover { background: rgba(255,255,255,0.2); transform: translateY(-3px); }
+
+/* --- HERO IMAGE CARDS --- */
+
+.hero-visual {
+  margin-left: auto !important; 
+  margin-right: clamp(0px, 5vw, 80px) !important; 
+  width: clamp(280px, 36vw, 500px) !important;
+  height: auto;
+  aspect-ratio: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  /* 1. MOVE EVERYTHING UP: Change from center to flex-start */
+  align-items: flex-start !important; 
+  padding-top: -100px; /* Adjust this to control exactly how high they sit */
+}
+
+/* --- THE SHELL MUST BE FLEX --- */
+.hero-full-wrapper .site-shell {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto !important; 
+  
+  /* Use 92% to match your topbar's gutter exactly */
+  width: min(92%, calc(100% - 28px)) !important; 
+  max-width: 1400px !important; 
+  
+  /* Dynamic padding: It grows/shrinks proportionally with the screen */
+  padding: 0 clamp(0px, 4vw, 56px) !important; 
+  
+  /* Smoothes out the layout recalculations */
+  transition: padding 0.3s ease-out; 
+}
+
+/* --- THE VISUAL CONTAINER --- */
+.hero-visual {
+  margin-left: auto !important; 
+  width: clamp(280px, 36vw, 500px); 
+  height: auto;
+  aspect-ratio: 1;
+  position: relative;
+  /* Crucial: prevents any rogue pixels from showing outside the 1180px track */
+  /* overflow: hidden; */ /* Uncomment this only if you want a hard cut-off */
+}
+
+/* --- THE CARD GROUP --- */
+.hero-cards-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* Remove any global transforms that might be pushing it out */
+  transform: none !important; 
+}
+
+.hero-card {
+  position: absolute;
+  width: clamp(300px, 39vw, 540px); /* Adjusted size */
+}
+
+/* Precision Docking inside the 400px box */
+.card-tilted {
+  /* 2. SHIFT FURTHER LEFT: Moving it away from the front card */
+  left: clamp(-230px, -15vw, -100px) !important; 
+  /* 3. MOVE UP: Using a smaller bottom or larger top value */
+  top: clamp(-100px, -7vw, -42px) !important; 
+  transform: rotate(-1deg) !important;
+  z-index: 1 !important;
+  opacity: 0.8; /* Keeps the focus on the front card */
+}
+
+.card-straight {
+  right: 0;
+  top: clamp(-160px, -18vw, -70px);
+  transform: rotate(1deg);
+  z-index: 2;
+}
+
+.hero-card img {
+  width: clamp(115%, 10vw, 150%);
+  height: auto;
+  display: block;
+  /* This helps the image edges blend if the jpg isn't pure black #000 */
+  mix-blend-mode: screen; 
+}
+
+
+/* --- THE WHITE SECTION CAP --- */
+.white-cap-transition {
+  background: #ffffff;
+  height: 100px;
+  border-radius: 30px 30px 0 0; /* Creates the rounded top */
+  margin-top: -60px; /* Pulls it up to overlap the black */
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.arrow-down {
+  font-size: 1.5rem;
+  color: #000;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+  60% {transform: translateY(10px);}
+}
+
+/* --- 5. LIGHT WORK SECTION --- */
+.projects-section {
+  background: #ffffff;
+  padding: 120px 0;
+  color: #1a1a1a;
+}
+
+.section-divider {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 80px;
+  color: var(--line);
+}
+
+.case-study-card {
+  margin-bottom: 150px;
+  width: 100%;
+}
+
+.browser-mockup {
+  background: #1a1a1a; /* Dark sleek container */
+  border-radius: 30px;
+  padding: clamp(20px, 5%, 50px);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.12);
+  margin-bottom: 30px;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.browser-mockup:hover { transform: scale(1.02); }
+
+.browser-header {
+  display: flex; gap: 8px; margin-bottom: 20px;
+}
+.browser-header span { width: 10px; height: 10px; background: #333; border-radius: 50%; }
+
+.project-info h3 {
+  font-size: 1.3rem; margin: 0 0 8px; font-weight: 700;
+}
+.project-info h3 span {
+  font-weight: 400; color: var(--muted); font-size: 0.9rem; margin-left: 10px;
+}
+
+/* --- 6. SANDBOX SECTION --- */
+.sandbox-section { padding: 100px 0; }
+
+.sandbox-label {
+  display: flex; align-items: center; justify-content: center; gap: 30px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem);
+  letter-spacing: -0.02em; margin-bottom: 80px;
+}
+
+.sandbox-label::before, .sandbox-label::after {
+  content: ""; height: 1px; background: #000; flex: 1;
+}
+
+.sandbox-carousel {
+  display: flex; align-items: center; gap: 40px;
+  background: #fdfdfd; border-radius: 30px; border: 1px solid var(--line);
+  padding: 40px;
+}
+
+.sandbox-card-text h4 { font-size: 1.8rem; margin: 0 0 15px; }
+
+@media (max-width: 1100px) {
+  .hero-layout {
+    gap: clamp(20px, 3vw, 42px);
   }
-  50% {
-    /* 1. Scale up more (5% instead of 2%) 
-       2. Increase brightness to make the green 'pop'
-       3. Add a slight blur to create a 'bloom' effect
-    */
-    transform: translate(-50%, -5%) scale(1.05);
-    filter: brightness(1.3) blur(2px);
-    opacity: 1;
+
+  .hero-full-wrapper .site-shell {
+    padding: 0 !important;
   }
-  100% {
-    /* Back to rest */
-    transform: translate(-50%, -5%) scale(1);
-    filter: brightness(1) blur(0px);
-    opacity: 0.7;
+
+  .hero-visual {
+    margin-right: 0 !important;
   }
+}
+
+/* --- 7. FOOTER --- */
+.site-footer { padding: 120px 0 60px; }
+.hook-line { border-bottom: 1px solid var(--line); padding-bottom: 30px; margin-bottom: 40px; }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
+
+/* --- 8. MOBILE RESPONSIVE (850px) --- */
+@media (max-width: 850px) {
+  .nav-desktop-only, .desktop-only { display: none !important; }
+  
+  .hero-layout { 
+    flex-direction: column; 
+    align-items: flex-start !important; 
+    text-align: left !important;
+  }
+
+  .hero-text { margin-left: 0 !important; width: 100%; }
+
+  .hero-visual { 
+    order: -1;
+    width: min(100%, 520px) !important;
+    margin: 0 0 clamp(36px, 8vw, 60px) !important;
+    justify-content: flex-start;
+  }
+  
+  .hero-cards-container { width: 100%; height: clamp(245px, 58vw, 350px); }
+
+  .hero-card {
+    width: clamp(280px, 74vw, 430px);
+  }
+
+  .card-tilted {
+    left: clamp(-135px, -20vw, -54px) !important;
+    top: clamp(-62px, -8vw, -26px) !important;
+  }
+
+  .card-straight {
+    right: clamp(-44px, -7vw, 0px);
+    top: clamp(-96px, -13vw, -44px);
+  }
+  
+  .sandbox-carousel { flex-direction: column; }
+}
+
+@media (max-width: 520px) {
+  .topbar {
+    height: 70px !important;
+    min-height: 70px !important;
+    padding: 0 16px !important;
+  }
+
+  .at-circle {
+    width: 44px;
+    height: 44px;
+  }
+
+  .hero-full-wrapper {
+    padding-top: 100px;
+  }
+
+  .hero-title {
+    font-size: clamp(2.05rem, 13vw, 2.75rem);
+  }
+
+  .hero-bio {
+    max-width: 100%;
+  }
+
+  .site-footer {
+    padding-top: 70px !important;
+  }
+
+  .footer-bottom {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 18px;
+  }
+}
+
+/* --- 9. CUSTOM CURSOR & PILL --- */
+.custom-cursor {
+  width: 18px; height: 18px; backdrop-filter: blur(4px);
+  border-radius: 50%; position: fixed; pointer-events: none;
+  z-index: 10000; transform: translate(-50%, -50%);
+  background: rgba(150, 150, 150, 0.1); border: 1px solid rgba(150, 150, 150, 0.4);
 }
