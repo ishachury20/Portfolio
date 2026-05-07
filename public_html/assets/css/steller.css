@@ -310,15 +310,6 @@ flex: 0 1 auto; /* Only take the space needed */
 
 .mobile-menu-trigger.is-active .mobile-dropdown { display: block; }
 
-.site-shell {
-  width: 92% !important; 
-  /* Match the topbar's maximum width */
-  max-width: 1400px !important; 
-  margin: 0 auto !important;
-  display: block;
-  position: relative;
-  /*border: 1px dashed red; */ 
-}
 
 /* --- 3. FOOTER STYLING REFINEMENT --- */
 .site-footer {
@@ -390,20 +381,9 @@ flex: 0 1 auto; /* Only take the space needed */
   width: 100%;
   background: #191919;
   color: #ffffff;
-  padding-top: 140px; /* Space for the floating header */
-  padding-bottom: 205px;
+  padding-top: 15%; /* Space for the floating header */
+  padding-bottom: 17%;
   overflow: hidden;
-}
-
-
-/* Ensure the hero layout uses the full width of the 1180px shell */
-.hero-layout {
-  display: flex !important;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  /* Creates a minimum 40px gap that pushes the cards away from the text */
-  gap: clamp(20px, 5vw, 100px);
 }
 
 .hero-full-wrapper .site-shell,
@@ -419,18 +399,18 @@ flex: 0 1 auto; /* Only take the space needed */
 }
 
 .hero-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(3.5rem, 8vw, 6rem);
+  font-family: 'Alexandria', sans-serif;
+  font-size: clamp(2.2rem, 7vw, 3.5rem) !important;
   line-height: 0.85;
-  font-weight: 800;
+  font-weight: 650;
   margin: 0 0 16px -4px; /* Slight negative margin for font-whitespace fix */
   letter-spacing: -0.04em;
   color: #ffffff;
 }
 
 .hero-subtitle {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.1rem;
+  font-family: 'Alexandria', sans-serif;
+  font-size: clamp(0.8rem, 2.5vw, 1.1rem);
   color: #666; /* Muted grey from screenshot */
   margin-bottom: 24px;
   font-weight: 500;
@@ -441,7 +421,7 @@ flex: 0 1 auto; /* Only take the space needed */
   line-height: 1.6;
   opacity: 0.85;
   margin-bottom: 40px;
-  font-size: 1.05rem;
+  font-size: clamp(0.85rem, 1.8vw, 1.05rem) !important;
 }
 
 /* Social Buttons */
@@ -458,17 +438,23 @@ flex: 0 1 auto; /* Only take the space needed */
 
 /* --- HERO IMAGE CARDS --- */
 
+.hero-layout {
+  display: flex !important;
+  /* This flips the HTML order back: Text stays left, Cards stay right */
+  flex-direction: row-reverse !important; 
+  align-items: flex-start !important;
+  justify-content: space-between;
+  width: 100%;
+}
+
 .hero-visual {
-  margin-left: auto !important; 
-  margin-right: 80px !important; 
-  width: 500px !important;
-  height: 500px;
+  flex: 1;
+  height: 400px; /* Reduced height to keep the area tight */
   position: relative;
-  display: flex;
-  justify-content: center;
-  /* 1. MOVE EVERYTHING UP: Change from center to flex-start */
-  align-items: flex-start !important; 
-  padding-top: -100px; /* Adjust this to control exactly how high they sit */
+  display: flex !important;
+  justify-content: flex-end !important;
+  padding-right: 4% !important; 
+  overflow: visible !important; 
 }
 
 /* --- THE SHELL MUST BE FLEX --- */
@@ -480,8 +466,7 @@ flex: 0 1 auto; /* Only take the space needed */
   
   /* Use 92% to match your topbar's gutter exactly */
   width: 92% !important; 
-  max-width: 1400px !important; 
-  
+  max-width: 1200px !important; 
   /* Dynamic padding: It grows/shrinks proportionally with the screen */
   padding: 0 4% !important; 
   
@@ -489,46 +474,35 @@ flex: 0 1 auto; /* Only take the space needed */
   transition: padding 0.3s ease-out; 
 }
 
-/* --- THE VISUAL CONTAINER --- */
-.hero-visual {
-  margin-left: auto !important; 
-  width: 500px; 
-  height: 500px;
-  position: relative;
-  /* Crucial: prevents any rogue pixels from showing outside the 1180px track */
-  /* overflow: hidden; */ /* Uncomment this only if you want a hard cut-off */
-}
-
 /* --- THE CARD GROUP --- */
 .hero-cards-container {
   position: relative;
-  width: 100%;
+  /* Use clamp for the container to keep it massive but responsive */
+  width: clamp(380px, 40vw, 540px) !important;
   height: 100%;
-  /* Remove any global transforms that might be pushing it out */
-  transform: none !important; 
 }
 
 .hero-card {
-  position: absolute;
-  width: 540px; /* Adjusted size */
+  position: absolute !important;
+  width: 100% !important;
 }
 
-/* Precision Docking inside the 400px box */
+/* BACK CARD (Tilted) */
 .card-tilted {
-  /* 2. SHIFT FURTHER LEFT: Moving it away from the front card */
-  left: -230px !important; 
-  /* 3. MOVE UP: Using a smaller bottom or larger top value */
-  top: -100px !important; 
+  left: -30% !important; 
+  /* SHIFTED UP: Fixed pixel value */
+  top: clamp(-150px, -10vw, -120px) !important;
   transform: rotate(-1deg) !important;
   z-index: 1 !important;
-  opacity: 0.8; /* Keeps the focus on the front card */
-  
+  opacity: 0.8;
 }
 
+/* FRONT CARD (Straight) */
 .card-straight {
-  right: 0;
-  top: -55%;
-  transform: rotate(1deg);
+  right: 10% !important;
+  /* SHIFTED EVEN HIGHER: Matches your focal point vision */
+  top: clamp(-320px, -20vw, -150px) !important;
+  transform: rotate(1deg) !important;
   z-index: 2;
 }
 
@@ -635,22 +609,53 @@ flex: 0 1 auto; /* Only take the space needed */
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; }
 
 /* --- 8. MOBILE RESPONSIVE (850px) --- */
-@media (max-width: 850px) {
+@media (max-width: 760px) {
   .nav-desktop-only, .desktop-only { display: none !important; }
   
-  .hero-layout { 
-    flex-direction: column; 
-    align-items: flex-start !important; 
-    text-align: left !important;
+  .hero-full-wrapper .site-shell {
+    display: block !important; /* Switch from flex to block for absolute control */
+    position: relative;
+    padding-top: 370px !important; /* Creates the space at the TOP for the cards */
   }
 
-  .hero-text { margin-left: 0 !important; width: 100%; }
+  .hero-layout {
+    /* Set to 'column' so they stack naturally in HTML order (Cards then Text) */
+    flex-direction: column !important; 
+    align-items: flex-start !important;
+  }
 
-  .hero-visual { 
-    order: -1; width: 100%; justify-content: flex-start; margin-bottom: 60px;
+  .hero-visual {
+    width: 100% !important;
+    display: flex !important;
+    /* Force children (cards) to the left */
+    justify-content: flex-start !important; 
+    margin: 0 !important;
+    padding: 0 !important;
   }
   
-  .hero-cards-container { width: 100%; height: 350px; }
+  .card-straight {
+    /* 2. PUSH LEFT: Using a negative viewport width (vw) or percentage 
+       ensures they move further left as the screen gets narrower */
+    left: -5vw !important; 
+    right: auto !important; 
+    top: -550px !important; 
+    z-index: 2;
+  }
+
+  .card-tilted {
+    /* 3. PUSH LEFT: Increased negative value to keep the fan effect 
+       aligned with the front card's movement */
+    left: -35% !important; 
+    right: auto !important;
+    top: -460px !important;
+    z-index: 1;
+  }
+
+  .hero-text {
+    width: 100% !important;
+    /* Extra safety: ensures text doesn't accidentally float up */
+    margin-top: 50px !important; 
+  }
   
   .sandbox-carousel { flex-direction: column; }
 }
