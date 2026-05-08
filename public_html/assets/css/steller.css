@@ -6,6 +6,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=League+Gothic&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=League+Gothic&display=swap');
 
 :root {
   --bg: #ffffff;
@@ -379,11 +380,13 @@ flex: 0 1 auto; /* Only take the space needed */
 /* --- THE FULL SCREEN BACKGROUND --- */
 .hero-full-wrapper {
   width: 100%;
+  min-height: 110vh; /* Ensures the section always fills the screen */
   background: #191919;
-  color: #ffffff;
-  padding-top: 15%; /* Space for the floating header */
-  padding-bottom: 17%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
+  padding: 10vh 0; /* Vertical space scales with screen height */
 }
 
 .hero-full-wrapper .site-shell,
@@ -411,7 +414,7 @@ flex: 0 1 auto; /* Only take the space needed */
 .hero-subtitle {
   font-family: 'Alexandria', sans-serif;
   font-size: clamp(0.8rem, 2.5vw, 1.1rem);
-  color: #666; /* Muted grey from screenshot */
+  color: #525252; /* Muted grey from screenshot */
   margin-bottom: 24px;
   font-weight: 500;
 }
@@ -421,6 +424,7 @@ flex: 0 1 auto; /* Only take the space needed */
   line-height: 1.6;
   opacity: 0.85;
   margin-bottom: 40px;
+  color: #b8b8b8;
   font-size: clamp(0.85rem, 1.8vw, 1.05rem) !important;
 }
 
@@ -439,22 +443,26 @@ flex: 0 1 auto; /* Only take the space needed */
 /* --- HERO IMAGE CARDS --- */
 
 .hero-layout {
-  display: flex !important;
-  /* This flips the HTML order back: Text stays left, Cards stay right */
-  flex-direction: row-reverse !important; 
-  align-items: flex-start !important;
-  justify-content: space-between;
-  width: 100%;
+  display: flex;
+  flex-direction: row-reverse; /* Keeps text left and cards right on desktop */
+  align-items: center;
+  width: 90%;
+  max-width: 1300px;
+  gap: 5vw; /* Gap scales with screen width */
 }
 
 .hero-visual {
   flex: 1;
-  height: 400px; /* Reduced height to keep the area tight */
   position: relative;
-  display: flex !important;
-  justify-content: flex-end !important;
-  padding-right: 4% !important; 
-  overflow: visible !important; 
+  display: flex;
+  justify-content: center;
+}
+
+.hero-cards-container {
+  position: relative;
+  width: 37vw; /* Container width is now a % of the screen width */
+  max-width: 600px;
+  aspect-ratio: 1 / 1;
 }
 
 /* --- THE SHELL MUST BE FLEX --- */
@@ -474,34 +482,27 @@ flex: 0 1 auto; /* Only take the space needed */
   transition: padding 0.3s ease-out; 
 }
 
-/* --- THE CARD GROUP --- */
-.hero-cards-container {
-  position: relative;
-  /* Use clamp for the container to keep it massive but responsive */
-  width: clamp(380px, 40vw, 540px) !important;
-  height: 100%;
-}
-
 .hero-card {
-  position: absolute !important;
-  width: 100% !important;
+  position: absolute;
+  width: 100%; /* Your preferred focal point scale */
+  height: auto;
+  mix-blend-mode: screen;
+  transition: transform 0.3s ease;
 }
 
-/* BACK CARD (Tilted) */
 .card-tilted {
-  left: -30% !important; 
-  /* SHIFTED UP: Fixed pixel value */
-  top: clamp(-150px, -10vw, -120px) !important;
-  transform: rotate(-1deg) !important;
-  z-index: 1 !important;
-  opacity: 0.8;
+  z-index: 1;
+  top: -5vw;
+  left: -8vw;
+  transform: rotate(2deg);
+  opacity: 1;
 }
 
 /* FRONT CARD (Straight) */
 .card-straight {
-  right: 10% !important;
+  right: -3vw !important;
   /* SHIFTED EVEN HIGHER: Matches your focal point vision */
-  top: clamp(-320px, -20vw, -150px) !important;
+  top: -15vw;
   transform: rotate(1deg) !important;
   z-index: 2;
 }
@@ -530,20 +531,76 @@ flex: 0 1 auto; /* Only take the space needed */
 
 .arrow-down {
   font-size: 1.5rem;
-  color: #000;
+  color: #191919;
   animation: bounce 2s infinite;
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-  60% {transform: translateY(10px);}
+  0%, 20%, 50%, 80%, 100% {transform: translateY(4vw);}
+  60% {transform: translateY(5vw);}
 }
+
+
 
 /* --- 5. LIGHT WORK SECTION --- */
 .projects-section {
   background: #ffffff;
-  padding: 120px 0;
-  color: #1a1a1a;
+  padding: 7% 0;
+  width: 100%;
+  /* Ensures the white section aligns with the black section */
+  display: flex;
+  justify-content: center;
+}
+
+/* This forces the project shell to match the hero shell exactly */
+.projects-section {
+  width: 92% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 4% !important; /* Matches the hero shell's padding */ 
+}
+
+.mockup-stack {
+  position: relative;
+  width: 100% !important; /* Take up the full width of the site-shell */
+  /* MATCH THIS: Use the same max-width as your text section */
+  max-width: 1200px; 
+  /* MATCH THIS: Centers the image so its left edge is predictable */
+  margin: 0 auto 40px auto; 
+  display: block;
+}
+
+.mockup-frame-bg {
+  width: 100% !important; /* This is the 'Master' that forces the height */
+  height: auto;
+  display: block;
+}
+
+/* THE TOP LAYER (The Actual Interface) */
+.mockup-interface-container {
+  position: absolute !important;
+  /* Adjust these percentages to fit 'inside' your specific frame image */
+  width: 90% !important; 
+  top: 54%;
+  left: 50%;
+  transform: translate(-50%, -46.5%); /* Perfect center-alignment */
+  z-index: 10;
+}
+
+.mockup-interface-img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+
+}
+
+/* REUSING YOUR BROWSER DOTS */
+.browser-header {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  padding-left: 5px;
 }
 
 .section-divider {
@@ -553,55 +610,209 @@ flex: 0 1 auto; /* Only take the space needed */
   color: var(--line);
 }
 
-.case-study-card {
-  margin-bottom: 150px;
-  width: 100%;
+.project-info {
+  /* CHANGE: Use 100% of the SHELL, not the screen */
+  width: 100% !important; 
+  /* Match the exact max-width of your mockup stack image for alignment */
+  max-width: 1200px; 
+  margin: 5vw auto 0 auto;
+  
+  /* Reset padding to ensure it hits the left edge of the shell */
+  padding-left: 0 !important; 
+  padding-right: 0 !important;
+  
+  display: flex;
+  flex-direction: column;
 }
 
-.browser-mockup {
-  background: #1a1a1a; /* Dark sleek container */
-  border-radius: 30px;
-  padding: clamp(20px, 5%, 50px);
-  box-shadow: 0 40px 100px rgba(0,0,0,0.12);
-  margin-bottom: 30px;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+.project-header-row {
+  display: flex;
+  align-items: center; /* Vertically centers the logo with the entire text block */
+  justify-content: flex-start;
+  gap: 16px; /* Space between the logo and the text */
 }
 
-.browser-mockup:hover { transform: scale(1.02); }
-
-.browser-header {
-  display: flex; gap: 8px; margin-bottom: 20px;
+.project-genesis-logo {
+  /* SCALE: Adjust this width to find your 'tiny' sweet spot */
+  width: 48px !important; 
+  height: auto;
+  display: block;
 }
-.browser-header span { width: 10px; height: 10px; background: #333; border-radius: 50%; }
+
+.project-text-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px; /* Space between the Title line and the Tagline */
+}
 
 .project-info h3 {
-  font-size: 1.3rem; margin: 0 0 8px; font-weight: 700;
+  font-family: 'Be Vietname Pro', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 650;
+  margin: 0;
+  line-height: 1.2;
 }
+
 .project-info h3 span {
-  font-weight: 400; color: var(--muted); font-size: 0.9rem; margin-left: 10px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 400;
+  color: #929292;
+  font-size: 0.9rem;
+  margin-left: 2px;
+}
+
+.project-tagline {
+  font-family: 'Be Vietname Pro', sans-serif;
+  font-size: 1rem;
+  color: #555;
+  margin: 0;
+  line-height: 1.4;
 }
 
 /* --- 6. SANDBOX SECTION --- */
-.sandbox-section { padding: 100px 0; }
 
-.sandbox-label {
-  display: flex; align-items: center; justify-content: center; gap: 30px;
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 800; font-size: clamp(2rem, 5vw, 3.5rem);
-  letter-spacing: -0.02em; margin-bottom: 80px;
+.sandbox-section .site-shell {
+  width: 92% !important; /* Force the 8% horizontal margin (4% each side) */
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 4% !important; 
 }
 
-.sandbox-label::before, .sandbox-label::after {
-  content: ""; height: 1px; background: #000; flex: 1;
+.sandbox-section {
+  padding: 125px 0;
+  background: #ffffff;
 }
 
-.sandbox-carousel {
-  display: flex; align-items: center; gap: 40px;
-  background: #fdfdfd; border-radius: 30px; border: 1px solid var(--line);
-  padding: 40px;
+/* --- Decorative Header --- */
+.sandbox-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 10vw;
 }
 
-.sandbox-card-text h4 { font-size: 1.8rem; margin: 0 0 15px; }
+.header-line {
+  flex: 1;
+  height: 1px;
+  background: #e0e0e0;
+  position: relative;
+}
+
+.header-line::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #e0e0e0;
+  border-radius: 50%;
+  top: -2.5px;
+}
+
+.header-line:first-child::after { right: 0; }
+.header-line:last-child::after { left: 0; }
+
+.sandbox-header h2 {
+  font-family: 'Alexandria', sans-serif;
+  font-weight: 800;
+  letter-spacing: 2px;
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+/* --- Flex Container --- */
+.sandbox-container {
+  display: flex;
+  gap: 30px;
+  align-items: stretch; 
+  width: 100% !important; /* Take up 100% of the 92% shell */
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.sandbox-visual {
+  flex: 1.2; /* Slightly wider to let the cards shine */
+  min-width: 0;
+}
+
+.sandbox-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  aspect-ratio: 4 / 3;  /* Match this to your actual image ratio */
+  object-fit: contain;
+}
+
+/* --- Dark Text Card --- */
+.sandbox-content-card {
+  flex: 1;
+  min-width: 0;
+  background: #1a1a1a;
+  
+  /* FORCE SYNC: This makes the height react exactly like the image width */
+  aspect-ratio: 4 / 2.5; 
+  
+  padding: 5% !important; /* Use percentage padding to keep it relative */
+  border-radius: 17px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden; /* Prevents text from pushing the box taller */
+  position: relative;
+}
+
+.sandbox-text h3 {
+  font-size: clamp(1.2rem, 2vw, 1.8rem); 
+  margin-bottom: 15px;
+}
+
+.sandbox-text p {
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+  line-height: 1.6;
+  opacity: 0.8;
+  margin-bottom: 20px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.publication-tag {
+  color: #929292;
+  font-size: 0.9rem;
+}
+
+/* --- Arrow & Dots --- */
+.sandbox-arrow {
+  position: absolute;
+  left: -25px; /* Pulls it halfway out of the card */
+  top: 50%;
+  transform: translateY(-50%);
+  background: #ffffff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sandbox-dots {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 50px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 50%;
+}
+
+.dot.active {
+  background: #929292;
+}
 
 /* --- 7. FOOTER --- */
 .site-footer { padding: 120px 0 60px; }
@@ -613,48 +824,94 @@ flex: 0 1 auto; /* Only take the space needed */
   .nav-desktop-only, .desktop-only { display: none !important; }
   
   .hero-full-wrapper .site-shell {
-    display: block !important; /* Switch from flex to block for absolute control */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important; /* The 'Spine' of the layout */
+    justify-content: flex-start !important;
+    text-align: center !important;
+    padding-top: 5% !important; /* Creates the space at the TOP for the cards */
+    padding-bottom: 10% !important; 
     position: relative;
-    padding-top: 370px !important; /* Creates the space at the TOP for the cards */
+    width: 100% !important;
+  }
+
+  .hero-title {
+    /* Reduced floor from 2.2rem to 1.8rem for a tighter mobile look */
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    text-align: center !important;
+    font-size: clamp(1.8rem, 8vw, 2.8rem) !important;
+    line-height: 1.0;
+    margin-bottom: 20px !important;
+  }
+
+  .hero-bio {
+    /* Reduced floor from 0.85rem to 0.75rem to keep the bio minimalist */
+    font-size: clamp(0.75rem, 2vw, 0.95rem) !important;
+    max-width: 85vw;
+    line-height: 1.6;
   }
 
   .hero-layout {
-    /* Set to 'column' so they stack naturally in HTML order (Cards then Text) */
+    display: flex !important;
     flex-direction: column !important; 
-    align-items: flex-start !important;
+    /* This centers the children (text block and visual block) along the spine */
+    align-items: center !important; 
+    justify-content: center !important;
+    text-align: center !important;
+  }
+
+  .hero-text {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    /* This creates the 'breathability' between images and the title */
+    margin-top: 80px !important; 
+    text-align: center !important;
   }
 
   .hero-visual {
     width: 100% !important;
     display: flex !important;
-    /* Force children (cards) to the left */
-    justify-content: flex-start !important; 
+    justify-content: center !important; 
     margin: 0 !important;
     padding: 0 !important;
+    height: 0 !important; /* Keeps the container from pushing text down */
   }
-  
+
+  .hero-cards-container {
+    width: 350px !important; /* Your preferred larger mobile scale */
+    margin: 0 auto !important;
+    left: -16% !important;
+    position: relative;
+  }
+
   .card-straight {
-    /* 2. PUSH LEFT: Using a negative viewport width (vw) or percentage 
-       ensures they move further left as the screen gets narrower */
-    left: -5vw !important; 
-    right: auto !important; 
-    top: -550px !important; 
+    left: 50% !important;
+    transform: translateX(-50%) rotate(1deg) !important; 
+    top: -120px !important; /* Adjusted for the reduced top padding */
     z-index: 2;
   }
 
   .card-tilted {
-    /* 3. PUSH LEFT: Increased negative value to keep the fan effect 
-       aligned with the front card's movement */
-    left: -35% !important; 
-    right: auto !important;
-    top: -460px !important;
+    left: 45% !important; 
+    transform: translateX(-50%) rotate(-2deg) !important;
+    top: -110px !important;
     z-index: 1;
   }
 
-  .hero-text {
+  .social-links {
+    display: flex !important;
+    /* Forces icons to the center of their own container */
+    justify-content: center !important; 
+    align-items: center !important;
     width: 100% !important;
-    /* Extra safety: ensures text doesn't accidentally float up */
-    margin-top: 50px !important; 
+    gap: 25px !important;
+    /* Kills any desktop 'margin-left: 0' that might be pulling it left */
+    margin: 30px auto 0 auto !important; 
   }
   
   .sandbox-carousel { flex-direction: column; }
