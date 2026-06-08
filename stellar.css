@@ -53,8 +53,6 @@ button { font-family: inherit; }
 
 /* =========================================================
  * CUSTOM CURSOR
- * FIX #5: Cursor stays exactly 18px everywhere — hero
- * section elements are excluded from the hover selector list.
  * ========================================================= */
 .custom-cursor {
   width: 18px;
@@ -75,7 +73,6 @@ button { font-family: inherit; }
   will-change: transform, left, top;
 }
 
-/* Cursor expands subtly on interactive elements — never covers text */
 .custom-cursor.is-hovering {
   transform: translate(-50%, -50%) scale(1.4);
   background: rgba(180,180,180,0.12);
@@ -105,8 +102,8 @@ button { font-family: inherit; }
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--hero-bg);
-  border: 0.75px solid rgba(60,60,60,0.85); 
+  background: rgba(17,17,17,0.9);
+  border: 0.75px solid rgba(60,60,60,0.85);
   border-radius: 30px;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -141,8 +138,6 @@ button { font-family: inherit; }
   z-index: 1000;
 }
 
-/* FIX #4: The glow is always on — it never goes away.
-   The ::after sliver and box-shadow are permanent on .active. */
 .floating-nav {
   display: inline-flex;
   align-items: center;
@@ -173,7 +168,6 @@ button { font-family: inherit; }
   box-shadow: var(--nav-glow);
 }
 
-/* Sliver above active pill — always visible */
 .floating-nav a.active::after {
   content: "";
   position: absolute;
@@ -187,7 +181,6 @@ button { font-family: inherit; }
   box-shadow: 0 0 8px rgba(255,255,255,0.4);
 }
 
-/* Right cluster */
 .nav-right-cluster {
   flex: 1 0 30%;
   display: flex;
@@ -213,7 +206,6 @@ button { font-family: inherit; }
   border-color: rgba(100,100,100,0.6);
 }
 
-/* Mobile trigger */
 .mobile-menu-trigger { display: none; position: relative; align-items: center; }
 
 .at-circle {
@@ -291,19 +283,18 @@ button { font-family: inherit; }
   position: absolute;
   pointer-events: none;
   z-index: 0;
-  /* Horizontally centred on where the cards sit (right side) */
-  top: 0;
-  right: 18%;
+  top: 40px;
+  right: 21%;
   width: 280px;
   height: 100%;
   background: linear-gradient(
     to bottom,
-    rgba(210,210,230,0.22) 0%,    /* bright entry at the top */
-    rgba(190,190,215,0.12) 30%,   /* softens as it hits the cards */
-    rgba(160,160,200,0.04) 65%,   /* very faint in the lower half */
-    transparent 100%               /* fully gone at the bottom */
+    rgba(210,210,230,0.22) 0%,
+    rgba(190,190,215,0.12) 30%,
+    rgba(160,160,200,0.04) 65%,
+    transparent 100%
   );
-  filter: blur(28px);             /* wide soft spread — not a hard edge */
+  filter: blur(28px);
   transform: none;
 }
 
@@ -315,7 +306,7 @@ button { font-family: inherit; }
   pointer-events: none;
   z-index: 0;
   background: radial-gradient(
-    ellipse 35% 45% at 78% 35%,   /* centred on upper-right card area */
+    ellipse 35% 45% at 78% 35%,
     rgba(200,200,225,0.10) 0%,
     rgba(160,160,200,0.04) 55%,
     transparent 80%
@@ -359,7 +350,7 @@ button { font-family: inherit; }
 .card-straight,
 .card-straight::before { display: none; }
 
-/* Single hero image */
+/* Single hero image — static, no hover */
 .hero-cards-img {
   position: absolute;
   z-index: 1;
@@ -369,14 +360,47 @@ button { font-family: inherit; }
   right: -32%;
   bottom: -55%;
   top: auto;
-  transition: filter 0.5s ease,
-              scale 0.5s cubic-bezier(0.34, 1.3, 0.64, 1);
   filter: drop-shadow(0 32px 64px rgba(0,0,0,0.60));
 }
 
-.hero-cards-img:hover {
-  scale: 1.06;
-  filter: drop-shadow(0 40px 80px rgba(0,0,0,0.70));
+/* Light highlight overlay
+ * Two glowing rectangles on the front card edges.
+ * Position/size format: "X% Y% / W% H%"
+ * ↓ adjust X%/Y% to move, W%/H% to resize */
+.hero-card-highlight {
+  position: absolute;
+  z-index: 2;
+  width: 65vw;
+  max-width: 1100px;
+  aspect-ratio: 1.38 / 1;
+  height: auto;
+  right: -32%;
+  bottom: -55%;
+  top: auto;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transform: rotate(2deg) translateY(-20%);
+  transform-origin: 72% 10%;
+  background:
+    /* Top edge rectangle — glows bright on left, fades to right */
+    linear-gradient(
+      to right,
+      rgba(255,255,255,0.90) 0%,
+      rgba(240,240,255,0.55) 20%,
+      rgba(220,220,255,0.15) 55%,
+      transparent 100%
+    )
+    68% 6% / 22% 2% no-repeat,
+
+    /* Right edge rectangle — glows bright on left (inner edge), fades right */
+    linear-gradient(
+      to right,
+      rgba(255,255,255,0.75) 0%,
+      rgba(235,235,255,0.35) 25%,
+      rgba(210,210,250,0.08) 60%,
+      transparent 100%
+    )
+    79% 8% / 2% 16% no-repeat;
 }
 
 .hero-cards-container:hover .card-tilted,

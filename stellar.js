@@ -165,22 +165,4 @@ $(document).ready(function () {
   $dots.on('click', function () { goTo($(this).index()); });
 });
 
-/* =====================================================================
- * 7. HERO IMAGE SUBTLE PARALLAX ON MOUSE MOVE
- * ===================================================================== */
-$(document).ready(function () {
-  const heroSection = document.querySelector('.hero-full-wrapper');
-  const heroImg = document.querySelector('.hero-cards-img');
-  if (!heroSection || !heroImg) return;
-
-  heroSection.addEventListener('mousemove', (e) => {
-    const rect = heroSection.getBoundingClientRect();
-    const cx = (e.clientX - rect.left) / rect.width  - 0.5;
-    const cy = (e.clientY - rect.top)  / rect.height - 0.5;
-    heroImg.style.transform = `translate(${cx * 10}px, ${cy * 8}px)`;
-  });
-
-  heroSection.addEventListener('mouseleave', () => {
-    heroImg.style.transform = 'translate(0, 0)';
-  });
-});
+/* Section 7: hero parallax removed — image is static */
