@@ -46,7 +46,7 @@
       </div>
     </div>
 
-    <!-- Desktop right: LinkedIn + Resume (Fix 1+2: brighter text, custom arrow icon) -->
+    <!-- Desktop right: LinkedIn + Resume -->
     <div class="nav-right-cluster desktop-only">
       <a href="https://linkedin.com" target="_blank" rel="noopener" class="nav-text-link">
         LinkedIn <img src="images/arrow.png" class="nav-arrow-icon" alt="">
@@ -62,7 +62,7 @@
     <!-- ===================== HERO — DARK ===================== -->
     <section class="hero-full-wrapper" id="home-hero">
 
-      <!-- Fix 4: desktop-esque rounded rectangle outlines behind hero content -->
+      <!-- desktop-esque rounded rectangle outlines behind hero content -->
       <div class="hero-deco-frame hero-deco-outer">
         <div class="hero-deco-frame hero-deco-inner"></div>
       </div>
@@ -78,7 +78,9 @@
 
           <!-- Left: text block -->
           <div class="hero-text">
-            <h2 class="hero-title">INTERACTION<br>DESIGNER</h2>
+            <!-- FIX: "DESIGNER" wrapped in its own span so .hero-title-designer
+                 in stellar.css can colour it independently of "INTERACTION" -->
+            <h2 class="hero-title">INTERACTION<br><span class="hero-title-designer">DESIGNER</span></h2>
             <p class="hero-sub-brand">Product Designer</p>
             <div class="hero-subtitle">
               MS HCI @ UCSC &nbsp;|&nbsp; CS Game Design
@@ -116,7 +118,6 @@
       <div class="site-shell">
 
         <!-- ——— Case Study: Genesis ——— -->
-        <!-- Fix 6: image card and info block are now separate siblings, not nested -->
         <div class="case-study-group reveal-card" data-delay="0">
 
           <div class="case-study-image-card">
