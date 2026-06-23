@@ -512,7 +512,7 @@ button { font-family: inherit; }
 .mockup-interface-container {
   position: absolute;
   width: 90%;
-  top: 50%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10;
@@ -524,10 +524,11 @@ button { font-family: inherit; }
 }
 
 .case-study-info-block {
-  padding: 0 8px;
+  padding: 0; /* Changed from 0 8px to 0 to let it align flush with the card edge */
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
 }
 
 .project-header-row {
@@ -537,7 +538,8 @@ button { font-family: inherit; }
 }
 
 .project-logo {
-  width: 40px; height: 40px;
+  width: 40px;
+  height: 40px;
   border-radius: 10px;
   object-fit: cover;
   flex-shrink: 0;
@@ -546,24 +548,34 @@ button { font-family: inherit; }
 
 .project-text-column {
   flex: 1;
-  display: flex; flex-direction: column; gap: 4px;
+  display: flex; 
+  flex-direction: column; 
+  gap: 4px;
 }
 
 .project-info h3,
 .case-study-info-block h3 {
   font-family: 'Be Vietnam Pro', sans-serif;
-  font-size: 1.35rem; font-weight: 700;
-  margin: 0; line-height: 1.05; color: var(--text);
-  display: flex; align-items: center; gap: 8px;
+  font-size: 1.35rem; 
+  font-weight: 700;
+  margin: 0; 
+  line-height: 1.05; 
+  color: var(--text);
+  display: flex; 
+  align-items: center; 
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .project-info h3 span,
 .case-study-info-block h3 span {
   font-family: 'Be Vietnam Pro', sans-serif;
-  font-weight: 400; color: var(--muted);
+  font-weight: 400; 
+  color: var(--muted);
   font-size: 0.95rem;
-  display: inline-flex; align-items: center; gap: 8px;
+  display: inline-flex; 
+  align-items: center; 
+  gap: 8px;
 }
 
 .project-description {
@@ -573,7 +585,7 @@ button { font-family: inherit; }
   color: var(--text);
   line-height: 1.5;
   margin: 0;
-  max-width: 680px;
+  max-width: 100%; /* Changed from 680px to 100% to fill the full layout width */
 }
 
 /* =========================================================
@@ -635,14 +647,7 @@ button { font-family: inherit; }
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.sandbox-content-card::before,
-.sandbox-content-card::after {
-  content: "◆";
-  position: absolute;
-  font-size: 0.5rem;
-  color: rgba(255,255,255,0.25);
-  line-height: 1;
-}
+
 .sandbox-content-card::before { top: 16px; left: 18px; }
 .sandbox-content-card::after  { bottom: 16px; right: 18px; }
 
@@ -676,21 +681,7 @@ button { font-family: inherit; }
   border-radius: var(--radius-pill);
 }
 
-.sandbox-arrow {
-  position: absolute; left: -22px; top: 50%;
-  transform: translateY(-50%);
-  background: #ffffff;
-  width: 44px; height: 44px; border-radius: 50%;
-  border: none; display: flex; align-items: center; justify-content: center;
-  font-size: 1rem; color: #191919;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-  transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
-}
 
-.sandbox-arrow:hover {
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
-}
 
 .sandbox-dots {
   display: flex; justify-content: center; gap: 10px; margin-top: 44px;
