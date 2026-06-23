@@ -46,10 +46,14 @@
       </div>
     </div>
 
-    <!-- Desktop right: LinkedIn + Resume -->
+    <!-- Desktop right: LinkedIn + Resume (Fix 1+2: brighter text, custom arrow icon) -->
     <div class="nav-right-cluster desktop-only">
-      <a href="https://linkedin.com" target="_blank" rel="noopener" class="nav-text-link">LinkedIn ↗</a>
-      <a href="CV_IshaChury.pdf" target="_blank" rel="noopener" class="nav-resume-btn">Resume ↗</a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener" class="nav-text-link">
+        LinkedIn <img src="images/arrow.png" class="nav-arrow-icon" alt="">
+      </a>
+      <a href="CV_IshaChury.pdf" target="_blank" rel="noopener" class="nav-resume-btn">
+        Resume <img src="images/arrow.png" class="nav-arrow-icon" alt="">
+      </a>
     </div>
   </header>
 
@@ -57,15 +61,19 @@
 
     <!-- ===================== HERO — DARK ===================== -->
     <section class="hero-full-wrapper" id="home-hero">
+
+      <!-- Fix 4: desktop-esque rounded rectangle outlines behind hero content -->
+      <div class="hero-deco-frame hero-deco-outer">
+        <div class="hero-deco-frame hero-deco-inner"></div>
+      </div>
+
       <div class="site-shell hero-shell">
         <div class="hero-layout">
 
           <!-- Right: hero visual -->
           <div class="hero-visual">
             <div class="glow-blob"></div>
-            <img src="./Images/both-cards.png" alt="Genesis interface cards" class="hero-cards-img">
-            <!-- Light highlight overlay — simulates beam catching card edges -->
-            <div class="hero-card-highlight"></div>
+            <img src="images/both-cards-V3.png" alt="Genesis interface cards" class="hero-cards-img">
           </div>
 
           <!-- Left: text block -->
@@ -73,7 +81,7 @@
             <h2 class="hero-title">INTERACTION<br>DESIGNER</h2>
             <p class="hero-sub-brand">Product Designer</p>
             <div class="hero-subtitle">
-              MS HCI @ UCSC &nbsp;|&nbsp; Based in <span class="location-accent">San Jose</span>
+              MS HCI @ UCSC &nbsp;|&nbsp; CS Game Design
             </div>
             <p class="hero-bio">
               Designing interfaces and creating user journeys using game design
@@ -108,17 +116,21 @@
       <div class="site-shell">
 
         <!-- ——— Case Study: Genesis ——— -->
-        <div class="case-study-card reveal-card" data-delay="0">
-          <div class="mockup-stack">
-            <img src="./Images/Frame-1.png" class="mockup-frame-bg" alt="">
-            <div class="mockup-interface-container">
-              <img src="./Images/card-front.png" class="mockup-interface-img" alt="Genesis Dashboard">
+        <!-- Fix 6: image card and info block are now separate siblings, not nested -->
+        <div class="case-study-group reveal-card" data-delay="0">
+
+          <div class="case-study-image-card">
+            <div class="mockup-stack">
+              <img src="images/Frame-1.png" class="mockup-frame-bg" alt="">
+              <div class="mockup-interface-container">
+                <img src="images/card-front.png" class="mockup-interface-img" alt="Genesis Dashboard">
+              </div>
             </div>
           </div>
 
-          <div class="project-info">
+          <div class="case-study-info-block">
             <div class="project-header-row">
-              <img src="./Images/truck2.jpg" class="project-logo" alt="Genesis Logo">
+              <img src="images/truck2.jpg" class="project-logo" alt="Genesis Logo">
               <div class="project-text-column">
                 <h3>Genesis <span>• Interface Design &nbsp;•&nbsp; Social Impact</span></h3>
               </div>
@@ -127,47 +139,25 @@
             <p class="project-description">
               A moving-services platform that redesigns the end-to-end relocation experience — from quote to key handoff — reducing friction for both movers and clients through real-time tracking, transparent pricing, and a human-centred scheduling flow.
             </p>
-
-            <div class="project-tags">
-              <span class="project-tag">UX Research</span>
-              <span class="project-tag">Interaction Design</span>
-              <span class="project-tag">Mobile</span>
-              <span class="project-tag">Social Impact</span>
-            </div>
-
-            <div class="project-metrics">
-              <div class="metric">
-                <span class="metric-value">38%</span>
-                <span class="metric-label">Reduction in booking drop-off</span>
-              </div>
-              <div class="metric">
-                <span class="metric-value">4.8★</span>
-                <span class="metric-label">Avg. user satisfaction score</span>
-              </div>
-              <div class="metric">
-                <span class="metric-value">2×</span>
-                <span class="metric-label">Faster quote-to-confirm time</span>
-              </div>
-            </div>
-
-            <div class="project-cta-row">
-              <a href="#" class="project-cta">View case study →</a>
-            </div>
           </div>
+
         </div>
 
         <!-- ——— Case Study: Gratitude ——— -->
-        <div class="case-study-card reveal-card" data-delay="100">
-          <div class="mockup-stack">
-            <img src="./Images/Frame-2.png" class="mockup-frame-bg" alt="">
-            <div class="mockup-interface-container">
-              <img src="./Images/gratitude-preview.png" class="mockup-interface-img" alt="Gratitude Dashboard">
+        <div class="case-study-group reveal-card" data-delay="100">
+
+          <div class="case-study-image-card">
+            <div class="mockup-stack">
+              <img src="images/Frame-2.png" class="mockup-frame-bg" alt="">
+              <div class="mockup-interface-container">
+                <img src="images/gratitude-preview.png" class="mockup-interface-img" alt="Gratitude Dashboard">
+              </div>
             </div>
           </div>
 
-          <div class="project-info">
+          <div class="case-study-info-block">
             <div class="project-header-row">
-              <img src="./Images/Logo-2.png" class="project-logo" alt="Gratitude Logo">
+              <img src="images/Logo-2.png" class="project-logo" alt="Gratitude Logo">
               <div class="project-text-column">
                 <h3>Gratitude <span>• Interface Design &nbsp;•&nbsp; Social Impact</span></h3>
               </div>
@@ -176,33 +166,8 @@
             <p class="project-description">
               A community gratitude platform built for UCSC students to publicly celebrate the people and places that shaped their experience — from professors to park rangers — through curated cards, photo galleries, and shared dedications.
             </p>
-
-            <div class="project-tags">
-              <span class="project-tag">Community Design</span>
-              <span class="project-tag">Web App</span>
-              <span class="project-tag">Visual Design</span>
-              <span class="project-tag">Social Impact</span>
-            </div>
-
-            <div class="project-metrics">
-              <div class="metric">
-                <span class="metric-value">300+</span>
-                <span class="metric-label">Gratitude cards submitted</span>
-              </div>
-              <div class="metric">
-                <span class="metric-value">91%</span>
-                <span class="metric-label">Users felt emotionally connected</span>
-              </div>
-              <div class="metric">
-                <span class="metric-value">5 min</span>
-                <span class="metric-label">Avg. time spent per session</span>
-              </div>
-            </div>
-
-            <div class="project-cta-row">
-              <a href="#" class="project-cta">View case study →</a>
-            </div>
           </div>
+
         </div>
 
       </div>
@@ -220,9 +185,9 @@
 
         <div class="sandbox-container">
 
-          <!-- Left: visual — Sandbox-1.png (card game photo) -->
+          <!-- Left: visual -->
           <div class="sandbox-visual">
-            <img src="./Images/Sandbox-1.png" alt="Let's Get Talking card game" class="sandbox-image">
+            <img src="images/Mockup.jpg" alt="Let's Get Talking card game" class="sandbox-image">
           </div>
 
           <!-- Right: dark content card -->

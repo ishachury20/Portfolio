@@ -84,16 +84,18 @@ button { font-family: inherit; }
  * ========================================================= */
 .topbar {
   position: fixed;
-  top: 10px;
-  left: 0; right: 0;
-  margin: 0 auto;
-  width: 92%;
-  max-width: 1400px;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;          /* Fix 2: full-width rectangle, not a centered pill */
+  max-width: none;
   z-index: 999;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 36px;
+  padding: 18px 4%;     /* Fix 1: horizontal padding now matches the page shell's
+                            4% margin, so brand-block/nav-right-cluster text lines
+                            up exactly where the topbar's edge sits */
   color: #ffffff;
 }
 
@@ -102,9 +104,9 @@ button { font-family: inherit; }
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: rgba(17,17,17,0.9);
-  border: 0.75px solid rgba(60,60,60,0.85);
-  border-radius: 30px;
+  background: rgba(17,17,17,0.95);
+  border: none;
+  border-radius: 0;      /* Fix 2: sharp rectangle, no pill rounding */
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   pointer-events: none;
@@ -142,10 +144,10 @@ button { font-family: inherit; }
   display: inline-flex;
   align-items: center;
   padding: 5px;
-  border: 1px solid rgba(168,168,168,0.55);
+  border: 1px solid rgba(158,158,158,0.55);
   border-radius: var(--radius-pill);
   background: rgba(25,25,25,1);
-  gap: 4px;
+  gap: 5px;
 }
 
 .floating-nav a {
@@ -181,6 +183,7 @@ button { font-family: inherit; }
   box-shadow: 0 0 8px rgba(255,255,255,0.4);
 }
 
+/* Right cluster */
 .nav-right-cluster {
   flex: 1 0 30%;
   display: flex;
@@ -189,21 +192,37 @@ button { font-family: inherit; }
   gap: 6px;
 }
 
+/* Fix 1: brighter text colour, darker hover background
+ * Fix 2: arrow icon sizing/alignment */
 .nav-text-link, .nav-resume-btn {
   font-family: 'Space Grotesk', sans-serif;
   font-size: clamp(0.75rem, 0.85vw, 0.88rem);
   font-weight: 500;
-  color: #999;
+  color: #e8e8e8;              /* brighter than the old #999 */
   padding: 9px 18px;
   border-radius: var(--radius-pill);
   border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 
 .nav-text-link:hover, .nav-resume-btn:hover {
-  color: #fff;
-  background: rgba(60,60,60,0.8);
-  border-color: rgba(100,100,100,0.6);
+  color: #ffffff;
+  background: rgba(0,0,0,0.65);   /* darker than the old rgba(60,60,60,0.8) */
+  border-color: rgba(80,80,80,0.7);
+}
+
+/* Fix 2: custom arrow icon replacing the ↗ character */
+.nav-arrow-icon {
+  width: 11px;
+  height: auto;
+  display: inline-block;
+  /* Source image is mostly transparent canvas — crop visually via object-fit/scale */
+  object-fit: contain;
+  filter: brightness(0) invert(1); /* renders the arrow white to match text colour */
+  opacity: 0.9;
 }
 
 .mobile-menu-trigger { display: none; position: relative; align-items: center; }
@@ -265,53 +284,18 @@ button { font-family: inherit; }
  * ========================================================= */
 .hero-full-wrapper {
   width: 100%;
-  min-height: 100vh;
-  height: 100vh;
+  min-height: calc(100vh + 36px);   /* extra 36px absorbs the white-cap's overlap */
+  height: calc(100vh + 36px);
   background: var(--hero-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   overflow-x: hidden;
-  padding: 80px 0 0;
+  padding: 110px 0 0;
   position: relative;
 }
 
-/* Beam: originates from top, hits the card zone, fades downward */
-.hero-full-wrapper::before {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  z-index: 0;
-  top: 40px;
-  right: 21%;
-  width: 280px;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(210,210,230,0.22) 0%,
-    rgba(190,190,215,0.12) 30%,
-    rgba(160,160,200,0.04) 65%,
-    transparent 100%
-  );
-  filter: blur(28px);
-  transform: none;
-}
-
-/* Wide atmospheric halo around where the beam lands on the cards */
-.hero-full-wrapper::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  background: radial-gradient(
-    ellipse 35% 45% at 78% 35%,
-    rgba(200,200,225,0.10) 0%,
-    rgba(160,160,200,0.04) 55%,
-    transparent 80%
-  );
-}
 
 .hero-full-wrapper .site-shell {
   display: flex;
@@ -327,7 +311,7 @@ button { font-family: inherit; }
   align-items: center;
   width: 100%;
   gap: 9vw;
-  margin-top: -40px;
+  margin-top: -20px;
 }
 
 /* ---- Card visual ---- */
@@ -342,79 +326,56 @@ button { font-family: inherit; }
   perspective-origin: 48% 52%;
 }
 
-.hero-cards-container,
-.hero-card,
-.hero-card img,
-.card-tilted,
-.card-tilted::before,
-.card-straight,
-.card-straight::before { display: none; }
-
-/* Single hero image — static, no hover */
+/* =========================================================
+ * HERO IMAGE — manual editing guide (Fix 5)
+ *
+ *   width / max-width : controls overall size. width is a percentage
+ *                        of the viewport (vw) so it scales with screen
+ *                        size; max-width caps it on very large screens.
+ *                        ↑ increase both to make the image bigger.
+ *   right             : distance from the right edge of .hero-visual —
+ *                        more negative (or smaller) pulls it further
+ *                        right / closer to the edge.
+ *   bottom            : vertical position — more negative pushes the
+ *                        image further down past the section's bottom.
+ * ========================================================= */
 .hero-cards-img {
   position: absolute;
   z-index: 1;
-  width: 65vw;
-  max-width: 1100px;
+  width: 105vw;          /* ← increase to make the image bigger */
+  max-width: 1380px;     /* ← raise this ceiling too if increasing width above */
   height: auto;
-  right: -32%;
-  bottom: -55%;
+  right: -90%;           /* ← adjust horizontal position */
+  bottom: -121%;         /* ← adjust vertical position */
   top: auto;
-  filter: drop-shadow(0 32px 64px rgba(0,0,0,0.60));
 }
 
-/* Light highlight overlay
- * Two glowing rectangles on the front card edges.
- * Position/size format: "X% Y% / W% H%"
- * ↓ adjust X%/Y% to move, W%/H% to resize */
-.hero-card-highlight {
+.glow-blob {
   position: absolute;
-  z-index: 2;
-  width: 65vw;
-  max-width: 1100px;
-  aspect-ratio: 1.38 / 1;
-  height: auto;
-  right: -32%;
-  bottom: -55%;
-  top: auto;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(180,180,210,0.12) 0%, transparent 70%);
+  right: 0%;
+  bottom: 0%;
+  filter: blur(60px);
   pointer-events: none;
-  mix-blend-mode: screen;
-  transform: rotate(2deg) translateY(-20%);
-  transform-origin: 72% 10%;
-  background:
-    /* Top edge rectangle — glows bright on left, fades to right */
-    linear-gradient(
-      to right,
-      rgba(255,255,255,0.90) 0%,
-      rgba(240,240,255,0.55) 20%,
-      rgba(220,220,255,0.15) 55%,
-      transparent 100%
-    )
-    68% 6% / 22% 2% no-repeat,
-
-    /* Right edge rectangle — glows bright on left (inner edge), fades right */
-    linear-gradient(
-      to right,
-      rgba(255,255,255,0.75) 0%,
-      rgba(235,235,255,0.35) 25%,
-      rgba(210,210,250,0.08) 60%,
-      transparent 100%
-    )
-    79% 8% / 2% 16% no-repeat;
+  z-index: 0;
 }
 
-.hero-cards-container:hover .card-tilted,
-.hero-cards-container:hover .card-straight { display: none; }
-
-.hero-visual::before { display: none; content: none; }
-.hero-visual::after  { display: none; content: none; }
-
-/* ---- Hero text ---- */
+/* ---- Hero text ----
+ * Breaks away from the site-shell's normal margin — pulled left past
+ * where the rest of the page's content starts, for visual impact.
+ * ↓ adjust margin-left to control how far it breaks out:
+ *   more negative = further left / closer to the screen edge
+ *   0 = back to sitting flush with the site-shell margin */
 .hero-text {
   flex: 0 1 auto;
   text-align: left;
   animation: heroReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
   animation-delay: 0.15s;
+  position: relative;
+  z-index: 1;
 }
 
 @keyframes heroReveal {
@@ -482,8 +443,10 @@ button { font-family: inherit; }
 .white-cap-transition {
   background: var(--bg);
   height: 90px;
-  border-radius: 32px 32px 0 0;
-  margin-top: 0;
+  border-radius: 40px 40px 0 0;
+  margin-top: -36px;    /* restored — the hero is now 36px taller than 100vh so
+                            this overlap is absorbed below the fold, not visible
+                            on initial load */
   position: relative;
   z-index: 10;
   display: flex; justify-content: center; align-items: center;
@@ -503,6 +466,8 @@ button { font-family: inherit; }
 
 /* =========================================================
  * PROJECTS / WORK SECTION
+ * Fix 6: image card and info block are now separate, unattached
+ * Fix 7: CTA button removed
  * ========================================================= */
 .projects-section {
   background: var(--bg);
@@ -512,43 +477,37 @@ button { font-family: inherit; }
 .projects-section .site-shell {
   display: flex;
   flex-direction: column;
-  gap: 60px;
+  gap: 88px;
 }
 
-.case-study-card {
-  background: transparent;
-  border-radius: var(--radius-xl);
-  overflow: hidden;
-  border: 1px solid var(--line);
-  position: relative;
-  transition: transform 0.4s cubic-bezier(0.34,1.2,0.64,1),
-              box-shadow 0.4s ease;
-  box-shadow: var(--shadow-soft);
+/* Outer group just for the scroll-reveal animation + vertical spacing */
+.case-study-group {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
   opacity: 0;
   transform: translateY(40px);
 }
 
-.case-study-card.is-visible {
+.case-study-group.is-visible {
   opacity: 1;
   transform: translateY(0);
   transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
-              transform 0.7s cubic-bezier(0.16,1,0.3,1),
+              transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+
+/* The image card — its own rounded card, shadow, hover lift */
+.case-study-image-card {
+  background: transparent;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.4s cubic-bezier(0.34,1.2,0.64,1),
               box-shadow 0.4s ease;
 }
 
-.case-study-card::before,
-.case-study-card::after {
-  content: "◆";
-  position: absolute;
-  font-size: 0.55rem;
-  color: rgba(255,255,255,0.4);
-  z-index: 5;
-  line-height: 1;
-}
-.case-study-card::before { top: 18px; left: 20px; }
-.case-study-card::after  { bottom: 18px; right: 20px; }
-
-.case-study-card:hover {
+.case-study-image-card:hover {
   transform: translateY(-6px);
   box-shadow: var(--shadow-lift);
 }
@@ -556,7 +515,7 @@ button { font-family: inherit; }
 .mockup-stack {
   position: relative;
   width: 100%;
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border-radius: var(--radius-xl);
   overflow: visible;
   background: #141414;
 }
@@ -565,7 +524,7 @@ button { font-family: inherit; }
   width: 100%;
   height: auto;
   display: block;
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  border-radius: var(--radius-xl);
 }
 
 .browser-header { display: none; }
@@ -583,16 +542,14 @@ button { font-family: inherit; }
 .mockup-interface-img {
   width: 100%; height: auto;
   border-radius: 8px; display: block;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
 }
 
-.project-info {
-  padding: 32px 40px 36px;
-  background: #f8f8f7;
-  border-top: 1px solid var(--line);
+/* The info block — separate from the image card, no shared border/background */
+.case-study-info-block {
+  padding: 0 8px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
 }
 
 .project-header-row {
@@ -614,13 +571,15 @@ button { font-family: inherit; }
   display: flex; flex-direction: column; gap: 4px;
 }
 
-.project-info h3 {
+.project-info h3,
+.case-study-info-block h3 {
   font-family: 'Be Vietnam Pro', sans-serif;
   font-size: 1.2rem; font-weight: 700;
   margin: 0; line-height: 1.2; color: var(--text);
 }
 
-.project-info h3 span {
+.project-info h3 span,
+.case-study-info-block h3 span {
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 400; color: var(--muted);
   font-size: 0.82rem;
@@ -633,97 +592,6 @@ button { font-family: inherit; }
   line-height: 1.65;
   margin: 0;
   max-width: 680px;
-}
-
-.project-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.project-tag {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--text-light);
-  padding: 5px 12px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--line);
-  background: var(--bg);
-  letter-spacing: 0.02em;
-}
-
-.project-metrics {
-  display: flex;
-  gap: 0;
-  border-top: 1px solid var(--line);
-  padding-top: 24px;
-}
-
-.metric {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding-right: 28px;
-  position: relative;
-}
-
-.metric + .metric {
-  padding-left: 28px;
-  padding-right: 28px;
-}
-.metric + .metric::before {
-  content: "";
-  position: absolute;
-  left: 0; top: 0;
-  height: 100%;
-  width: 1px;
-  background: var(--line);
-}
-.metric:last-child { padding-right: 0; }
-
-.metric-value {
-  font-family: 'Alexandria', sans-serif;
-  font-size: clamp(1.4rem, 2.2vw, 2rem);
-  font-weight: 700;
-  color: var(--text);
-  line-height: 1;
-  letter-spacing: -0.03em;
-}
-
-.metric-label {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--muted);
-  letter-spacing: 0.02em;
-}
-
-.project-cta-row {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.project-cta {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.82rem; font-weight: 600;
-  color: var(--text-light);
-  padding: 10px 20px;
-  border-radius: var(--radius-pill);
-  border: 1px solid var(--line);
-  background: var(--bg);
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
-              transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
-}
-
-.project-cta:hover {
-  background: var(--text);
-  color: #fff;
-  border-color: var(--text);
-  transform: scale(1.04);
 }
 
 /* =========================================================
@@ -978,10 +846,10 @@ button { font-family: inherit; }
   .desktop-only { display: none !important; }
 
   .topbar {
-    width: 96%; max-width: none;
-    height: 76px; padding: 0 22px;
+    width: 100%; max-width: none;
+    height: 76px; padding: 0 6%;
   }
-  .topbar::before { border-radius: 22px; }
+  .topbar::before { border-radius: 0; }
 
   .nav-wrapper { margin-left: auto; }
   .floating-nav { display: none; }
@@ -993,6 +861,8 @@ button { font-family: inherit; }
  * ========================================================= */
 @media (max-width: 760px) {
   .hero-full-wrapper { padding: 100px 0 60px; }
+
+  .hero-deco-outer, .hero-deco-inner { display: none; }
 
   .hero-full-wrapper .site-shell {
     flex-direction: column;
@@ -1013,15 +883,12 @@ button { font-family: inherit; }
 
   .hero-visual { width: 100%; height: 0; }
 
-  .hero-cards-container { width: 240px; left: -5%; position: relative; min-width: unset; }
-
-  .card-straight {
-    top: 0%; right: -8%;
-    transform: translateX(0) rotate(3deg);
-  }
-  .card-tilted {
-    top: 8%; left: -10%;
-    transform: translateX(0) rotate(-4deg);
+  .hero-cards-img {
+    width: 90vw;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
+    bottom: -40%;
   }
 
   .hero-text {
@@ -1032,8 +899,8 @@ button { font-family: inherit; }
 
   .social-links { justify-content: center; margin: 28px auto 0; }
 
-  .project-header-row { flex-wrap: wrap; gap: 12px; }
-  .project-cta { width: 100%; justify-content: center; text-align: center; }
+  .case-study-group { gap: 20px; }
+  .case-study-info-block { padding: 0; }
 
   .sandbox-container { flex-direction: column; }
   .sandbox-content-card { padding: 36px 32px; min-height: 200px; }
