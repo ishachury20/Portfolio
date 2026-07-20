@@ -1,167 +1,91 @@
-/*!
- * stellar.js — Production
- * Isha Chury · Interaction Designer · 2026
- */
+// stellar.js  —  Isha Chury Portfolio
 
-/* =====================================================================
- * 1. SMOOTH SCROLL
- * ===================================================================== */
-$(document).ready(function () {
-  $(".floating-nav a, .btn-primary, .project-link").on('click', function (event) {
-    if (this.hash !== "") {
-      event.preventDefault();
-      const hash = this.hash;
-      $('html, body').animate({ scrollTop: $(hash).offset().top }, 700, function () {
-        window.location.hash = hash;
-      });
-    }
+// ---- Mobile nav toggle ----
+const navToggle = document.getElementById('navToggle');
+const navLinks  = document.getElementById('navLinks');
+if (navToggle && navLinks) {
+  navToggle.addEventListener('click', () => {
+    const open = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', open);
   });
-});
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', false);
+  }));
+}
 
-/* =====================================================================
- * 2. MOBILE MENU TRIGGER
- * ===================================================================== */
-$(document).ready(function () {
-  const $trigger = $('.mobile-menu-trigger');
+// ---- Scroll reveal ----
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!prefersReduced && 'IntersectionObserver' in window) {
+  const io = new IntersectionObserver(
+    (entries) => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+    }),
+    { threshold: 0.12 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+} else {
+  document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+}
 
-  $trigger.on('click', function (e) {
-    e.stopPropagation();
-    $(this).toggleClass('is-active');
+// ---- Custom cursor — pointer devices only ----
+if (window.matchMedia('(pointer: fine)').matches && !prefersReduced) {
+  document.body.classList.add('has-custom-cursor');
+  const dot = document.getElementById('cursorDot');
+  window.addEventListener('mousemove', e => {
+    dot.style.transform = `translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
+    dot.classList.add('cursor-active');   // stays hidden until we know where the mouse is
   });
-
-  $(document).on('click', function () { $trigger.removeClass('is-active'); });
-  $('.mobile-dropdown').on('click', function (e) { e.stopPropagation(); });
-});
-
-/* =====================================================================
- * 3. CUSTOM CURSOR
- * FIX #5: Hero section elements (.hero-visual, .hero-cards-container,
- *          .hero-card, .hero-layout) are intentionally excluded from
- *          the interactive selectors so the cursor never scales on the
- *          card stack area.
- * ===================================================================== */
-$(document).ready(function () {
-  const cursor = document.querySelector('.custom-cursor');
-  if (!cursor) return;
-
-  // Lerp values for smooth cursor lag
-  let mouseX = 0, mouseY = 0;
-  let curX = 0, curY = 0;
-
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => dot.classList.add('is-hover'));
+    el.addEventListener('mouseleave', () => dot.classList.remove('is-hover'));
   });
+}
 
-  // Animate cursor with slight lag for polish
-  function animateCursor() {
-    curX += (mouseX - curX) * 0.18;
-    curY += (mouseY - curY) * 0.18;
-    cursor.style.left = curX + 'px';
-    cursor.style.top  = curY + 'px';
-    requestAnimationFrame(animateCursor);
-  }
-  animateCursor();
-
-  // FIX #5: hero-visual, hero-card, hero-cards-container EXCLUDED.
-  // Only explicit UI interactive elements trigger the hover state.
-  const interactiveSelectors = [
-    '.floating-nav a',
-    '.nav-text-link',
-    '.nav-resume-btn',
-    '.at-circle',
-    '.social-icon',
-    '.case-study-image-card',
-    '.sandbox-content-card',
-    '.sandbox-arrow',
-    '.dot',
-    '.footer-icon-link',
-    '.mobile-dropdown a',
-  ].join(', ');
-
-  document.querySelectorAll(interactiveSelectors).forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('is-hovering'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('is-hovering'));
-  });
-});
-
-/* =====================================================================
- * 4. ACTIVE NAV STATE
- * FIX #3: Work is always active — the glow never leaves.
- * The IntersectionObserver that previously swapped .active is removed.
- * ===================================================================== */
-// Work link is hardcoded .active in HTML — nothing to wire here.
-
-/* =====================================================================
- * 5. SCROLL REVEAL — case study cards fade up on enter
- * ===================================================================== */
-$(document).ready(function () {
-  const revealEls = document.querySelectorAll('.reveal-card');
-
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const el = entry.target;
-        const delay = parseInt(el.dataset.delay || 0, 10);
-        setTimeout(() => { el.classList.add('is-visible'); }, delay);
-        revealObserver.unobserve(el);
-      }
-    });
-  }, { threshold: 0.12 });
-
-  revealEls.forEach(el => revealObserver.observe(el));
-});
-
-/* =====================================================================
- * 6. SANDBOX CAROUSEL — 2 projects only, no auto-advance
- * ===================================================================== */
-$(document).ready(function () {
+// ---- Sandbox carousel ----
+(function () {
   const slides = [
-    {
-      index:       '01 / 02',
-      title:       "Let's Get Talking",
-      description: "A conversational card game engaging men in infertility dialogue to improve communication of physical, social, and mental needs",
-      tag:         "ACM DIS Pictorial",
-      img:         "images/Sandbox-1.png",
-    },
-    {
-      index:       '02 / 02',
-      title:       "Sandbox Project Two",
-      description: "Update this entry with your second sandbox project details.",
-      tag:         "In Progress",
-      img:         "images/Sandbox-1.png",
-    },
+    { title:"Let's Get Talking", desc:"A conversational card game engaging men in infertility dialogue to improve communication of physical, social, and mental needs.", credit:"ACM DIS Pictorial" },
+    { title:"Mood Ring",         desc:"A tiny wearable concept that shifts color with heart-rate variability — a weekend prototype exploring ambient emotional feedback.", credit:"Personal project" },
+    { title:"Type Walk",         desc:"A generative typography sketch where letterforms morph as you scroll, built to learn more about SVG path interpolation.", credit:"Weekend build" }
   ];
+  const visual   = document.getElementById('sandboxVisual');
+  const info     = document.getElementById('sandboxInfo');
+  const titleEl  = document.getElementById('sandboxTitle');
+  const descEl   = document.getElementById('sandboxDesc');
+  const creditEl = document.getElementById('sandboxCredit');
+  const dotsWrap = document.getElementById('sandboxDots');
+  const arrow    = document.getElementById('sandboxArrow');
+  if (!titleEl || !dotsWrap) return;
+  let index = 0;
 
-  let current = 0;
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.setAttribute('aria-label', 'Sandbox project ' + (i + 1));
+    if (i === 0) d.classList.add('active');
+    d.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(d);
+  });
 
-  const $img   = $('.sandbox-image');
-  const $index = $('.sandbox-index');
-  const $title = $('.sandbox-text h3');
-  const $desc  = $('.sandbox-text p');
-  const $tag   = $('.publication-tag');
-  const $dots  = $('.sandbox-dots .dot');
-  const $arrow = $('.sandbox-arrow');
-
-  function goTo(i) {
-    current = (i + slides.length) % slides.length;
-    const s = slides[current];
-
-    $('.sandbox-visual, .sandbox-content-card').css({ opacity: 0, transition: 'opacity 0.2s ease' });
-    setTimeout(() => {
-      $img.attr('src', s.img).attr('alt', s.title);
-      $index.text(s.index);
-      $title.text(s.title);
-      $desc.text(s.description);
-      $tag.text(s.tag);
-      $dots.removeClass('active').attr('aria-selected', 'false');
-      $dots.eq(current).addClass('active').attr('aria-selected', 'true');
-      $('.sandbox-visual, .sandbox-content-card').css({ opacity: 1 });
-    }, 200);
+  function render() {
+    const s = slides[index];
+    titleEl.textContent  = s.title;
+    descEl.textContent   = s.desc;
+    creditEl.textContent = s.credit;
+    [...dotsWrap.children].forEach((d, i) => d.classList.toggle('active', i === index));
   }
-
-  $arrow.on('click', () => goTo(current + 1));
-  $dots.on('click', function () { goTo($(this).index()); });
-});
-
-/* Section 7: hero parallax removed — image is static */
+  function goTo(i) {
+    if (i === index) return;
+    index = i;
+    if (prefersReduced) { render(); return; }
+    if (visual) visual.style.opacity = 0;
+    if (info)   info.style.opacity   = 0;
+    setTimeout(() => {
+      render();
+      if (visual) visual.style.opacity = 1;
+      if (info)   info.style.opacity   = 1;
+    }, 180);
+  }
+  if (arrow) arrow.addEventListener('click', () => goTo((index + 1) % slides.length));
+  render();
+})();
