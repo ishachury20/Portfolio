@@ -346,13 +346,39 @@
     align-items:center;
     padding:4.5% 4% 0;gap:3%;
   }
+
   /* CASE TEXT POSITION: raise margin-top to push the text lower in the frame */
   .cg-text{align-self:start;margin-top:47%;margin-left:9%;}
   .cg-text h3{font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:1.5rem;color:#fff;margin-bottom:12px;}
   .cg-text .case-tags{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:0.8rem;color:#9a988f;margin:0 0 40px;}
-  .cg-text p{font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.95rem;color:#c9c6bf;line-height:1.65;margin:0;max-width:300px;}
+  .cg-text p{font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.95rem;color:#c9c6bf;line-height:1.65;margin:0;max-width:220px;}   /* ← lower this number for a narrower box */
   /* CASE IMAGE SIZE: raise this width % to enlarge the screenshot */
-  .cg-shot{width:118%;max-width: none; margin-left: -9%; margin-bottom: -10%; display :block;align-self:end;}
+  /* CASE STUDY OVERLAY IMAGES — each card's screenshot gets its OWN class
+     because the two images are different sizes/ratios (Genesis ~1.37:1,
+     Gratitude ~1.47:1) and need different scale/position values to sit
+     right in the frame. Shared properties (display, alignment) live on
+     the base .cg-shot; scale + position are set per-card below.
+
+     TO ADJUST EACH ONE:
+       width         → SCALE. Larger % = bigger image.
+       margin-left   → HORIZONTAL position (more negative = further left).
+       margin-bottom → VERTICAL position (more negative = further down).
+  */
+  .cg-shot{max-width:none;display:block;align-self:end;}
+
+  .cg-shot-genesis{
+    width:18%;
+    min-width:0;
+    margin-left:-9%;
+    margin-bottom:-10%;
+  }
+
+  .cg-shot-gratitude{
+    width:18%;
+    min-width:0;
+    margin-left:-9%;
+    margin-bottom:-10%;
+  }
 
   @media (max-width:1240px){ .case-num{position:static;display:block;margin-bottom:10px;} }
   @media (max-width:880px){
@@ -360,9 +386,18 @@
     .cg-frame{background:var(--dark);border-radius:24px;padding:36px 26px;}
     .cg-overlay{position:static;display:block;padding:0;}
     .cg-text p{max-width:none;}
-    .cg-shot{width:100%;margin-top:22px;}
+    
   }
 
+  @media (max-width:880px){
+    .cg-shot-genesis,
+    .cg-shot-gratitude{
+      width:100%;
+      margin-top:22px;
+      margin-left:0;
+      margin-bottom:0;
+    }
+  }
 
   /* ---------------- life outside pixels (confined grid) ---------------- */
   .outside{padding:120px 0 100px;background:#fff;}
@@ -375,12 +410,11 @@
     gap:18px;margin-top:50px;
   }
   .collage figure{
-    margin:0;border-radius:16px;overflow:hidden;background:#000;
+    margin:0;overflow:hidden;background:#000;
     box-shadow:0 10px 22px rgba(0,0,0,0.1);
     transition:transform .3s ease, box-shadow .3s ease;
   }
   .collage figure img{width:100%;height:100%;object-fit:cover;display:block;}
-  .collage figure:hover{transform:scale(1.03);box-shadow:0 16px 28px rgba(0,0,0,0.16);z-index:2;}
   .collage figure.tall{grid-row:span 2;}
 
   .song-card{position:relative;}
@@ -486,11 +520,38 @@
   .gallery-track-ltr{animation:gallery-scroll 32s linear infinite reverse;}
   .gallery-row:hover .gallery-track{animation-play-state:paused;}
   .gallery-set{display:flex;gap:22px;padding-right:22px;}
-  .gallery-box{width:380px;height:300px;border-radius:18px;overflow:hidden;flex-shrink:0;box-shadow:0 10px 22px rgba(0,0,0,0.08);transition:transform .3s ease;}
-  .gallery-box:hover{transform:translateY(-4px);}
+  /* height is fixed for a clean row; width is NOT fixed — each box sizes
+     itself to whatever width its image needs at that height, so the image
+     is never cropped and never letterboxed, it just keeps its own ratio */
+  .gallery-box{height:300px;width:auto;border-radius:0px;overflow:hidden;flex-shrink:0;transition:transform .3s ease;}
+  /* contain = the full image is always visible (scaled to fit), never cropped;
+     .gallery-box's background shows in any letterboxed space around it */
+  .gallery-box img{height:100%;width:auto;display:block;}
   /* gallery boxes are CSS gradient divs — no img needed */
   @keyframes gallery-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
   @media (prefers-reduced-motion: reduce){ .gallery-track-rtl,.gallery-track-ltr{animation:none;} }
-  @media (max-width:700px){ .gallery-box{width:220px;height:170px;} }
+  @media (max-width:700px){ .gallery-box{height:170px;} }
 
   /* ---------------- closing tagline ---------------- */
+
+  /* ============================================================
+     1440 DESIGN LOCK
+     ------------------------------------------------------------
+     Above a 1440px-wide viewport, the whole page is rendered at a
+     fixed 1440px canvas and then scaled up uniformly (stellar.js
+     computes scale = window.innerWidth / 1440 and applies it here).
+     This keeps every ratio, gap, and font size identical to how the
+     page looks at exactly 1440px — it only gets visually larger,
+     never re-flows. Below 1440px, .about-page behaves exactly as
+     before (normal responsive layout, no scaling).
+     TUNING: raise/lower 1440px in BOTH this file and stellar.js
+     (the LOCK_WIDTH constant near the top) to change the breakpoint.
+     ============================================================ */
+  #scale-root{
+    width:1440px;
+    margin:0 auto;
+    transform-origin:top center;
+  }
+  @media (max-width:1440px){
+    #scale-root{width:100%;transform:none !important;}
+  }

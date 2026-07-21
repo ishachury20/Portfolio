@@ -1,5 +1,34 @@
 // stellar.js  —  Isha Chury Portfolio
 
+// ---- 1440 design lock ----
+// Above 1440px viewport width, scale the whole #scale-root canvas up
+// uniformly so the layout keeps its exact 1440px proportions instead of
+// re-flowing wider. Below 1440px this does nothing (normal responsive CSS).
+(function () {
+  const LOCK_WIDTH = 1440;   // ← change this to move the lock breakpoint
+  const root = document.getElementById('scale-root');
+  if (!root) return;
+
+  function applyScale() {
+    const vw = window.innerWidth;
+    if (vw > LOCK_WIDTH) {
+      const scale = vw / LOCK_WIDTH;
+      root.style.transform = `scale(${scale})`;
+      // the element's own box doesn't grow when transformed, so the page
+      // needs an explicit height equal to its scaled-up size or content
+      // below/scrolling breaks
+      document.body.style.height = (root.scrollHeight * scale) + 'px';
+    } else {
+      root.style.transform = 'none';
+      document.body.style.height = 'auto';
+    }
+  }
+
+  window.addEventListener('resize', applyScale);
+  window.addEventListener('load', applyScale);
+  applyScale();
+})();
+
 // ---- Mobile nav toggle ----
 const navToggle = document.getElementById('navToggle');
 const navLinks  = document.getElementById('navLinks');
