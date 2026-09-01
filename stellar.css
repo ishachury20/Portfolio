@@ -66,7 +66,13 @@
     --maxw:1020px;
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{
+    scroll-behavior:smooth;
+    /* SNAP: hero → work section only. "proximity" (not "mandatory") so it
+       settles onto whichever one you're closest to instead of hijacking
+       every scroll on the page — bump to "mandatory" for a firmer snap. */
+    scroll-snap-type:y proximity;
+  }
   body{
     margin:0;
     background:var(--dark);
@@ -118,9 +124,7 @@
 
   /* ---------------- nav (floating pill, fixed) ---------------- */
   /* fixed nav row — no bar/background of its own; only the middle
-     Work/About bubble (.nav-tabs, below) keeps a background. Hides on
-     scroll-down and reappears on scroll-up via the .nav-hidden class
-     (toggled in stellar.js). */
+     Work/About bubble (.nav-tabs, below) keeps a background. */
   .nav-tray {
     position: fixed;
     top: 5px;
@@ -131,12 +135,6 @@
     max-width: calc(var(--maxw) + 280px);
     background: transparent;
     z-index: 60;
-    transition: transform .35s ease, opacity .35s ease;
-  }
-  .nav-tray.nav-hidden{
-    transform: translate(-50%, -130%);
-    opacity: 0;
-    pointer-events: none;
   }
 
   .nav-inner{
@@ -147,20 +145,21 @@
   /* pill sits at the exact centre of the viewport regardless of side content */
   .nav-inner .nav-links{position:absolute;left:50%;transform:translateX(-50%);}
   .brand{display:flex;align-items:center;}
-  .brand-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.98rem;color:#cfccc5;}
-  .nav-links{display:flex;align-items:center;gap:24px;font-size:0.86rem;color:var(--on-dark-soft);}
+  .brand-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.98rem;color:var(--on-light);letter-spacing:0.02em;}
+  .nav-links{display:flex;align-items:center;gap:24px;font-size:0.86rem;color:#686868;}
   .nav-tabs {
     display: inline-flex;
     align-items: center;
     gap: 2px;
-    backdrop-filter: blur(12px); 
-    background: #11111134;
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(140%);
+    background: rgba(17, 17, 17, 0.38);
     border: 1px solid rgba(255, 255, 255, 0.25); /* Changed from #A8A8A8 */
     border-radius: 999px;
     padding: 7px;
     position: relative;
   }
-  .nav-tabs .tab{position:relative;font-size:0.8rem;color:var(--on-dark-soft);padding:9px 22px;border-radius:999px;transition:background .2s ease, color .2s ease;}
+  .nav-tabs .tab{position:relative;font-size:0.8rem;color:#686868;padding:9px 22px;border-radius:999px;transition:background .2s ease, color .2s ease;}
   .nav-tabs .tab:hover{color:#fff;}
   .nav-tabs .tab.active {
     background: rgba(80, 80, 80, 0.5); /* Softer background fill */
@@ -175,7 +174,7 @@
   .nav-right{display:flex;align-items:center;gap:34px;}
   .link-arrow{font-size:0.85em;display:inline-block;margin-left:2px;}
   .btn-arrow{width:10px;height:11px;display:inline-block;opacity:0.78;}
-  .nav-link-plain{display:inline-flex;align-items:center;gap:7px;color:#ebebe9;font-size:0.88rem;transition:color .2s ease, transform .2s ease;}
+  .nav-link-plain{display:inline-flex;align-items:center;gap:7px;color:#686868;font-size:0.88rem;transition:color .2s ease, transform .2s ease;}
   .nav-link-plain:hover{color:#fff;transform:translateY(-1px);}
   .nav-toggle{display:none;background:none;border:0;font-size:1.3rem;color:#fff;order:3;}
   .mobile-resume{display:none;}
@@ -209,6 +208,7 @@
     display:flex;
     flex-direction:column;
     overflow:hidden;
+    scroll-snap-align:start;
   }
   .hero{flex:1;display:flex;align-items:center;padding:96px 0 60px;}
 
@@ -326,35 +326,39 @@
   .section.work{
     background:#ffffff;position:relative;z-index:5;
     border-radius:60px 60px 0 0;margin-top:-60px;padding-top:140px;
+    scroll-snap-align:start;
   }
   .case-tags{font-size:0.86rem;color:var(--muted);margin:0 0 16px;letter-spacing:0.01em;}
 
-  /* Case card: dark frame image with the app screenshot centred on it,
-     caption below, big number floating outside the left margin */
-  .case-card-genesis{margin-bottom:120px;position:relative;}
+  /* Case card: dark frame with the app screenshot centred on it (and a
+     soft glow behind it on hover), caption BELOW the frame (icon-less
+     heading row + tags, then description), big number floating outside
+     the left margin. */
+  .case-card{margin-bottom:100px;position:relative;}
+  .case-card-link{position:absolute;inset:0;z-index:4;border-radius:24px;}
   .case-num{
     position:absolute;top:10px;left:-112px;width:90px;text-align:center;
     font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:46pt;
     color:transparent;-webkit-text-stroke:1.5px #9E9E9E;
     letter-spacing:-0.03em;user-select:none;line-height:1;
   }
-  .cg-frame{position:relative;border-radius:24px;}
+  .cg-frame{position:relative;border-radius:24px;overflow:visible;}
   /* CASE FRAME HEIGHT: the frame image's natural ratio is ~1.84 (wide & shallow).
      This stretches it vertically at every screen size — lower the number for taller. */
-  .cg-bg{width:100%;height:auto;aspect-ratio:1.72;object-fit:fill;display:block;border-radius:24px;}
-  .cg-overlay{
-    position:absolute;inset:0;display:grid;
-    grid-template-columns:minmax(0,0.55fr) minmax(0,1.62fr);  /* ← the fix */
-    align-items:center;
-    padding:4.5% 4% 0;gap:3%;
-  }
+  .cg-bg{width:100%;height:auto;aspect-ratio:1.72;object-fit:fill;display:block;border-radius:24px;position:relative;z-index:1;}
 
-  /* CASE TEXT POSITION: raise margin-top to push the text lower in the frame */
-  .cg-text{align-self:start;margin-top:47%;margin-left:9%;}
-  .cg-text h3{font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:1.5rem;color:#fff;margin-bottom:12px;}
-  .cg-text .case-tags{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:0.8rem;color:#9a988f;margin:0 0 40px;}
-  .cg-text p{font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.95rem;color:#c9c6bf;line-height:1.65;margin:0;max-width:220px;}   /* ← lower this number for a narrower box */
-  /* CASE IMAGE SIZE: raise this width % to enlarge the screenshot */
+  /* HOVER GLOW — soft blurred halo that fades in behind the overlay
+     screenshot when the card is hovered. Tune color/size/blur here. */
+  .cg-glow{
+    position:absolute;inset:6%;border-radius:50%;
+    background:radial-gradient(circle, rgba(255,255,255,0.55), rgba(255,255,255,0) 70%);
+    filter:blur(48px);
+    opacity:0;z-index:2;pointer-events:none;
+    transition:opacity .45s ease;
+  }
+  .case-card:hover .cg-glow{opacity:0.55;}
+  @media (prefers-reduced-motion: reduce){ .cg-glow{transition:none;} }
+
   /* CASE STUDY OVERLAY IMAGES — each card's screenshot gets its OWN class
      because the two images are different sizes/ratios (Genesis ~1.37:1,
      Gratitude ~1.47:1) and need different scale/position values to sit
@@ -366,39 +370,27 @@
        margin-left   → HORIZONTAL position (more negative = further left).
        margin-bottom → VERTICAL position (more negative = further down).
   */
-  .cg-shot{max-width:none;display:block;align-self:end;}
-
-  .cg-shot-genesis{
-    width:115%;
-    min-width:0;
-    margin-left:-9%;
-    margin-bottom:-10%;
+  .cg-shot{
+    position:absolute;left:50%;bottom:0;max-width:none;display:block;
+    transform:translateX(-50%);z-index:3;
   }
 
-  .cg-shot-gratitude{
-    width:95%;
-    min-width:0;
-    margin-left:-9%;
-    margin-bottom:-10%;
+  .cg-shot-genesis{ width:78%; margin-bottom:-6%; }
+  .cg-shot-gratitude{ width:68%; margin-bottom:-6%; }
+
+  /* caption block — lives OUTSIDE the frame now */
+  .cg-caption{padding-top:28px;}
+  .cg-caption-head{
+    display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 16px;margin-bottom:10px;
   }
+  .cg-caption-head h3{font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:1.4rem;color:var(--ink);margin:0;}
+  .cg-caption .case-tags{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:0.8rem;color:var(--muted);margin:0;}
+  .cg-caption p{font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.95rem;color:var(--ink-soft);line-height:1.65;margin:0;max-width:520px;}
 
   @media (max-width:1240px){ .case-num{position:static;display:block;margin-bottom:10px;} }
   @media (max-width:880px){
-    .cg-bg{display:none;}
-    .cg-frame{background:var(--dark);border-radius:24px;padding:36px 26px;}
-    .cg-overlay{position:static;display:block;padding:0;}
-    .cg-text p{max-width:none;}
-    
-  }
-
-  @media (max-width:880px){
     .cg-shot-genesis,
-    .cg-shot-gratitude{
-      width:100%;
-      margin-top:22px;
-      margin-left:0;
-      margin-bottom:0;
-    }
+    .cg-shot-gratitude{ width:88%; margin-bottom:-4%; }
   }
 
   /* ---------------- life outside pixels (confined grid) ---------------- */
