@@ -117,16 +117,10 @@
   .btn-outline:hover{transform:translateY(-2px);border-color:var(--ink);}
 
   /* ---------------- nav (floating pill, fixed) ---------------- */
-  /* blur strip covering the gap above the nav so background content is frosted */
-  .nav-blur{
-    position:fixed;top:0;left:0;right:0;height:26px;z-index:59;
-    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-    -webkit-mask-image:linear-gradient(to bottom,#000 45%,transparent);
-    mask-image:linear-gradient(to bottom,#000 45%,transparent);
-    pointer-events:none;
-  }
-
-  /* fixed dark pill bar — always visible, never detaches */
+  /* fixed nav row — no bar/background of its own; only the middle
+     Work/About bubble (.nav-tabs, below) keeps a background. Hides on
+     scroll-down and reappears on scroll-up via the .nav-hidden class
+     (toggled in stellar.js). */
   .nav-tray {
     position: fixed;
     top: 5px;
@@ -135,11 +129,15 @@
     transform: translateX(-50%);
     width: calc(100% - 24px);
     max-width: calc(var(--maxw) + 280px);
-    background: #111111;
-    border-radius: 999px;
+    background: transparent;
     z-index: 60;
+    transition: transform .35s ease, opacity .35s ease;
   }
-  /* "opening up" — the pill scales open horizontally from the centre while fading in */
+  .nav-tray.nav-hidden{
+    transform: translate(-50%, -130%);
+    opacity: 0;
+    pointer-events: none;
+  }
 
   .nav-inner{
     padding:0 28px;    /* inner side padding of the pill bar */
@@ -155,7 +153,8 @@
     display: inline-flex;
     align-items: center;
     gap: 2px;
-    background: #111111;
+    backdrop-filter: blur(12px); 
+    background: #11111134;
     border: 1px solid rgba(255, 255, 255, 0.25); /* Changed from #A8A8A8 */
     border-radius: 999px;
     padding: 7px;
@@ -164,11 +163,10 @@
   .nav-tabs .tab{position:relative;font-size:0.8rem;color:var(--on-dark-soft);padding:9px 22px;border-radius:999px;transition:background .2s ease, color .2s ease;}
   .nav-tabs .tab:hover{color:#fff;}
   .nav-tabs .tab.active {
-    background: rgba(80, 80, 80, 0.7); /* Softer background fill */
+    background: rgba(80, 80, 80, 0.5); /* Softer background fill */
     color: #fff;
-    /* Reduced opacity and spread for a smoother blend */
-    box-shadow: 0 0 15px rgb(80, 80, 80, 0.9), 
-                0 0 30px rgba(80, 80, 80, 0.8); 
+    /* Reduced opacity and spread for a smoother blend */ 
+    box-shadow: 0 0 15px rgba(85, 85, 85, 0.5); 
   }
   .nav-tabs .tab.active .tab-notch{
     content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%);
@@ -177,7 +175,7 @@
   .nav-right{display:flex;align-items:center;gap:34px;}
   .link-arrow{font-size:0.85em;display:inline-block;margin-left:2px;}
   .btn-arrow{width:10px;height:11px;display:inline-block;opacity:0.78;}
-  .nav-link-plain{display:inline-flex;align-items:center;gap:7px;color:#c2bfb8;font-size:0.88rem;transition:color .2s ease, transform .2s ease;}
+  .nav-link-plain{display:inline-flex;align-items:center;gap:7px;color:#ebebe9;font-size:0.88rem;transition:color .2s ease, transform .2s ease;}
   .nav-link-plain:hover{color:#fff;transform:translateY(-1px);}
   .nav-toggle{display:none;background:none;border:0;font-size:1.3rem;color:#fff;order:3;}
   .mobile-resume{display:none;}
@@ -200,7 +198,11 @@
   .hero-block{
     background:var(--dark);
     border-radius:0 0 60px 60px;
-    position:relative;
+    /* LOCKED HERO: pins to the top of the viewport as the page scrolls,
+       so the white .section below (higher z-index, rounded top, -60px
+       overlap) slides up and covers it like a sheet being pulled over. */
+    position:sticky;
+    top:0;
     /* +60px so the white section's -60px overlap never peeks above the fold */
     min-height:calc(100vh + 60px);
     z-index:1;
