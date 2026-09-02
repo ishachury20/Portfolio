@@ -91,36 +91,21 @@
   .eyebrow{font-size:0.92rem;color:var(--muted);margin:0 0 14px;}
   :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:4px;}
 
-  /* custom cursor (pointer devices only) — blend mode keeps it visible on light AND dark backgrounds */
+  /* custom cursor (pointer devices only) — a translucent gray dot that
+     morphs into a pill hugging whatever text/link it's over, or steps
+     back if that element already has its own bubble/background. */
   .cursor-dot{
     opacity:0;
     /* becomes visible on first mouse movement (see stellar.js) */
-    position:fixed;top:0;left:0;width:11px;height:11px;border-radius:50%;
-    background:#fff;mix-blend-mode:difference;pointer-events:none;z-index:999;
+    position:fixed;top:0;left:0;width:11px;height:11px;border-radius:999px;
+    background:rgba(104,104,104,0.32);
+    border:1px solid rgba(255,255,255,0.4);
+    pointer-events:none;z-index:999;
     transform:translate(-50%,-50%);
-    transition:width .18s ease, height .18s ease;
-    will-change:transform;
+    transition:width .22s cubic-bezier(.2,.8,.2,1), height .22s cubic-bezier(.2,.8,.2,1),
+               opacity .18s ease, background .2s ease, border-color .2s ease;
+    will-change:transform,width,height;
   }
-  .cursor-dot.cursor-active{opacity:1;}
-  .cursor-dot.is-hover{width:34px;height:34px;}
-  body.has-custom-cursor, body.has-custom-cursor a, body.has-custom-cursor button{cursor:none;}
-
-  /* reveal on scroll */
-  .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease, transform .7s ease;}
-  .reveal.is-visible{opacity:1;transform:translateY(0);}
-  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1;transform:none;transition:none;} }
-
-  .btn{
-    font-size:0.84rem;font-weight:600;padding:9px 18px;border-radius:999px;
-    display:inline-flex;align-items:center;gap:8px;border:1px solid transparent;
-    transition:transform .25s ease, background .25s ease, box-shadow .25s ease, border-color .25s ease;
-  }
-  .btn-dark{background:var(--ink);color:#fff;}
-  .btn-dark:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(21,22,26,0.25);}
-  .btn-light{background:#fff;color:var(--ink);}
-  .btn-light:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(255,255,255,0.18);}
-  .btn-outline{border-color:#cfcdc6;color:var(--ink);background:#fff;}
-  .btn-outline:hover{transform:translateY(-2px);border-color:var(--ink);}
 
   /* ---------------- nav (floating pill, fixed) ---------------- */
   /* fixed nav row — no bar/background of its own; only the middle
@@ -145,37 +130,37 @@
   /* pill sits at the exact centre of the viewport regardless of side content */
   .nav-inner .nav-links{position:absolute;left:50%;transform:translateX(-50%);}
   .brand{display:flex;align-items:center;}
-  .brand-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.98rem;color:var(--on-light);letter-spacing:0.02em;}
-  .nav-links{display:flex;align-items:center;gap:24px;font-size:0.86rem;color:#686868;}
+  .brand-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.9rem;color:#686868;letter-spacing:0.02em;}
+  .nav-links{display:flex;align-items:center;gap:24px;font-size:0.7rem;color:#686868;}
   .nav-tabs {
     display: inline-flex;
     align-items: center;
     gap: 2px;
     -webkit-backdrop-filter: blur(18px) saturate(140%);
     backdrop-filter: blur(18px) saturate(140%);
-    background: rgba(17, 17, 17, 0.38);
+    background: rgba(17, 17, 17, 0.28);
     border: 1px solid rgba(255, 255, 255, 0.25); /* Changed from #A8A8A8 */
     border-radius: 999px;
     padding: 7px;
     position: relative;
   }
-  .nav-tabs .tab{position:relative;font-size:0.8rem;color:#686868;padding:9px 22px;border-radius:999px;transition:background .2s ease, color .2s ease;}
+  .nav-tabs .tab{position:relative;font-size:0.8rem;color:#b3b3b3;padding:9px 22px;border-radius:999px;transition:background .2s ease, color .2s ease;}
   .nav-tabs .tab:hover{color:#fff;}
   .nav-tabs .tab.active {
     background: rgba(80, 80, 80, 0.5); /* Softer background fill */
-    color: #fff;
+    color: #f5f5f5;
     /* Reduced opacity and spread for a smoother blend */ 
-    box-shadow: 0 0 15px rgba(85, 85, 85, 0.5); 
+    box-shadow: 0 0 15px rgba(85, 85, 85, 0.35); 
   }
   .nav-tabs .tab.active .tab-notch{
     content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%);
-    width:18px;height:3px;border-radius:2px;background:#fff;
+    width:18px;height:3px;border-radius:2px;background:#e7e7e7;
   }
   .nav-right{display:flex;align-items:center;gap:34px;}
   .link-arrow{font-size:0.85em;display:inline-block;margin-left:2px;}
   .btn-arrow{width:10px;height:11px;display:inline-block;opacity:0.78;}
   .nav-link-plain{display:inline-flex;align-items:center;gap:7px;color:#686868;font-size:0.88rem;transition:color .2s ease, transform .2s ease;}
-  .nav-link-plain:hover{color:#fff;transform:translateY(-1px);}
+  .nav-link-plain:hover{color:#8a8a8a;transform:translateY(-1px);} /*change this to rounded button*/ 
   .nav-toggle{display:none;background:none;border:0;font-size:1.3rem;color:#fff;order:3;}
   .mobile-resume{display:none;}
 

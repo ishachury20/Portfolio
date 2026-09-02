@@ -63,13 +63,61 @@ if (!prefersReduced && 'IntersectionObserver' in window) {
 if (window.matchMedia('(pointer: fine)').matches && !prefersReduced) {
   document.body.classList.add('has-custom-cursor');
   const dot = document.getElementById('cursorDot');
+  let mouseX = 0, mouseY = 0;
+  let locked = false;   // true while the dot is snapped to a hovered element's bubble
+
+  function moveDotTo(x, y) {
+    dot.style.transform = `translate(${x}px,${y}px) translate(-50%,-50%)`;
+  }
+
   window.addEventListener('mousemove', e => {
-    dot.style.transform = `translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
+    mouseX = e.clientX; mouseY = e.clientY;
     dot.classList.add('cursor-active');   // stays hidden until we know where the mouse is
+    if (!locked) moveDotTo(mouseX, mouseY);
   });
+
+  // above these sizes a target counts as a large click area (e.g. a
+  // full-card link), not "text" to hug — it gets the plain grow instead
+  const MAX_BUBBLE_W = 260;
+  const MAX_BUBBLE_H = 90;
+
+  function hasOwnBubble(el) {
+    const cs = getComputedStyle(el);
+    const bg = cs.backgroundColor;
+    const hasBg = bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent';
+    const hasBlur = cs.backdropFilter && cs.backdropFilter !== 'none';
+    return hasBg || hasBlur;
+  }
+
   document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => dot.classList.add('is-hover'));
-    el.addEventListener('mouseleave', () => dot.classList.remove('is-hover'));
+    el.addEventListener('mouseenter', () => {
+      const rect = el.getBoundingClientRect();
+      const fitsAsBubble = rect.width <= MAX_BUBBLE_W && rect.height <= MAX_BUBBLE_H;
+
+      if (hasOwnBubble(el)) {
+        // element already reads as a button/pill (active tab, sandbox
+        // arrow, etc.) — merge into it rather than draw a second one
+        dot.classList.add('is-merged');
+      } else if (fitsAsBubble) {
+        // no bubble of its own — the cursor becomes one, sized to hug it
+        const padX = 10, padY = 6;
+        dot.style.width  = (rect.width  + padX * 2) + 'px';
+        dot.style.height = (rect.height + padY * 2) + 'px';
+        moveDotTo(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        locked = true;
+        dot.classList.add('is-bubble');
+      } else {
+        // large click target — grow in place, keep following the pointer
+        dot.classList.add('is-hover');
+      }
+    });
+    el.addEventListener('mouseleave', () => {
+      dot.classList.remove('is-hover', 'is-bubble', 'is-merged');
+      dot.style.width = '';
+      dot.style.height = '';
+      locked = false;
+      moveDotTo(mouseX, mouseY);
+    });
   });
 }
 
