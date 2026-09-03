@@ -162,10 +162,18 @@
      the same top edge, right below it. Only images (.cs-row-media) break
      out to span the full row width; everything else stays in its column. */
   .cs-row{
-    display:grid;grid-template-columns:1fr 1fr;gap:56px;
-    padding:32px 0;   /* was 64px — tighter vertical spacing between every section, Overview through Retrospective */
+    display:grid;grid-template-columns:1fr 1px 1fr;column-gap:14px;row-gap:32px;   /* was 28px — halved. Effective total gap between the two text columns is now 14+1+14=29px */
+    align-items:start;   /* explicit top-alignment — left/right columns (e.g. My Role / Overview) always start flush at the row's top edge, regardless of which column is taller */
+    padding:90px 0;   /* more room between one section and the next */
   }
-  .cs-row-media{grid-column:1 / -1;margin-top:8px;}
+  .cs-divider{background:transparent;}   /* keeps the thin strip of SPACE between columns from the grid track — no visible line */
+  .cs-row-media{grid-column:1 / -1;margin-top:36px;}   /* full row width — spans BOTH text columns, same left edge as the heading on the left */
+.cs-row-media + .cs-row-label,
+.cs-row-media + .cs-row-label + .cs-divider,
+.cs-row-media + .cs-row-label + .cs-divider + .cs-row-content{
+  margin-top:50px;
+}
+  .cs-row-media + .cs-row-media{margin-top:40px;}   /* more room between two stacked images in the same section */
   .cs-eyebrow{
     grid-column:1 / -1;
     display:flex;align-items:center;gap:25px;
@@ -184,12 +192,15 @@
      fill the whole half-width column */
   .cs-row-label{max-width:340px;}
   .cs-row-label h2{font-family:'Be Vietnam Pro',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:-0.01em;line-height:1.35;margin:0;}
-  .cs-row-content{font-family:'Be Vietnam Pro',sans-serif;font-size:0.9rem;line-height:1.55;color:var(--ink-soft);}
+  .cs-row-content{font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.9rem;line-height:1.55;color:var(--ink-soft);}
   /* Overview's own subtitle — sits directly above its body text (this
      section has no separate h2, so the label lives in the content column).
-     Be Vietnam Pro, matching the body copy underneath it. */
+     Be Vietnam Pro, matching the body copy underneath it. line-height is
+     set tight (not inherited from .cs-row-content's 1.55) so the gap to
+     the paragraph below it visually matches My Role's — a taller
+     line-height was adding extra invisible space beneath the text. */
   .cs-row-content p.cs-overview-subtitle{
-    font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:0.98rem;
+    font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:0.98rem;line-height:1.2;
     color:var(--ink);margin:0 0 10px;   /* matches .cs-meta-block h4 exactly — same line, same gap to the body text below. Needed the extra ".cs-row-content p" specificity or the plain ".cs-row-content p" rule below silently wins and overrides this margin back to 18px. */
   }
   /* one accent word inside a subtitle (h2) — italic + a different color */
@@ -198,12 +209,12 @@
   .cs-row-content p:last-child{margin-bottom:0;}
 
   /* meta block (My Role / The Team / Timeline) — sits in the Overview row's left column.
-     Base size (0.9rem) matches Overview's body text — used by My Role and Timeline.
-     The Team gets its own smaller size via .cs-meta-block-team below. */
+     Base size (0.9rem) + Medium weight matches Overview's body text — used by My Role and Timeline.
+     The Team gets its own smaller size and regular weight via .cs-meta-block-team below. */
   .cs-meta-block + .cs-meta-block{margin-top:32px;}
-  .cs-meta-block h4{font-family:'Be Vietnam Pro',sans-serif;font-size:0.98rem;font-weight:700;margin:0 0 10px;}
-  .cs-meta-block p{font-family:'Be Vietnam Pro',sans-serif;font-size:0.9rem;line-height:1.6;color:var(--ink-soft);margin:0 0 4px;}
-  .cs-meta-block-team p{font-size:0.8rem;}
+  .cs-meta-block h4{font-family:'Be Vietnam Pro',sans-serif;font-size:0.98rem;font-weight:700;line-height:1.2;margin:0 0 10px;}
+  .cs-meta-block p{font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.9rem;line-height:1.6;color:var(--ink-soft);margin:0 0 4px;}
+  .cs-meta-block-team p{font-size:0.8rem;font-weight:400;}   /* excluded from the Medium-weight change */
 
   /* screenshots / mockups inside the right column */
   .cs-shot{margin:8px 0 0;}
@@ -211,27 +222,36 @@
   /* ---------------- annotation toggle (pure CSS, no JS) ----------------
      The toggle sits ABOVE the image, in normal flow (not overlaid on it).
      .annot-media is the positioning context for the annotation tags. */
-  .annot-toggle-row{display:flex;justify-content:flex-end;margin-bottom:12px;}
+  .annot-toggle-row{display:flex;justify-content:flex-end;align-items:center;margin-bottom:24px;}
   .annot-toggle{
     display:inline-flex;align-items:center;gap:10px;
-    font-family:'Space Grotesk',sans-serif;font-size:0.78rem;font-weight:600;color:var(--ink-soft);
-    background:#fff;border:1px solid var(--line);border-radius:999px;
-    padding:6px 14px 6px 16px;box-shadow:0 6px 16px rgba(0,0,0,.08);cursor:pointer;user-select:none;
+    font-family:'Be Vietnam Pro',sans-serif;font-size:0.75rem;font-weight:450;color:#2f2f2fdd;
+    cursor:pointer;user-select:none;
   }
   .annot-toggle input{
     appearance:none;-webkit-appearance:none;width:34px;height:20px;border-radius:999px;
-    background:#d9d7d0;position:relative;outline:none;cursor:pointer;transition:background .2s ease;margin:0;
+    background:#fff;border:1px solid #2f2f2f;   /* the reference shows a visible border around the track in BOTH states — this was missing before */
+    position:relative;outline:none;cursor:pointer;transition:background .2s ease, border-color .2s ease;margin:0;
   }
   .annot-toggle input::before{
-    content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;
-    background:#fff;transition:transform .2s ease;box-shadow:0 1px 3px rgba(0,0,0,.3);
+    content:"";position:absolute;top:1px;left:1px;width:16px;height:16px;border-radius:50%;
+    background:#2f2f2f;   /* off = dark knob on a light track */
+    transition:transform .2s ease, background .2s ease;
   }
-  .annot-toggle input:checked{background:#2f2f2f;}
-  .annot-toggle input:checked::before{transform:translateX(14px);}
+  .annot-toggle input:checked{background:#2f2f2f;border-color:#2f2f2f;}
+  .annot-toggle input:checked::before{background:#fff;transform:translateX(14px);}   /* on = white knob on a dark track — this color swap was missing before, the knob stayed dark in both states */
   .annot-media{position:relative;}
 
   .annot-layer{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .25s ease;}
   .annot-frame:has(.annot-toggle input:checked) .annot-layer{opacity:1;}
+
+  /* image-swap variant: two full images stacked — base + annotated —
+     crossfading instead of drawing separate CSS tags on top */
+  .annot-swap-img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:0;transition:opacity .25s ease;pointer-events:none;
+  }
+  .annot-frame:has(.annot-toggle input:checked) .annot-swap-img{opacity:1;}
 
   .annot-tag{
     position:absolute;max-width:230px;
@@ -248,15 +268,29 @@
     box-shadow:0 14px 30px rgba(63,125,92,.35);
   }
 
-  /* ---------------- problem card grid (right column) ---------------- */
-  .cs-problem-grid{display:grid;grid-template-columns:1fr;gap:14px;}
-  .cs-problem-card{background:var(--cs-card-bg);border:1px solid var(--line);border-radius:var(--radius-md);padding:20px;}
-  .cs-problem-card .cs-p-icon{
-    width:30px;height:30px;border-radius:9px;background:var(--cs-accent-soft);color:var(--cs-accent);
-    display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-size:0.85rem;font-weight:700;
+  /* ---------------- problem card grid (full row width, below the text) ---------------- */
+  .cs-problem-grid{display:grid;grid-template-columns:1fr 1fr;row-gap:36px;column-gap:29px;}   /* column-gap MUST match the outer row's effective gap (14px + 1px divider + 14px = 29px) or the two grids' column boundaries drift apart, even though both are nominally "1fr 1fr" */
+  .cs-problem-card{
+    display:flex;align-items:flex-start;justify-content:center;gap:32px;   /* justify-content:center + gap (was 18px) — the icon+text pairing now sits as one centered group, not stretched edge-to-edge */
+    background:#FEFEFE;border:1px solid var(--line);border-radius:15px;padding:32px;    /* side padding back to 24px (was 32px) — less empty space around the group */
   }
-  .cs-problem-card h5{font-size:0.9rem;font-weight:700;margin:0 0 6px;}
-  .cs-problem-card p{font-size:0.84rem;line-height:1.55;color:var(--ink-soft);margin:0;}
+  /* left-column cards (thumbs-up) get a dark outline, right-column cards (thumbs-down) get a lighter gray one */
+  .cs-problem-grid .cs-problem-card:nth-child(odd){border-color:#191919;}
+  .cs-problem-grid .cs-problem-card:nth-child(even){border-color:#868585;}
+  .cs-problem-card .cs-p-icon{
+    display:flex;align-items:center;flex-shrink:0;   /* icon column — fixed width, nothing stacked under it */
+  }
+  .cs-p-icon-svg{width:36px;height:36px;display:block;}   /* was 30px — slightly bigger */
+  /* thumbs-up: green outline/fill + matching glow */
+  .cs-p-icon-up{filter:drop-shadow(0 0 5px rgba(30,129,23,.45));}
+  .cs-p-icon-up path{fill:#A5E093;stroke:#1E8117;stroke-width:0.6;stroke-linejoin:round;stroke-linecap:round;}
+  /* thumbs-down: red outline/fill + matching glow */
+  .cs-p-icon-down{filter:drop-shadow(0 0 5px rgba(201,64,60,.45));}
+  .cs-p-icon-down path{fill:#ECA09E;stroke:#C9403C;stroke-width:0.6;stroke-linejoin:round;stroke-linecap:round;}
+  .cs-p-text{flex:0 1 auto;max-width:290px;min-width:0;}   /* was 230px — wider text box leaves less empty space around the centered group */
+  .cs-problem-card h5{font-family:'Be Vietnam Pro',sans-serif;font-size:1rem;font-weight:500;margin:0 0 12px;}
+  .cs-problem-card p{font-family:'Be Vietnam Pro',sans-serif;font-weight:400;font-size:0.75rem;line-height:1.55;color:var(--ink-soft);margin:0;}
+  .cs-problem-card p b,.cs-problem-card p strong{font-weight:600;font-style:italic;color:var(--ink);}
 
   /* ---------------- feature row (Key Features) ---------------- */
   .cs-feature-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px;}
@@ -287,7 +321,8 @@
 
   /* ---------------- responsive ---------------- */
   @media (max-width:1000px){
-    .cs-row{grid-template-columns:1fr;gap:20px;padding:48px 0;}
+    .cs-row{grid-template-columns:1fr;gap:20px;padding:90px 0;}
+    .cs-divider{display:none;}
     .cs-problem-grid{grid-template-columns:1fr 1fr;}
     .cs-feature-row{grid-template-columns:1fr 1fr;}
     .cs-retro-grid{grid-template-columns:1fr;}
@@ -363,6 +398,7 @@
           <p>6 months, launched in September 2025</p>
         </div>
       </div>
+      <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
         <p class="cs-overview-subtitle">Overview</p>
         <p>Following a research study revealing the discrepancies between online gratitude and user fears, I joined the Tech4Good Lab team to re-design the platform experience from the ground up.</p>
@@ -377,13 +413,28 @@
       <div class="cs-row-label reveal">
         <h2>The first version taught us that people loved the idea but <em>feared</em> the execution</h2>
       </div>
+      <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
         <p>Before I joined the team, the Tech4Good Lab had already run a V1 study — an initial exploration into whether a digital gratitude-sharing platform could work. The V1 platform was intentionally simple: users could write gratitude notes and share them with a community. It was originally a bare-bones proof of concept, built to test whether the core idea was viable.</p>
         <p>The V1 team gathered rich qualitative data from participants who used the platform, and the findings were full of contradictions. That tension — proven interest, broken execution — became our starting point. My team was tasked with V2: redesigning the platform from the ground up to keep the benefits while removing the fear.</p>
       </div>
       <div class="cs-row-media reveal">
+        <div class="cs-shot annot-frame">
+          <div class="annot-toggle-row">
+            <label class="annot-toggle">
+              Show Annotations
+              <input type="checkbox">
+            </label>
+          </div>
+          <div class="annot-media">
+            <img src="Images/gratitude-1.jpg" alt="V1 Gratitude Platform interactive prototype" style="width:100%;display:block;">
+            <img src="Images/gratitude-1-ann.jpg" alt="V1 Gratitude Platform prototype with annotations describing the drafting and publishing flow" class="annot-swap-img">
+          </div>
+        </div>
+      </div>
+      <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <div class="img-ph" style="--ph-ratio:16/10;">Screenshot — V1 platform mockup</div>
+          <img src="Images/gratitude-2.jpg" alt="Visualized quotes from V1 research participants" style="width:100%;display:block;">
         </div>
       </div>
     </section>
@@ -392,26 +443,100 @@
     <section class="cs-row" id="problem">
       <p class="cs-eyebrow">The Problem</p>
       <div class="cs-row-label reveal">
-        <h2><em>Vulnerability</em> was the real barrier, not the interface</h2>
+        <h2>How do you <em>design</em> for genuinely sharing gratitude when people are afraid of being seen?</h2>
       </div>
+      <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>Research synthesis surfaced a handful of recurring fears that kept people from writing and sharing gratitude notes, even when they wanted to.</p>
+        <p>Participants wanted the benefits of communal gratitude, but the V1 design made them feel like they were posting for an audience rather than reflecting for themselves. There was no onboarding to explain the platform's purpose, no guidance for writing, no privacy controls, and no way to connect notes to the people who inspired them. The concept was promising, but the experience wasn't ready for real emotional investment.</p>
+      </div>
+
+      <div class="cs-row-media reveal">
         <div class="cs-problem-grid">
           <div class="cs-problem-card">
-            <div class="cs-p-icon">01</div>
-            <h5>Fear of being read wrong</h5>
-            <p>Notes felt too permanent and too public to risk misinterpretation.</p>
+            <div class="cs-p-icon">
+              <svg class="cs-p-icon-svg cs-p-icon-up" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
+              </svg>
+            </div>
+            <div class="cs-p-text">
+              <h5>Reduced stress after writing</h5>
+              <p><b>95%</b> of participants reported feeling calmer and more grounded after articulating gratitude</p>
+            </div>
           </div>
           <div class="cs-problem-card">
-            <div class="cs-p-icon">02</div>
-            <h5>Unclear audience</h5>
-            <p>People didn't know who would actually see what they wrote.</p>
+            <div class="cs-p-icon">
+              <svg class="cs-p-icon-svg cs-p-icon-down" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(0,24) scale(1,-1)">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
+                </g>
+              </svg>
+            </div>
+            <div class="cs-p-text">
+              <h5>Appearing performative online</h5>
+              <p><b>67%</b> of participants worried their posts would read as self-congratulatory or insincere</p>
+            </div>
           </div>
           <div class="cs-problem-card">
-            <div class="cs-p-icon">03</div>
-            <h5>No easy entry point</h5>
-            <p>The blank page was intimidating with no prompts or structure.</p>
+            <div class="cs-p-icon">
+              <svg class="cs-p-icon-svg cs-p-icon-up" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
+              </svg>
+            </div>
+            <div class="cs-p-text">
+              <h5>Recalling positive memories</h5>
+              <p>The act of writing brought back joyful memories participants had previously forgotten</p>
+            </div>
           </div>
+          <div class="cs-problem-card">
+            <div class="cs-p-icon">
+              <svg class="cs-p-icon-svg cs-p-icon-down" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(0,24) scale(1,-1)">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
+                </g>
+              </svg>
+            </div>
+            <div class="cs-p-text">
+              <h5>Concerns about privacy</h5>
+              <p><b>75%</b> felt sharing personal gratitude was like exposing inner thoughts to judgment</p>
+            </div>
+          </div>
+          <div class="cs-problem-card">
+            <div class="cs-p-icon">
+              <svg class="cs-p-icon-svg cs-p-icon-up" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
+              </svg>
+            </div>
+            <div class="cs-p-text">
+              <h5>Increased self-reflection</h5>
+              <p>Writing helped users process their values and what mattered to them</p>
+            </div>
+          </div>
+          <div class="cs-problem-card">
+            <div class="cs-p-icon">
+              <svg class="cs-p-icon-svg cs-p-icon-down" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <g transform="translate(0,24) scale(1,-1)">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
+                </g>
+              </svg>
+            </div>
+            <div class="cs-p-text">
+              <h5>Being misinterpreted</h5>
+              <p><b>50%</b> of participants feared readers might read tone wrong or assume ulterior motives</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal">
+        <h2>Our three <em>core challenges</em> and guiding questions</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>This gap — between what people wanted to feel and what the platform made them feel — became our design territory. We translated the V1 research into three questions that would guide every decision in V2.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/gratitude-3.jpg" alt="Three core challenges — User Protection, User Introspection, User Engagement — each with a How Might We question" style="width:100%;display:block;">
         </div>
       </div>
     </section>
@@ -422,6 +547,7 @@
       <div class="cs-row-label reveal">
         <h2>A guided first-run flow that earns <em>trust</em> before asking for vulnerability</h2>
       </div>
+      <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
         <p>We rebuilt onboarding around small, low-stakes commitments — a private draft before a public post, a single trusted recipient before a whole community.</p>
       </div>
@@ -438,6 +564,7 @@
       <div class="cs-row-label reveal">
         <h2>Four moments that carry the <em>whole</em> experience</h2>
       </div>
+      <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
         <div class="cs-feature-row">
           <div class="cs-feature-item">
@@ -470,6 +597,7 @@
       <div class="cs-row-label reveal">
         <h2>Reusable components, tested as a <em>live</em> prototype</h2>
       </div>
+      <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
         <p>Card, envelope, and deck components were built and tested as an interactive prototype rather than static comps, so the team could validate the recipient-tagging flow before engineering picked it up.</p>
       </div>
@@ -504,6 +632,7 @@
       <div class="cs-row-label reveal">
         <h2>What I'd carry <em>forward</em>, and what's next</h2>
       </div>
+      <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
         <div class="cs-retro-grid">
           <div class="cs-retro-col">
