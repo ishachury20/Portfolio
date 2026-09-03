@@ -94,25 +94,27 @@
     color:#f2f2f0;font-family:'Be Vietnam Pro',sans-serif;font-size:0.75rem;
   }
   .cs-hero-title-wrap{
-    flex:1;display:flex;align-items:center;justify-content:center;
-    padding:90px 24px 0;position:relative;z-index:3;   /* ← must sit ABOVE .cs-cover-wrap (z-index:2) or the pulled-up cover image covers it */
+    flex:1;display:flex;align-items:flex-start;justify-content:center;   /* row-direction flex box: justify-content is horizontal, align-items is vertical — flex-start here raises the title, center keeps it centered horizontally */
+    padding:36px 24px 0;position:relative;z-index:3;   /* ← must sit ABOVE .cs-cover-wrap (z-index:2) or the pulled-up cover image covers it */
   }
   .cs-hero-title{
-    margin:0;text-align:center;font-family:'Be Vietnam Pro',sans-serif;font-weight:1200;
-    font-size:clamp(2.6rem,6vw,3.3rem);letter-spacing:-0.02em;
+    margin:0 0 24px;text-align:center;font-family:'Be Vietnam Pro',sans-serif;font-weight:800;   /* 1200 isn't a valid font-weight — fixed to 800 (bold); margin-bottom adds breathing room before the image below */
+    font-size:clamp(2.6rem,6vw,3.1rem);letter-spacing:-0.02em;
     /* gradient: white at top → #9AA283 at bottom, plus a soft glow */
     background:linear-gradient(180deg,#FFFFFF 0%,#9AA283 100%);
     -webkit-background-clip:text;background-clip:text;
     color:transparent;-webkit-text-fill-color:transparent;
-    text-shadow:0 0 40px rgba(255,255,255,0.35), 0 0 80px rgba(154,162,131,0.25);
+    text-shadow:0 0 40px rgba(84, 84, 84, 0.66), 0 0 80px rgba(51,51,51,0.25);
   }
 
-  /* cover mockup breaks out of the hero's bottom edge onto the white page —
-     pushed further down (smaller overlap) so it never reaches the title above it */
-  .cs-cover-wrap{position:relative;z-index:2;margin-top:-6%;padding-bottom:70px;}
+  /* Cover image sits in plain normal flow now — no negative margin, no
+     z-index, nothing competing with .cs-main for stacking order. This is
+     deliberate: the previous overlap trick kept causing layering bugs
+     between the image, the dark hero, and the white section. */
+  .cs-cover-wrap{padding-bottom:70px;}
   .cs-cover{
-    border-radius:22px;overflow:hidden;background:#fff;
-    box-shadow:0 50px 90px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.06) inset;
+    position:relative;z-index:10;   /* explicitly above .cs-main (no z-index/auto) — .cs-hero has no z-index of its own, so this competes directly and wins no matter how far .cs-main is pulled up */
+    border-radius:30px;overflow:hidden;background:#fff;
   }
   .cs-cover .img-ph{border-radius:0px;border:none;}
 
@@ -127,8 +129,8 @@
 
   /* ---------------- page surface ---------------- */
   .cs-main{
-    background:#fff;position:relative;z-index:5;padding-bottom:40px;
-    border-radius:60px 60px 0 0;margin-top:-190px;padding-top:60px;   /* rounded top corners, same trick as the landing page's .section.work */
+    background:#fff;position:relative;padding-bottom:40px;z-index:1;   /* explicitly lower than .cs-cover (z-index:10) — the image wins the stacking fight regardless of overlap amount */
+    border-radius:60px 60px 0 0;margin-top:-330px;padding-top:380px;   /* rounded top corners, same trick as the landing page's .section.work — margin-top controls how far up it's pulled */
   }
 
   /* ---------------- FIXED "CONTENT" sidebar — outside the main margins ---------------- */
@@ -145,7 +147,7 @@
     font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:0.72rem;
     letter-spacing:0.15em;text-transform:uppercase;color:#BCBCBC;margin:0 0 30px;
   }
-  .cs-content-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:24px;}
+  .cs-content-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:15px;}
   .cs-content-list a{
     display:block;text-align:left;
     font-family:'Space Grotesk',sans-serif;font-size:0.72rem;font-weight:500;color:#BCBCBC;
@@ -161,7 +163,7 @@
      out to span the full row width; everything else stays in its column. */
   .cs-row{
     display:grid;grid-template-columns:1fr 1fr;gap:56px;
-    padding:64px 0;
+    padding:32px 0;   /* was 64px — tighter vertical spacing between every section, Overview through Retrospective */
   }
   .cs-row-media{grid-column:1 / -1;margin-top:8px;}
   .cs-eyebrow{
@@ -186,19 +188,22 @@
   /* Overview's own subtitle — sits directly above its body text (this
      section has no separate h2, so the label lives in the content column).
      Be Vietnam Pro, matching the body copy underneath it. */
-  .cs-overview-subtitle{
-    font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:1rem;
-    color:var(--ink);margin:0 0 18px;
+  .cs-row-content p.cs-overview-subtitle{
+    font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:0.98rem;
+    color:var(--ink);margin:0 0 10px;   /* matches .cs-meta-block h4 exactly — same line, same gap to the body text below. Needed the extra ".cs-row-content p" specificity or the plain ".cs-row-content p" rule below silently wins and overrides this margin back to 18px. */
   }
   /* one accent word inside a subtitle (h2) — italic + a different color */
   .cs-row-label h2 em{font-style:italic;color:#565656;}
-  .cs-row-content p{margin:0 0 18px;}
+  .cs-row-content p{margin:0 0 30px;}   /* was 18px — more room between paragraphs */
   .cs-row-content p:last-child{margin-bottom:0;}
 
-  /* meta block (My Role / The Team / Timeline) — sits in the Overview row's left column */
+  /* meta block (My Role / The Team / Timeline) — sits in the Overview row's left column.
+     Base size (0.9rem) matches Overview's body text — used by My Role and Timeline.
+     The Team gets its own smaller size via .cs-meta-block-team below. */
   .cs-meta-block + .cs-meta-block{margin-top:32px;}
   .cs-meta-block h4{font-family:'Be Vietnam Pro',sans-serif;font-size:0.98rem;font-weight:700;margin:0 0 10px;}
-  .cs-meta-block p{font-family:'Be Vietnam Pro',sans-serif;font-size:0.87rem;line-height:1.6;color:var(--ink-soft);margin:0 0 4px;}
+  .cs-meta-block p{font-family:'Be Vietnam Pro',sans-serif;font-size:0.9rem;line-height:1.6;color:var(--ink-soft);margin:0 0 4px;}
+  .cs-meta-block-team p{font-size:0.8rem;}
 
   /* screenshots / mockups inside the right column */
   .cs-shot{margin:8px 0 0;}
@@ -221,7 +226,7 @@
     content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;
     background:#fff;transition:transform .2s ease;box-shadow:0 1px 3px rgba(0,0,0,.3);
   }
-  .annot-toggle input:checked{background:var(--cs-accent);}
+  .annot-toggle input:checked{background:#2f2f2f;}
   .annot-toggle input:checked::before{transform:translateX(14px);}
   .annot-media{position:relative;}
 
@@ -329,24 +334,8 @@
   </div>
 
   <div class="cs-wrap cs-cover-wrap">
-    <div class="cs-cover reveal annot-frame">
-      <div class="annot-toggle-row">
-        <label class="annot-toggle">
-          Show Annotations
-          <input type="checkbox">
-        </label>
-      </div>
-      <div class="annot-media">
-        <div class="img-ph" style="--ph-ratio:16/9;">Cover screenshot — "A Special Thanks from UCSC Students" hero</div>
-        <div class="annot-layer">
-          <div class="annot-tag" style="top:58%;left:6%;">
-            <h5>Best Advisor</h5>
-            <p>"The working experience with my advisor is the best I've ever had. She's so energetic and passionate about exploring science — always leading me to think, dig, and solve."</p>
-            <div class="annot-by"><span class="annot-avatar"></span>Dustin, UCSC Student</div>
-          </div>
-          <div class="annot-bubble" style="top:34%;right:6%;">Our platform automatically generates recipient groups your note could be given to — select at least one you'd like to share with.</div>
-        </div>
-      </div>
+    <div class="cs-cover reveal">
+      <img src="Images/gratitude-hero.jpg" alt="A Special Thanks from UCSC Students — the Gratitude hero, with the recipient-group callout and a Best Advisor note visible" style="width:100%;display:block;">
     </div>
   </div>
 </header>
@@ -361,7 +350,7 @@
           <h4>My Role</h4>
           <p>UI Designer — Visual Design, Interaction Design, User Flows, Prototyping</p>
         </div>
-        <div class="cs-meta-block">
+        <div class="cs-meta-block cs-meta-block-team">
           <h4>The Team</h4>
           <p>Kehua Lei — Project Manager</p>
           <p>Caeley Moushegian — Design Lead</p>
@@ -383,7 +372,7 @@
     </section>
 
     <!-- ============ CONTEXT ============ -->
-    <section class="cs-row" id="context">
+    <section class="cs-row" id="context" style="border-top:1px solid var(--line);margin-top:24px;padding-top:56px;">
       <p class="cs-eyebrow">Context</p>
       <div class="cs-row-label reveal">
         <h2>The first version taught us that people loved the idea but <em>feared</em> the execution</h2>
