@@ -130,7 +130,7 @@
   /* ---------------- page surface ---------------- */
   .cs-main{
     background:#fff;position:relative;padding-bottom:40px;z-index:1;   /* explicitly lower than .cs-cover (z-index:10) — the image wins the stacking fight regardless of overlap amount */
-    border-radius:60px 60px 0 0;margin-top:-330px;padding-top:380px;   /* rounded top corners, same trick as the landing page's .section.work — margin-top controls how far up it's pulled */
+    border-radius:60px 60px 0 0;margin-top:-330px;padding-top:300px;   /* rounded top corners, same trick as the landing page's .section.work — margin-top controls how far up it's pulled; padding-top reduced from 380px to bring Overview up a bit */
   }
 
   /* ---------------- FIXED "CONTENT" sidebar — outside the main margins ---------------- */
@@ -215,6 +215,10 @@
   .cs-meta-block h4{font-family:'Be Vietnam Pro',sans-serif;font-size:0.98rem;font-weight:700;line-height:1.2;margin:0 0 10px;}
   .cs-meta-block p{font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.9rem;line-height:1.6;color:var(--ink-soft);margin:0 0 4px;}
   .cs-meta-block-team p{font-size:0.8rem;font-weight:400;}   /* excluded from the Medium-weight change */
+  /* Overview section only: My Role / Timeline body text and the Overview
+     paragraphs, brought down to roughly match The Team's 0.8rem */
+  #overview .cs-meta-block p{font-size:0.8rem;}
+  #overview .cs-row-content{font-size:0.8rem;}
 
   /* screenshots / mockups inside the right column */
   .cs-shot{margin:8px 0 0;}
@@ -484,7 +488,7 @@
     </section>
 
     <!-- ============ CONTEXT ============ -->
-    <section class="cs-row" id="context" style="border-top:1px solid var(--line);margin-top:24px;padding-top:56px;">
+    <section class="cs-row" id="context" style="border-top:1px solid transparent;border-image:linear-gradient(to right, #FFFFFF 0%, #909090 50%, #FFFFFF 100%) 1;margin-top:18px;padding-top:94px;">
       <p class="cs-eyebrow">Context</p>
       <div class="cs-row-label reveal">
         <h2>The first version taught us that people loved the idea but <em>feared</em> the execution</h2>
