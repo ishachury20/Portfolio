@@ -324,21 +324,76 @@
      as .cs-problem-card: icon fixed-width column, everything else (title
      + body) grouped together as one text column, the whole icon+text
      pairing grouped and centered within the card. */
-  .cs-takeaway-list{display:flex;flex-direction:column;gap:20px;margin-top:34px;}
+  .cs-takeaway-list{display:flex;flex-direction:column;gap:36px;margin-top:42px;}
   .cs-takeaway-card{
     display:flex;align-items:flex-start;justify-content:center;gap:24px;   /* grouped + centered, same as .cs-problem-card */
     background:#FEFEFE;border:1px solid #868585;border-radius:15px;
-    padding-top:34px;padding-bottom:34px;
+    padding-top:44px;padding-bottom:44px;
     padding-left:24px;padding-right:24px;   /* ← left/right padding on the rectangle */
   }
   .cs-takeaway-icon{
     display:flex;align-items:center;flex-shrink:0;color:#809C1B;
-    filter:drop-shadow(0 0 5px rgba(106, 165, 47, 0.393));
+    filter:drop-shadow(0 0 5px rgba(156, 201, 102, 0.4));
   }
-  .cs-takeaway-icon svg{width:32px;height:32px;display:block;}
+  .cs-takeaway-icon svg{width:28px;height:28px;display:block;}
   .cs-takeaway-text{flex:0 1 auto;max-width:310px;min-width:0;}
-  .cs-takeaway-card h5{font-family:'Be Vietnam Pro',sans-serif;font-size:1rem;line-height:1.35; font-weight:500;margin:0 0 14px;}
-  .cs-takeaway-card p{font-family:'Be Vietnam Pro',sans-serif;font-weight:400;font-size:0.8rem;line-height:1.55;color:var(--ink-soft);margin:0;}
+  .cs-takeaway-card h5{font-family:'Be Vietnam Pro',sans-serif;font-size:1rem;font-weight:500;margin:0 0 14px;}
+  .cs-takeaway-card p{font-family:'Be Vietnam Pro',sans-serif;font-weight:400;font-size:0.83rem;line-height:1.55;color:var(--ink-soft);margin:0;}
+
+  /* ---------------- onboarding "mini card" rectangles ----------------
+     A single summary rectangle in the left column, a stacked list of
+     icon+text rectangles in the right column. All share one outline
+     color; icon color/glow is set per use (red for V1 pain points,
+     green for V2 benefits) via .cs-mini-icon-red / .cs-mini-icon-green. */
+  .cs-mini-card{
+    display:flex;align-items:flex-start;justify-content:center;gap:26px;   /* was 14px — more room between icon and text; centered as one group */
+    border:1px solid #868585;border-radius:15px;padding:26px 24px;background:#fff;   /* was 20px vertical — taller rectangles */
+  }
+  .cs-mini-card-fill{background:#FBFBFB;}
+  /* the single left-column rectangle should span the FULL column width,
+     same as the stacked cards on the right — .cs-row-label normally caps
+     at 340px for headings, so that cap is lifted whenever it holds a
+     mini-card instead */
+  .cs-row-label:has(.cs-mini-card),
+  .cs-row-label:has(.cs-shot),
+  .cs-row-label:has(img){max-width:none;}
+  .cs-mini-list{display:flex;flex-direction:column;gap:26px;}
+  .cs-mini-icon{display:flex;align-items:center;flex-shrink:0;margin-top:2px;}
+  .cs-mini-icon svg{width:20px;height:20px;display:block;}
+  .cs-mini-icon-red{color:#D52F2F;filter:drop-shadow(0 0 6px #F8D8D8);}
+  .cs-mini-icon-green{color:#3DA51E;filter:drop-shadow(0 0 6px #C2F8B9);}
+  /* nested-circle number badge (1, 2...) used in "From a blank page to guided reflection" —
+     white ring between the green fill and a thin outer ring, giving the "nested circle" look */
+  .cs-mini-num{
+    width:30px;height:30px;border-radius:50%;flex-shrink:0;   /* was 24px — a little bigger */
+    display:flex;align-items:center;justify-content:center;
+    background:#6b8e23;border:2.5px solid #fff;box-shadow:0 0 0 1px #2F2F2F;   /* outer ring was #A9C98A */
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.78rem;color:#fff;
+  }
+  .cs-mini-card p{flex:0 1 auto;max-width:340px;font-family:'Be Vietnam Pro',sans-serif;font-weight:400;font-size:0.82rem;line-height:1.55;color:var(--ink-soft);margin:0;}   /* was 460px — narrower box, more visible centering */
+  .cs-mini-label{font-style:italic;font-weight:600;color:var(--ink);}
+  /* right-column stack: only the outer top/bottom ends of the whole
+     group are rounded (15px) — every other corner is a tight 4px,
+     so the list reads as one grouped strip rather than separate cards */
+  .cs-mini-list .cs-mini-card{border-radius:4px;}
+  .cs-mini-list .cs-mini-card:first-child{border-radius:15px 15px 4px 4px;}
+  .cs-mini-list .cs-mini-card:last-child{border-radius:4px 4px 15px 15px;}
+  /* thumbs-up/down rectangles (Key Features note-redesign section) are an
+     exception to the graduated-corner treatment above — every one of
+     them stays a uniform 15px, and their icons are bigger */
+  .cs-mini-card.cs-mini-card:has(.cs-p-icon-up),
+  .cs-mini-card.cs-mini-card:has(.cs-p-icon-down){border-radius:15px;}
+  .cs-mini-card:has(.cs-p-icon-up) .cs-mini-icon svg,
+  .cs-mini-card:has(.cs-p-icon-down) .cs-mini-icon svg{width:30px;height:30px;}
+  /* extra breathing room before "We rebuilt the entry around trust..." —
+     chained across label+divider+content so all three move together
+     and stay top-aligned (margin-top on just the label alone would
+     leave the divider/body text behind) */
+  .cs-extra-gap-label,
+  .cs-extra-gap-label + .cs-divider,
+  .cs-extra-gap-label + .cs-divider + .cs-row-content{
+    margin-top:48px;
+  }
 
   /* ---------------- responsive ---------------- */
   @media (max-width:1000px){
@@ -566,15 +621,124 @@
     <section class="cs-row" id="onboarding">
       <p class="cs-eyebrow">Onboarding</p>
       <div class="cs-row-label reveal">
-        <h2>A guided first-run flow that earns <em>trust</em> before asking for vulnerability</h2>
+        <h2>First impressions are <em>emotional</em> — ours was built to welcome, not perform</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>We rebuilt onboarding around small, low-stakes commitments — a private draft before a public post, a single trusted recipient before a whole community.</p>
+        <p>V1 dropped users onto a blank dashboard with no context. No explanation of why gratitude matters, no guidance on how to participate, no reassurance about what happens to their words. Users felt like they were performing for an audience before they even understood the platform's purpose.</p>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <div class="img-ph" style="--ph-ratio:16/9;">Screenshot — onboarding flow, step navigation</div>
+          <img src="Images/gratitude-4.jpg" alt="V1 annotations on the Thank You card flow — callouts for no context, no framing, no prompt guidance, no privacy controls, and performance pressure" style="width:100%;display:block;">
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal">
+        <h2>The platform demanded <em>vulnerability</em> before earning trust</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>Fixing the underlying issues meant rethinking the entire entry experience. Every step in V1 assumed users were ready to be seen — input personal information immediately, browse public decks with full names attached, write with no guidance, post with no choice. None of those steps asked whether users felt safe enough to share. The platform demanded vulnerability before earning trust.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/gratitude-5.jpg" alt="V1 platform flow — Welcome and Sign-Up, View Community (Browse topics, View posted notes), Write Note (Create reflection, Directed gratitude, Additional context), Add to Deck (Publicly hosted, Limited interactions)" style="width:100%;display:block;">
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal">
+        <div class="cs-mini-card cs-mini-card-fill">
+          <span class="cs-mini-icon" style="color:#525252;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:26px;height:26px;"><path fill="currentColor" d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12S6.5 2 12 2m0 2c-1.9 0-3.6.6-4.9 1.7l11.2 11.2c1-1.4 1.7-3.1 1.7-4.9c0-4.4-3.6-8-8-8m4.9 14.3L5.7 7.1C4.6 8.4 4 10.1 4 12c0 4.4 3.6 8 8 8c1.9 0 3.6-.6 4.9-1.7"/></svg>
+          </span>
+          <p>The V1 flow revealed five core friction points that created frustration in first-time users</p>
+        </div>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <div class="cs-mini-list">
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-mini-icon-red">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><g fill="currentColor"><path fill-rule="evenodd" d="M10 7a2 2 0 0 1 2 2v7a2 2 0 1 1-4 0V9a2 2 0 0 1 2-2" clip-rule="evenodd"/><path d="M12 4a2 2 0 1 1-4 0a2 2 0 0 1 4 0M1.293 2.707a1 1 0 0 1 1.414-1.414l16 16a1 1 0 0 1-1.414 1.414z"/></g></svg>
+            </span>
+            <p><span class="cs-mini-label">No purpose or framing</span> — Participants landed with no explanation of what the platform was</p>
+          </div>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-mini-icon-red">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" style="width:26px;height:26px;"><path fill="currentColor" d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 0 0 0 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3c7.7-16.2 7.7-35 0-51.5M512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258s279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766m-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176s176-78.8 176-176s-78.8-176-176-176m0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112s112 50.1 112 112s-50.1 112-112 112"/></svg>
+            </span>
+            <p><span class="cs-mini-label">Public exposure by default</span> — Full names and photos attached to every post created fear of judgment</p>
+          </div>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-mini-icon-red">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:26px;height:26px;"><g fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.333 16.048L16.57 3.81a2.56 2.56 0 0 1 3.62 3.619L7.951 19.667a2 2 0 0 1-1.022.547L3 21l.786-3.93a2 2 0 0 1 .547-1.022"/><path d="m14.5 6.5l3 3"/></g></svg>
+            </span>
+            <p><span class="cs-mini-label">Blank page paralysis</span> — Unlimited freedom with no guidance led to confusion and limited participation</p>
+          </div>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-mini-icon-red">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="width:26px;height:26px;"><path fill="currentColor" d="M1 4.5A2.5 2.5 0 0 1 3.5 2h9A2.5 2.5 0 0 1 15 4.5v5a2.5 2.5 0 0 1-2.5 2.5H8.688l-3.063 2.68A.98.98 0 0 1 4 13.942V12h-.5A2.5 2.5 0 0 1 1 9.5zM3.5 3A1.5 1.5 0 0 0 2 4.5v5A1.5 1.5 0 0 0 3.5 11H5v2.898L8.312 11H12.5A1.5 1.5 0 0 0 14 9.5v-5A1.5 1.5 0 0 0 12.5 3zM12 5.5a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5m-2 3a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5"/></svg>
+            </span>
+            <p><span class="cs-mini-label">Burden of context</span> — Users had to explain their note's purpose rather than the platform providing structure</p>
+          </div>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-mini-icon-red">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" style="width:26px;height:26px;"><path fill="currentColor" d="M26 21v-1a1 1 0 0 1 2 0v10h2V20a3.003 3.003 0 0 0-3-3a2.96 2.96 0 0 0-1.47.401a2.954 2.954 0 0 0-4-1A3 3 0 0 0 19 15a3 3 0 0 0-1 .185V10a3 3 0 0 0-6 0v11.105l-2.235-1.53v.001a2.999 2.999 0 0 0-3.882 4.55L12.323 30l1.347-1.478l-6.378-5.818A1 1 0 0 1 7 22a1 1 0 0 1 1.6-.8l5.4 3.695V10a1 1 0 0 1 2 0v11h2v-3a1 1 0 0 1 2 0v3h2v-2a1 1 0 0 1 2 0v2Z"/><path fill="currentColor" d="M28 12h-6v-2h6V4H4v6h4v2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h24a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2"/></svg>
+            </span>
+            <p><span class="cs-mini-label">One-way communication</span> — No way to engage with others beyond posting; no reactions, no feedback loop</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>We rebuilt the entry around <em>trust</em>, not exposure</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>I designed the V2 onboarding as a guided walkthrough that introduces the gratitude cycle upfront. The goal was to build trust incrementally: explain what gratitude means on this platform, show how notes travel from writer to reader, and clarify what "anonymous" actually means before users ever start writing.</p>
+        <p>The V2 onboarding compresses the core experience into a safe first run. Users practice the full cycle once with training wheels, then move into the platform with confidence. But onboarding only sets the stage. The features that follow — prompts, AI tagging, privacy controls, streaks — are what make the platform usable long term.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/gratitude-6.jpg" alt="V2 platform flow — Welcome and Sign-Up, then Onboarding steps for View Community, Write Note, and Add to Deck, each broken into platform synopsis, select prompt, create reflection, generated tags, post anonymously, react to cards, and input information" style="width:100%;display:block;">
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal">
+        <div class="cs-mini-card cs-mini-card-fill">
+          <span class="cs-mini-icon" style="color:#525252;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:26px;height:26px;"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 12l6 6L20 6"/></svg>
+          </span>
+          <p>The onboarding process walks users through each core action once</p>
+        </div>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <div class="cs-mini-list">
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-mini-icon-green" style="margin-top:-6px;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:35px;height:35px;"><circle cx="12" cy="7.25" r="1.25" fill="currentColor"/><path fill="currentColor" d="M11 10h2v8h-2z"/></svg>
+            </span>
+            <p><span class="cs-mini-label">Platform overview</span> — Participants immediately understand the purpose of the platform</p>
+          </div>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-mini-icon-green">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" style="width:24px;height:24px;"><path fill="currentColor" d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 0 0 0 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3c7.7-16.2 7.7-35 0-51.5M512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258s279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766m-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176s176-78.8 176-176s-78.8-176-176-176m0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112s112 50.1 112 112s-50.1 112-112 112"/></svg>
+            </span>
+            <p><span class="cs-mini-label">Visibility choice</span> — Users decide whether to share anonymously or publicly before posting</p>
+          </div>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-mini-icon-green">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:24px;height:24px;"><g fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.333 16.048L16.57 3.81a2.56 2.56 0 0 1 3.62 3.619L7.951 19.667a2 2 0 0 1-1.022.547L3 21l.786-3.93a2 2 0 0 1 .547-1.022"/><path d="m14.5 6.5l3 3"/></g></svg>
+            </span>
+            <p><span class="cs-mini-label">Prompted reflection</span> — Users choose from specific prompts around topics they care about</p>
+          </div>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-mini-icon-green">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="width:24px;height:24px;"><path fill="currentColor" d="M1 4.5A2.5 2.5 0 0 1 3.5 2h9A2.5 2.5 0 0 1 15 4.5v5a2.5 2.5 0 0 1-2.5 2.5H8.688l-3.063 2.68A.98.98 0 0 1 4 13.942V12h-.5A2.5 2.5 0 0 1 1 9.5zM3.5 3A1.5 1.5 0 0 0 2 4.5v5A1.5 1.5 0 0 0 3.5 11H5v2.898L8.312 11H12.5A1.5 1.5 0 0 0 14 9.5v-5A1.5 1.5 0 0 0 12.5 3zM12 5.5a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5m-2 3a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5"/></svg>
+            </span>
+            <p><span class="cs-mini-label">Community reactions</span> — Users can engage with others' posts through emoji reactions, creating feedback</p>
+          </div>
         </div>
       </div>
     </section>
@@ -583,30 +747,158 @@
     <section class="cs-row" id="features">
       <p class="cs-eyebrow">Key Features</p>
       <div class="cs-row-label reveal">
-        <h2>Four moments that carry the <em>whole</em> experience</h2>
+        <h2>Our platform is only as strong as the <em>interactions</em> it enables</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <div class="cs-feature-row">
-          <div class="cs-feature-item">
-            <div class="cs-feature-num">1</div>
-            <h5>Welcome</h5>
-            <p>Sets expectations before any writing begins.</p>
+        <p>With onboarding setting the emotional foundation, the rest of the platform needed to deliver on that promise. Each feature was designed to solve one of the three challenges we identified in V1: vulnerability, authenticity, or engagement.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/gratitude-7.jpg" alt="Key features in V2 — three columns mapping a V1 problem (blank cards & public posts, cards dropped into an abstract pile, public-by-default decks) to a guiding question and the V2 solution (guided prompts, recipient groups, embedded privacy controls)" style="width:100%;display:block;">
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal">
+        <h2>But first, we needed to <em>re-design</em> the gratitude note</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>If onboarding sets the emotional foundation, the note card is where users actually take the risk of sharing something personal. V1 treated the card as a simple container for text. That wasn't enough.</p>
+        <p>The card needed to make writing feel approachable while supporting the three mechanics that made V2 different: guided prompts, recipient connection, and privacy. We redesigned its architecture around those needs, turning the note from a blank content container into a structured space for reflection.</p>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <div class="cs-shot">
+          <img src="Images/gratitude-8.jpg" alt="Annotated V1 note — a condensed card with the response and author called out" style="width:100%;display:block;">
+        </div>
+        <div class="cs-mini-list" style="margin-top:36px;">
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-p-icon-up">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></svg>
+            </span>
+            <p>The compact, vertically stacked design is familiar and easy to scan quickly, reducing cognitive load</p>
           </div>
-          <div class="cs-feature-item">
-            <div class="cs-feature-num">2</div>
-            <h5>Join community</h5>
-            <p>Pick a group instead of the whole platform.</p>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-p-icon-down">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="translate(0,24) scale(1,-1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></g></svg>
+            </span>
+            <p>The author is more prominent than the content of the note, increasing performance anxiety</p>
           </div>
-          <div class="cs-feature-item">
-            <div class="cs-feature-num">3</div>
-            <h5>Write entry</h5>
-            <p>Prompted, low-pressure note composer.</p>
+        </div>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <div class="cs-shot">
+          <img src="Images/gratitude-9.jpg" alt="Annotated V2 note — an elongated card with the selected prompt and additional details called out" style="width:100%;display:block;">
+        </div>
+        <div class="cs-mini-list" style="margin-top:36px;">
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-p-icon-up">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></svg>
+            </span>
+            <p>Incorporating the prompt directly into the writing experience decreases blank-page paralysis</p>
           </div>
-          <div class="cs-feature-item">
-            <div class="cs-feature-num">4</div>
-            <h5>Add to feed</h5>
-            <p>Share when ready, not before.</p>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-p-icon-up">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></svg>
+            </span>
+            <p>The elongated format allows for community metadata to be separated from personal reflection</p>
+          </div>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-p-icon-down">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="translate(0,24) scale(1,-1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></g></svg>
+            </span>
+            <p>The elongated format used more horizontal space, creating challenges in scaling for smaller devices</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>From a blank page to <em>guided</em> reflection</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>V1 handed users a blank card and implied they were contributing to a public collection. Predictably, people froze or wrote thin, performative posts.</p>
+        <p>V2 replaces the blank page with curated prompts that lower the barrier without lowering the depth. Each prompt invites reflection while leaving room for personal meaning.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/gratitude-10.jpg" alt="Onboarding process introduction — choose a prompt from a list, then reflect and write a gratitude note" style="width:100%;display:block;">
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal">
+        <div class="cs-mini-card cs-mini-card-fill">
+          <span class="cs-mini-icon" style="color:#525252;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:26px;height:26px;"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 12l6 6L20 6"/></svg>
+          </span>
+          <p>The nnboarding process shows each core action once to enable users to independently explore</p>
+        </div>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <div class="cs-mini-list">
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-mini-num">1</span>
+            <p>Directing users through distinct categories before writing lowers cognitive load and sparks inspiration</p>
+          </div>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-mini-num">2</span>
+            <p>The chosen prompt remains anchored at the top to guide writing, with navigation to easily swap topics</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>Expanding <em>gratitude</em> beyond the obvious</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>V1 cards floated into decks, but there was no mechanism connecting a writer's gratitude to the people who inspired it. The community aspect remained theoretical — you were adding to a pile, not reaching a person.</p>
+        <p>V2 integrates AI to surface implicit recipient groups as users write. Tags like "UCSC Faculty," "Park Rangers," and "Environmental Conservationists" connect individual reflections to the communities behind them. The AI doesn't replace the writer's words — it helps their gratitude travel further.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/gratitude-11.jpg" alt="Annotated unsung heroes page — recipient-group tags generated as metadata, with a participant quote about not having thought to thank the maintenance staff until the tag appeared" style="width:100%;display:block;">
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal">
+        <h2>Safety as a <em>feature</em>, not an afterthought</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>V1 made exposure the default. Cards were public, writers were identifiable, and the deck structure amplified judgment — your contribution sat alongside others, evaluated as a collection. The fear of being seen killed authenticity before it could start.</p>
+        <p>V2 places agency at the point of decision. The anonymous sharing toggle lives right beside the publish button — impossible to miss, impossible to misunderstand — and is opt-in rather than default. We iterated heavily on placement, styling, and tooltip copy because safety needed to feel as intentional as the writing itself.</p>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <div class="cs-shot annot-frame">
+          <div class="annot-toggle-row">
+            <label class="annot-toggle">
+              Perception Overlay
+              <input type="checkbox">
+            </label>
+          </div>
+          <div class="annot-media">
+            <img src="Images/gratitude-12.jpg" alt="V1 platform privacy controls — the Thank You card flow" style="width:100%;display:block;">
+            <img src="Images/gratitude-12-annot.jpg" alt="V1 platform privacy controls annotated — public by default, attached identity, performance pressure, confirms exposure" class="annot-swap-img">
+          </div>
+        </div>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <div class="cs-shot annot-frame">
+          <div class="annot-toggle-row">
+            <label class="annot-toggle">
+              Perspective Overlay
+              <input type="checkbox">
+            </label>
+          </div>
+          <div class="annot-media">
+            <img src="Images/gratitude-13.jpg" alt="V2 platform privacy controls — keep your note private or contribute it to the community" style="width:100%;display:block;">
+            <img src="Images/gratitude-13-annot.jpg" alt="V2 platform privacy controls annotated — private by default, point of action control beside the Next button" class="annot-swap-img">
           </div>
         </div>
       </div>
@@ -744,7 +1036,7 @@
             </span>
             <div class="cs-takeaway-text">
               <h5>AI should augment instead of author</h5>
-              <p>Leveraging generative AI to process background metadata expanded the community's reach without overriding the user's genuine voice</p>
+              <p>Leveraging generative AI strictly to process background metadata expanded the community's reach without overriding the user's genuine voice</p>
             </div>
           </div>
           <div class="cs-takeaway-card">
