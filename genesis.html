@@ -1,23 +1,21 @@
 <!DOCTYPE html>
 <!--
-  Isha Chury — Gratitude case study
+  Isha Chury — Genesis case study
   ──────────────────────────────────
   · Uses YOUR stellar.css + stellar.js (no changes needed to either).
-  · No site nav on this page — Back / Next pill buttons instead.
-  · Page-specific styles are in the <style> block below.
-  · Image placeholders are the dashed .img-ph boxes — swap each one for a
-    real <img class="cs-shot-img" src="..."> when art is ready.
-  · Some screenshots have a "Show Annotations" toggle — pure CSS (:has()),
-    no JS. Add more annotation tags by copying an .annot-tag div.
-  · The right-side CONTENT list + scroll-spy is page-specific JS at the
-    bottom of this file (not in stellar.js, since no other page uses it).
+  · Same architecture as gratitude.html: fixed Back/Next + CONTENT sidebar,
+    2-column .cs-row grid, cs-eyebrow labels, annotation-toggle images.
+  · Some sections below (User Experience, Key Interactions, Design System,
+    Validation) are placeholder shells — copy hasn't been provided yet.
+    Swap the placeholder text for real copy when it's ready; the images
+    (genesis-5/6 + their -toggle variants, genesis-7) are already wired in.
 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gratitude — Isha Chury</title>
-<meta name="description" content="Gratitude V2 — a UCSC Tech4Good Lab case study by Isha Chury.">
+<title>Genesis — Isha Chury</title>
+<meta name="description" content="Genesis — a community-based freight and moving platform case study by Isha Chury.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -285,11 +283,16 @@
     display:flex;align-items:center;flex-shrink:0;   /* icon column — fixed width, nothing stacked under it */
   }
   .cs-p-icon-svg{width:36px;height:36px;display:block;}   /* was 30px — slightly bigger */
+  /* ---- shared icon glow palette — every green icon, every red icon, and every
+       gray/neutral icon on the page uses one of these three shadow colors ---- */
+  .icon-glow-green{filter:drop-shadow(0 0 6px #C2F8B9);}
+  .icon-glow-red{filter:drop-shadow(0 0 6px #F8D8D8);}
+  .icon-glow-gray{filter:drop-shadow(0 0 6px #E2E2E2);}
   /* thumbs-up: green outline/fill + matching glow */
-  .cs-p-icon-up{filter:drop-shadow(0 0 5px rgba(30,129,23,.45));}
+  .cs-p-icon-up{filter:drop-shadow(0 0 6px #C2F8B9);}
   .cs-p-icon-up path{fill:#A5E093;stroke:#1E8117;stroke-width:0.6;stroke-linejoin:round;stroke-linecap:round;}
   /* thumbs-down: red outline/fill + matching glow */
-  .cs-p-icon-down{filter:drop-shadow(0 0 5px rgba(201,64,60,.45));}
+  .cs-p-icon-down{filter:drop-shadow(0 0 6px #F8D8D8);}
   .cs-p-icon-down path{fill:#ECA09E;stroke:#C9403C;stroke-width:0.6;stroke-linejoin:round;stroke-linecap:round;}
   .cs-p-text{flex:0 1 auto;max-width:290px;min-width:0;}   /* was 230px — wider text box leaves less empty space around the centered group */
   .cs-problem-card h5{font-family:'Be Vietnam Pro',sans-serif;font-size:1rem;font-weight:500;margin:0 0 12px;}
@@ -337,7 +340,7 @@
   }
   .cs-takeaway-icon{
     display:flex;align-items:center;flex-shrink:0;color:#809C1B;
-    filter:drop-shadow(0 0 5px rgba(156, 201, 102, 0.4));
+    filter:drop-shadow(0 0 6px #C2F8B9);
   }
   .cs-takeaway-icon svg{width:28px;height:28px;display:block;}
   .cs-takeaway-text{flex:0 1 auto;max-width:310px;min-width:0;}
@@ -371,7 +374,7 @@
   .cs-mini-num{
     width:30px;height:30px;border-radius:50%;flex-shrink:0;   /* was 24px — a little bigger */
     display:flex;align-items:center;justify-content:center;
-    background:#6b8e23;border:2.5px solid #fff;box-shadow:0 0 0 1px #2F2F2F;   /* outer ring was #A9C98A */
+    background:#138C14;border:2.5px solid #fff;box-shadow:0 0 0 1px #2F2F2F;   /* outer ring was #A9C98A; fill was #6b8e23 */
     font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.78rem;color:#fff;
   }
   .cs-mini-card p{flex:0 1 auto;max-width:340px;font-family:'Be Vietnam Pro',sans-serif;font-weight:400;font-size:0.82rem;line-height:1.55;color:var(--ink-soft);margin:0;}   /* was 460px — narrower box, more visible centering */
@@ -387,6 +390,10 @@
      them stays a uniform 15px, and their icons are bigger */
   .cs-mini-card.cs-mini-card:has(.cs-p-icon-up),
   .cs-mini-card.cs-mini-card:has(.cs-p-icon-down){border-radius:15px;}
+  /* the two rectangles next to the "Perspective Overlay" toggle (deposit /
+     verified-ID cards) also stay uniform 15px on every corner, same
+     exception as the thumbs up/down cards above */
+  .cs-mini-list.cs-mini-list-uniform .cs-mini-card{border-radius:15px;}
   .cs-mini-card:has(.cs-p-icon-up) .cs-mini-icon svg,
   .cs-mini-card:has(.cs-p-icon-down) .cs-mini-icon svg{width:30px;height:30px;}
   /* extra breathing room before "We rebuilt the entry around trust..." —
@@ -398,6 +405,41 @@
   .cs-extra-gap-label + .cs-divider + .cs-row-content{
     margin-top:48px;
   }
+
+  /* ---------------- comparison rectangles (Genesis "The Problem") ----------------
+     Two independent columns rather than a matched grid — the left list
+     (green check, market/payments familiarity) and right list (red
+     squiggle, scheduling/pricing/coordination friction) aren't the same
+     length, so each column stacks its own cards top-down instead of
+     pairing row-by-row like .cs-problem-grid does. */
+  .cs-compare-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:29px;align-items:start;}
+  .cs-compare-col{display:flex;flex-direction:column;gap:24px;}   /* was 36px — a little tighter between stacked rectangles */
+  .cs-compare-card{
+    display:flex;align-items:flex-start;gap:20px;
+    background:#FEFEFE;border:1px solid #868585;border-radius:15px;padding:28px 32px;
+  }
+  .cs-compare-icon{display:flex;align-items:center;flex-shrink:0;margin-top:2px;}
+  .cs-compare-icon svg{width:22px;height:22px;display:block;}
+  .cs-compare-icon-green{color:#3DA51E;filter:drop-shadow(0 0 6px #C2F8B9);}
+  .cs-compare-icon-red{color:#D52F2F;filter:drop-shadow(0 0 6px #F8D8D8);}
+  .cs-compare-card p{margin:0;font-family:'Be Vietnam Pro',sans-serif;font-weight:400;font-size:0.85rem;line-height:1.55;color:var(--ink-soft);}
+  @media (max-width:1000px){ .cs-compare-grid{grid-template-columns:1fr;} }
+
+  /* ---------------- Mudango / Muvox "Location Reference" toggles ----------------
+     The toggle now sits in the RIGHT column (above the thumbs-up/down list)
+     while the image it controls sits in the LEFT column — the two aren't
+     nested inside a shared .annot-frame any more, so the generic
+     ":has(.annot-toggle input:checked)" rule can't reach across columns.
+     Instead each toggle gets a unique id and each swap image a unique
+     class, and the whole .cs-row section (a shared ancestor either way)
+     is used as the :has() anchor. */
+  .annot-swap-g5,.annot-swap-g6,.annot-swap-g15{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:0;transition:opacity .25s ease;pointer-events:none;
+  }
+  #problem:has(#genesis5Toggle:checked) .annot-swap-g5{opacity:1;}
+  #problem:has(#genesis6Toggle:checked) .annot-swap-g6{opacity:1;}
+  #interactions:has(#genesis15Toggle:checked) .annot-swap-g15{opacity:1;}
 
   /* ---------------- responsive ---------------- */
   @media (max-width:1000px){
@@ -434,9 +476,10 @@
       <li><a href="#overview">Overview</a></li>
       <li><a href="#context">Context</a></li>
       <li><a href="#problem">The Problem</a></li>
-      <li><a href="#onboarding">Onboarding</a></li>
-      <li><a href="#features">Key Features</a></li>
+      <li><a href="#ux">User Experience</a></li>
+      <li><a href="#interactions">Key Interactions</a></li>
       <li><a href="#design-system">Design System</a></li>
+      <li><a href="#validation">Early Validation</a></li>
       <li><a href="#retrospective">Retrospective</a></li>
     </ul>
   </nav>
@@ -445,12 +488,12 @@
 <!-- ============ HERO: centered title + cover ============ -->
 <header class="cs-hero">
   <div class="cs-hero-title-wrap">
-    <h1 class="cs-hero-title reveal">Gratitude</h1>
+    <h1 class="cs-hero-title reveal">Genesis</h1>
   </div>
 
   <div class="cs-wrap cs-cover-wrap">
     <div class="cs-cover reveal">
-      <img src="Images/Gratitude-hero.jpg" alt="A Special Thanks from UCSC Students — the Gratitude hero, with the recipient-group callout and a Best Advisor note visible" style="width:100%;display:block;">
+      <img src="Images/genesis-hero.jpg" alt="Genesis — a community-based freight and moving platform connecting customers with independent transporters" style="width:100%;display:block;">
     </div>
   </div>
 </header>
@@ -463,27 +506,27 @@
       <div class="cs-row-label">
         <div class="cs-meta-block">
           <h4>My Role</h4>
-          <p>UI Designer — Visual Design, Interaction Design, User Flows, Prototyping</p>
+          <p>Principal UI Designer — UX/UI Design, Interaction Design, User Flows, Responsive Design, Prototyping</p>
         </div>
         <div class="cs-meta-block cs-meta-block-team">
           <h4>The Team</h4>
-          <p>Kehua Lei — Project Manager</p>
-          <p>Caeley Moushegian — Design Lead</p>
-          <p>Jasmine Chan — Experience Designer</p>
-          <p>Saba Kheirinejad — Interface Designer</p>
-          <p>Ashley Hom — Outreach Lead</p>
+          <p>Claudia Castro — Project Manager</p>
+          <p>Aiko Tanaka — Experience Designer</p>
+          <p>Olivia Ling — Interface Designer</p>
+          <p>Luis Martinez Ferraez — Software Engineer</p>
+          <p>Yousef Omar — Software Engineer</p>
         </div>
         <div class="cs-meta-block">
           <h4>Timeline</h4>
-          <p>6 months, launched in September 2025</p>
+          <p>6 months</p>
         </div>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
         <p class="cs-overview-subtitle">Overview</p>
-        <p>Following a research study revealing the discrepancies between online gratitude and user fears, I joined the Tech4Good Lab team to re-design the platform experience from the ground up.</p>
-        <p>I led the UI design for Gratitude V2, co-creating the visual system and shaping key features including the onboarding flow, AI-powered recipient tagging, and privacy controls.</p>
-        <p>The platform launched as a live site with hundreds of weekly visitors, and the underlying research was published in an ACM paper. In testing with a subset of 15 participants, 93% felt more comfortable sharing anonymously, and saw themselves continuing use of this platform long-term.</p>
+        <p>Genesis is a community-based freight and moving platform designed to connect customers with independent transporters across Latin America, acting as a sustainable alternative to historically fragmented networks.</p>
+        <p>I owned and led the interface design for Genesis while the product was still undefined, translating an ambitious, largely unscoped vision into a usable, trustworthy platform — shaping the core user flows, the visual system, and the interactions that would hold the experience together as the product itself was still being figured out.</p>
+        <p>The final product vision evolved from an early concept into a complete, interactive booking experience supported by a robust component system, successfully establishing the foundation as the team prepared for development.</p>
       </div>
     </section>
 
@@ -491,30 +534,21 @@
     <section class="cs-row" id="context" style="border-top:1px solid transparent;border-image:linear-gradient(to right, #FFFFFF 0%, #909090 50%, #FFFFFF 100%) 1;margin-top:18px;padding-top:94px;">
       <p class="cs-eyebrow">Context</p>
       <div class="cs-row-label reveal">
-        <h2>The first version taught us that people loved the idea but <em>feared</em> the execution</h2>
+        <h2>The vision was <em style="color:#626262;">massive</em>, but the blueprint was a blank slate</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>Before I joined the team, the Tech4Good Lab had already run a V1 study — an initial exploration into whether a digital gratitude-sharing platform could work. The V1 platform was intentionally simple: users could write gratitude notes and share them with a community. It was originally a bare-bones proof of concept, built to test whether the core idea was viable.</p>
-        <p>The V1 team gathered rich qualitative data from participants who used the platform, and the findings were full of contradictions. That tension — proven interest, broken execution — became our starting point. My team was tasked with V2: redesigning the platform from the ground up to keep the benefits while removing the fear.</p>
+        <p>Across Latin America, independent freight and moving services often operate through informal, fragmented networks — word of mouth, scattered listings, and little to no way for a customer to verify who they were actually trusting with their belongings. Genesis set out to formalize that network into a single platform, connecting customers directly with independent transporters.</p>
+        <p>There was no existing product to redesign and no prior research to build on — just an ambitious concept and a small team tasked with figuring out what the product actually needed to be, from the ground up.</p>
       </div>
       <div class="cs-row-media reveal">
-        <div class="cs-shot annot-frame">
-          <div class="annot-toggle-row">
-            <label class="annot-toggle">
-              Show Annotations
-              <input type="checkbox">
-            </label>
-          </div>
-          <div class="annot-media">
-            <img src="Images/gratitude-1.jpg" alt="V1 Gratitude Platform interactive prototype" style="width:100%;display:block;">
-            <img src="Images/gratitude-1-ann.jpg" alt="V1 Gratitude Platform prototype with annotations describing the drafting and publishing flow" class="annot-swap-img">
-          </div>
+        <div class="cs-shot">
+          <img src="Images/genesis-1.jpg" alt="Genesis platform concept — connecting customers with independent transporters" style="width:100%;display:block;">
         </div>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-2.jpg" alt="Visualized quotes from V1 research participants" style="width:100%;display:block;">
+          <img src="Images/genesis-2.jpg" alt="Genesis early research and concept exploration" style="width:100%;display:block;">
         </div>
       </div>
     </section>
@@ -523,197 +557,246 @@
     <section class="cs-row" id="problem">
       <p class="cs-eyebrow">The Problem</p>
       <div class="cs-row-label reveal">
-        <h2>How do you <em>design</em> for genuinely sharing gratitude when people are afraid of being seen?</h2>
+        <h2>How do you introduce complex logistics without being <em>overwhelming</em>?</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>Participants wanted the benefits of communal gratitude, but the V1 design made them feel like they were posting for an audience rather than reflecting for themselves. There was no onboarding to explain the platform's purpose, no guidance for writing, no privacy controls, and no way to connect notes to the people who inspired them. The concept was promising, but the experience wasn't ready for real emotional investment.</p>
+        <p>Genesis needed to help customers coordinate an unfamiliar logistical process while eventually supporting an ecosystem of independent drivers across different regions, devices, and levels of digital familiarity.</p>
+        <p>The service itself was inherently complex. A single booking could involve locations, cargo limitations, vehicle selections and extensive communication on both sides. Exposing all of that at once would risk overwhelming users before they completed their first booking.</p>
       </div>
 
       <div class="cs-row-media reveal">
-        <div class="cs-problem-grid">
-          <div class="cs-problem-card">
-            <div class="cs-p-icon">
-              <svg class="cs-p-icon-svg cs-p-icon-up" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
-              </svg>
+        <div class="cs-shot">
+          <img src="Images/genesis-3.jpg" alt="Genesis logistics flow — freight and moving request steps" style="width:100%;display:block;">
+        </div>
+      </div>
+
+      <!-- "the rectangles layout in gratitude.html" — two independent
+           columns (2 cards left, 4 cards right) rather than a matched
+           grid, since the left/right lists aren't the same length. -->
+      <div class="cs-row-media reveal">
+        <div class="cs-compare-grid">
+          <div class="cs-compare-col">
+            <div class="cs-compare-card">
+              <span class="cs-compare-icon cs-compare-icon-green">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16"><path d="M0 0h16v16H0z" fill="none"/><path fill="currentColor" d="M6.845 13.889a6 6 0 0 0 2.304 0a.54.54 0 0 1 .604.311a.475.475 0 0 1-.33.656a7 7 0 0 1-2.853-.002a.475.475 0 0 1-.329-.656a.54.54 0 0 1 .604-.31m6.132-2.537a.54.54 0 0 1 .646-.208a.475.475 0 0 1 .23.697a7 7 0 0 1-2.017 2.015a.475.475 0 0 1-.697-.23a.54.54 0 0 1 .208-.646a6 6 0 0 0 1.63-1.628M2.375 11.14a.54.54 0 0 1 .646.208a6 6 0 0 0 1.627 1.628a.536.536 0 0 1 .207.646a.475.475 0 0 1-.697.23a7 7 0 0 1-2.013-2.015a.476.476 0 0 1 .23-.697m7.772-4.995a.5.5 0 1 1 .707.708l-3.25 3.25a.5.5 0 0 1-.708 0l-1.75-1.75a.5.5 0 0 1 .63-.772l.078.064L7.25 9.043zm4.052.097a.475.475 0 0 1 .656.33a7 7 0 0 1 0 2.856a.476.476 0 0 1-.657.33a.54.54 0 0 1-.31-.604a6 6 0 0 0 .002-2.308a.54.54 0 0 1 .31-.604m-13.054.334a.475.475 0 0 1 .655-.33a.54.54 0 0 1 .31.603a6 6 0 0 0 0 2.302a.54.54 0 0 1-.31.603a.475.475 0 0 1-.654-.33a7 7 0 0 1-.001-2.848m3.013-4.43a.475.475 0 0 1 .697.23a.54.54 0 0 1-.207.645A6 6 0 0 0 3.02 4.653a.536.536 0 0 1-.646.207a.475.475 0 0 1-.23-.696a7 7 0 0 1 2.014-2.017m6.98.227a.475.475 0 0 1 .698-.23a7 7 0 0 1 2.018 2.016a.475.475 0 0 1-.23.697a.54.54 0 0 1-.646-.207a6 6 0 0 0-1.631-1.63a.54.54 0 0 1-.208-.646M8 1q.732.001 1.422.145c.294.06.446.377.33.655a.54.54 0 0 1-.603.31a6 6 0 0 0-2.304.001a.54.54 0 0 1-.604-.31a.476.476 0 0 1 .33-.655Q7.265 1 8 1"/></svg>
+              </span>
+              <p>The market had plenty of drivers and customers, but operated through uncentralized networks</p>
             </div>
-            <div class="cs-p-text">
-              <h5>Reduced stress after writing</h5>
-              <p><b>95%</b> of participants reported feeling calmer and more grounded after articulating gratitude</p>
-            </div>
-          </div>
-          <div class="cs-problem-card">
-            <div class="cs-p-icon">
-              <svg class="cs-p-icon-svg cs-p-icon-down" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <g transform="translate(0,24) scale(1,-1)">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
-                </g>
-              </svg>
-            </div>
-            <div class="cs-p-text">
-              <h5>Appearing performative online</h5>
-              <p><b>67%</b> of participants worried their posts would read as self-congratulatory or insincere</p>
-            </div>
-          </div>
-          <div class="cs-problem-card">
-            <div class="cs-p-icon">
-              <svg class="cs-p-icon-svg cs-p-icon-up" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
-              </svg>
-            </div>
-            <div class="cs-p-text">
-              <h5>Recalling positive memories</h5>
-              <p>The act of writing brought back joyful memories participants had previously forgotten</p>
+            <div class="cs-compare-card">
+              <span class="cs-compare-icon cs-compare-icon-green">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16"><path d="M0 0h16v16H0z" fill="none"/><path fill="currentColor" d="M6.845 13.889a6 6 0 0 0 2.304 0a.54.54 0 0 1 .604.311a.475.475 0 0 1-.33.656a7 7 0 0 1-2.853-.002a.475.475 0 0 1-.329-.656a.54.54 0 0 1 .604-.31m6.132-2.537a.54.54 0 0 1 .646-.208a.475.475 0 0 1 .23.697a7 7 0 0 1-2.017 2.015a.475.475 0 0 1-.697-.23a.54.54 0 0 1 .208-.646a6 6 0 0 0 1.63-1.628M2.375 11.14a.54.54 0 0 1 .646.208a6 6 0 0 0 1.627 1.628a.536.536 0 0 1 .207.646a.475.475 0 0 1-.697.23a7 7 0 0 1-2.013-2.015a.476.476 0 0 1 .23-.697m7.772-4.995a.5.5 0 1 1 .707.708l-3.25 3.25a.5.5 0 0 1-.708 0l-1.75-1.75a.5.5 0 0 1 .63-.772l.078.064L7.25 9.043zm4.052.097a.475.475 0 0 1 .656.33a7 7 0 0 1 0 2.856a.476.476 0 0 1-.657.33a.54.54 0 0 1-.31-.604a6 6 0 0 0 .002-2.308a.54.54 0 0 1 .31-.604m-13.054.334a.475.475 0 0 1 .655-.33a.54.54 0 0 1 .31.603a6 6 0 0 0 0 2.302a.54.54 0 0 1-.31.603a.475.475 0 0 1-.654-.33a7 7 0 0 1-.001-2.848m3.013-4.43a.475.475 0 0 1 .697.23a.54.54 0 0 1-.207.645A6 6 0 0 0 3.02 4.653a.536.536 0 0 1-.646.207a.475.475 0 0 1-.23-.696a7 7 0 0 1 2.014-2.017m6.98.227a.475.475 0 0 1 .698-.23a7 7 0 0 1 2.018 2.016a.475.475 0 0 1-.23.697a.54.54 0 0 1-.646-.207a6 6 0 0 0-1.631-1.63a.54.54 0 0 1-.208-.646M8 1q.732.001 1.422.145c.294.06.446.377.33.655a.54.54 0 0 1-.603.31a6 6 0 0 0-2.304.001a.54.54 0 0 1-.604-.31a.476.476 0 0 1 .33-.655Q7.265 1 8 1"/></svg>
+              </span>
+              <p>Users were already familiar with digital payments, so the core challenge wasn't the technology</p>
             </div>
           </div>
-          <div class="cs-problem-card">
-            <div class="cs-p-icon">
-              <svg class="cs-p-icon-svg cs-p-icon-down" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <g transform="translate(0,24) scale(1,-1)">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
-                </g>
-              </svg>
+          <div class="cs-compare-col">
+            <div class="cs-compare-card">
+              <span class="cs-compare-icon cs-compare-icon-red">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 56 56"><path d="M0 0h56v56H0z" fill="none"/><path fill="currentColor" d="M49.926 46.375c2.18-2.648 2.836-5.93 1.148-7.594c-2.11-2.086-4.804-.047-8.414 3.282c-3.422 3.093-4.71 4.171-5.11 3.75c-.397-.352.353-1.454 4.43-6.07c5.157-5.907 7.524-9.446 4.782-12.212c-2.906-2.883-7.008.563-13.078 6.14c-4.266 3.915-8.485 8.18-10.266 6.4c-1.242-1.243.305-3.235 6.586-10.454c8.672-9.96 13.336-17.039 9.75-20.625c-3.445-3.445-7.008-.445-18.14 8.719c-8.65 7.102-13.407 10.008-17.016 11.812c-.985.54-1.36 1.454-.985 2.391c.422.914 1.477 1.219 2.555.656c3.82-1.898 9.047-5.203 17.602-12.21c9.445-7.782 12-10.196 13.5-8.672c1.875 1.851-2.414 7.312-9.797 15.632c-8.063 9.118-9.985 12.703-6.82 15.868c3.656 3.656 8.835-1.055 15.187-6.868c4.969-4.547 7.547-6.96 8.438-6.047c.913.938-1.383 3.446-6.118 8.93c-4.312 5.016-5.226 7.57-3.328 9.469c1.781 1.781 4.547.61 8.414-2.836c3.164-2.79 4.805-4.5 5.133-4.148c.328.328-.211 1.617-1.336 2.765c-.727.727-.633 1.805.094 2.555c.75.68 1.898.515 2.789-.633"/></svg>
+              </span>
+              <p>Booking a move relied on the alignment of schedules and proximity for both parties involved</p>
             </div>
-            <div class="cs-p-text">
-              <h5>Concerns about privacy</h5>
-              <p><b>75%</b> felt sharing personal gratitude was like exposing inner thoughts to judgment</p>
+            <div class="cs-compare-card">
+              <span class="cs-compare-icon cs-compare-icon-red">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 56 56"><path d="M0 0h56v56H0z" fill="none"/><path fill="currentColor" d="M49.926 46.375c2.18-2.648 2.836-5.93 1.148-7.594c-2.11-2.086-4.804-.047-8.414 3.282c-3.422 3.093-4.71 4.171-5.11 3.75c-.397-.352.353-1.454 4.43-6.07c5.157-5.907 7.524-9.446 4.782-12.212c-2.906-2.883-7.008.563-13.078 6.14c-4.266 3.915-8.485 8.18-10.266 6.4c-1.242-1.243.305-3.235 6.586-10.454c8.672-9.96 13.336-17.039 9.75-20.625c-3.445-3.445-7.008-.445-18.14 8.719c-8.65 7.102-13.407 10.008-17.016 11.812c-.985.54-1.36 1.454-.985 2.391c.422.914 1.477 1.219 2.555.656c3.82-1.898 9.047-5.203 17.602-12.21c9.445-7.782 12-10.196 13.5-8.672c1.875 1.851-2.414 7.312-9.797 15.632c-8.063 9.118-9.985 12.703-6.82 15.868c3.656 3.656 8.835-1.055 15.187-6.868c4.969-4.547 7.547-6.96 8.438-6.047c.913.938-1.383 3.446-6.118 8.93c-4.312 5.016-5.226 7.57-3.328 9.469c1.781 1.781 4.547.61 8.414-2.836c3.164-2.79 4.805-4.5 5.133-4.148c.328.328-.211 1.617-1.336 2.765c-.727.727-.633 1.805.094 2.555c.75.68 1.898.515 2.789-.633"/></svg>
+              </span>
+              <p>Users knew exactly what they owned, but struggled to understand what vehicle size they required</p>
             </div>
-          </div>
-          <div class="cs-problem-card">
-            <div class="cs-p-icon">
-              <svg class="cs-p-icon-svg cs-p-icon-up" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
-              </svg>
+            <div class="cs-compare-card">
+              <span class="cs-compare-icon cs-compare-icon-red">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 56 56"><path d="M0 0h56v56H0z" fill="none"/><path fill="currentColor" d="M49.926 46.375c2.18-2.648 2.836-5.93 1.148-7.594c-2.11-2.086-4.804-.047-8.414 3.282c-3.422 3.093-4.71 4.171-5.11 3.75c-.397-.352.353-1.454 4.43-6.07c5.157-5.907 7.524-9.446 4.782-12.212c-2.906-2.883-7.008.563-13.078 6.14c-4.266 3.915-8.485 8.18-10.266 6.4c-1.242-1.243.305-3.235 6.586-10.454c8.672-9.96 13.336-17.039 9.75-20.625c-3.445-3.445-7.008-.445-18.14 8.719c-8.65 7.102-13.407 10.008-17.016 11.812c-.985.54-1.36 1.454-.985 2.391c.422.914 1.477 1.219 2.555.656c3.82-1.898 9.047-5.203 17.602-12.21c9.445-7.782 12-10.196 13.5-8.672c1.875 1.851-2.414 7.312-9.797 15.632c-8.063 9.118-9.985 12.703-6.82 15.868c3.656 3.656 8.835-1.055 15.187-6.868c4.969-4.547 7.547-6.96 8.438-6.047c.913.938-1.383 3.446-6.118 8.93c-4.312 5.016-5.226 7.57-3.328 9.469c1.781 1.781 4.547.61 8.414-2.836c3.164-2.79 4.805-4.5 5.133-4.148c.328.328-.211 1.617-1.336 2.765c-.727.727-.633 1.805.094 2.555c.75.68 1.898.515 2.789-.633"/></svg>
+              </span>
+              <p>Rates fluctuated by vehicle, distance, and demand, but users just saw a final price with no breakdown</p>
             </div>
-            <div class="cs-p-text">
-              <h5>Increased self-reflection</h5>
-              <p>Writing helped users process their values and what mattered to them</p>
-            </div>
-          </div>
-          <div class="cs-problem-card">
-            <div class="cs-p-icon">
-              <svg class="cs-p-icon-svg cs-p-icon-down" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <g transform="translate(0,24) scale(1,-1)">
-                  <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
-                </g>
-              </svg>
-            </div>
-            <div class="cs-p-text">
-              <h5>Being misinterpreted</h5>
-              <p><b>50%</b> of participants feared readers might read tone wrong or assume ulterior motives</p>
+            <div class="cs-compare-card">
+              <span class="cs-compare-icon cs-compare-icon-red">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 56 56"><path d="M0 0h56v56H0z" fill="none"/><path fill="currentColor" d="M49.926 46.375c2.18-2.648 2.836-5.93 1.148-7.594c-2.11-2.086-4.804-.047-8.414 3.282c-3.422 3.093-4.71 4.171-5.11 3.75c-.397-.352.353-1.454 4.43-6.07c5.157-5.907 7.524-9.446 4.782-12.212c-2.906-2.883-7.008.563-13.078 6.14c-4.266 3.915-8.485 8.18-10.266 6.4c-1.242-1.243.305-3.235 6.586-10.454c8.672-9.96 13.336-17.039 9.75-20.625c-3.445-3.445-7.008-.445-18.14 8.719c-8.65 7.102-13.407 10.008-17.016 11.812c-.985.54-1.36 1.454-.985 2.391c.422.914 1.477 1.219 2.555.656c3.82-1.898 9.047-5.203 17.602-12.21c9.445-7.782 12-10.196 13.5-8.672c1.875 1.851-2.414 7.312-9.797 15.632c-8.063 9.118-9.985 12.703-6.82 15.868c3.656 3.656 8.835-1.055 15.187-6.868c4.969-4.547 7.547-6.96 8.438-6.047c.913.938-1.383 3.446-6.118 8.93c-4.312 5.016-5.226 7.57-3.328 9.469c1.781 1.781 4.547.61 8.414-2.836c3.164-2.79 4.805-4.5 5.133-4.148c.328.328-.211 1.617-1.336 2.765c-.727.727-.633 1.805.094 2.555c.75.68 1.898.515 2.789-.633"/></svg>
+              </span>
+              <p>Arrival windows and handoffs had to be perfect, but coordination occurred as needed</p>
             </div>
           </div>
         </div>
       </div>
 
       <div class="cs-row-label reveal">
+        <h2>The competitors solved pieces of the problem — but no one solved the <em>whole</em> experience</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>To understand where Genesis could create the most impact, I looked at how existing services handled the burden of moving. The landscape was split into two extremes: traditional rentals like U-Haul left users entirely on their own with zero digital guidance, while app-based movers including Dolly and Lugg solved the physical labor problem but introduced opaque pricing and trust barriers.</p>
+        <p>This revealed a massive gap in the market. Genesis didn't just need to connect transportation demand with verified independent drivers — it needed to introduce a highly guided, transparent experience. We needed to build the trust that competitors were missing.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/genesis-4.jpg" alt="Competitor analysis — U-Haul, Dolly, and Lugg" style="width:100%;display:block;">
+        </div>
+      </div>
+
+      <!-- Mudango deep-dive — image + Location Reference toggle on the left,
+           thumbs up/down rectangles on the right, same split layout and
+           thumbs icons as gratitude.html's note-redesign section. -->
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <div class="cs-shot">
+          <div class="annot-media">
+            <img src="Images/genesis-5.jpg" alt="Mudango — competitor location matching flow" style="width:100%;display:block;">
+            <img src="Images/genesis-5-toggle.jpg" alt="Mudango — location matching flow with location reference overlay" class="annot-swap-g5">
+          </div>
+        </div>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <div class="annot-toggle-row" style="justify-content:flex-start;margin-top:6px;">
+          <label class="annot-toggle">
+            Location Reference
+            <input type="checkbox" id="genesis5Toggle">
+          </label>
+        </div>
+        <div class="cs-mini-list">
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-p-icon-up">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></svg>
+            </span>
+            <p>Matched users with moving services directly through the app, eliminating the need to call multiple companies for quotes</p>
+          </div>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-p-icon-down">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="translate(0,24) scale(1,-1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></g></svg>
+            </span>
+            <p>Required exhaustive item-by-item cataloging upfront, creating high cognitive friction before showing any cost estimate</p>
+          </div>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-p-icon-down">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="translate(0,24) scale(1,-1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></g></svg>
+            </span>
+            <p>Displayed a single total quote without an itemized breakdown for deposits or cancellation terms, creating checkout hesitation</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Muvox deep-dive — same split layout, second competitor -->
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <div class="cs-shot">
+          <div class="annot-media">
+            <img src="Images/genesis-6.jpg" alt="Muvox — competitor vehicle-class selection flow" style="width:100%;display:block;">
+            <img src="Images/genesis-6-toggle.jpg" alt="Muvox — vehicle-class selection flow with location reference overlay" class="annot-swap-g6">
+          </div>
+        </div>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <div class="annot-toggle-row" style="justify-content:flex-start;margin-top:6px;">
+          <label class="annot-toggle">
+            Location Reference
+            <input type="checkbox" id="genesis6Toggle">
+          </label>
+        </div>
+        <div class="cs-mini-list">
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-p-icon-up">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></svg>
+            </span>
+            <p>Delivered rapid estimates based on primary route inputs, giving users an immediate financial starting point</p>
+          </div>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-p-icon-down">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="translate(0,24) scale(1,-1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></g></svg>
+            </span>
+            <p>Relied on technical vehicle classes rather than guiding users on how their household belongings translated into truck capacity</p>
+          </div>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-p-icon-down">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="translate(0,24) scale(1,-1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></g></svg>
+            </span>
+            <p>Clustered all logistical decisions—locations, details, and vehicle types—into a single screen rather than progressively disclosing steps</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
         <h2>Our three <em>core challenges</em> and guiding questions</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>This gap — between what people wanted to feel and what the platform made them feel — became our design territory. We translated the V1 research into three questions that would guide every decision in V2.</p>
+        <p>The challenge wasn't making the interface look simple. It was deciding what complexity users needed to see—and when. To navigate this, rather than treating each screen as an isolated problem, I used three guiding questions to shape every structural decision.</p>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-3.jpg" alt="Three core challenges — User Protection, User Introspection, User Engagement — each with a How Might We question" style="width:100%;display:block;">
+          <img src="Images/genesis-7.jpg" alt="Genesis — three core challenges and guiding questions" style="width:100%;display:block;">
         </div>
       </div>
     </section>
 
-    <!-- ============ ONBOARDING ============ -->
-    <section class="cs-row" id="onboarding">
-      <p class="cs-eyebrow">Onboarding</p>
+    <!-- ============ USER EXPERIENCE ============ -->
+    <section class="cs-row" id="ux">
+      <p class="cs-eyebrow">User Experience</p>
       <div class="cs-row-label reveal">
-        <h2>First impressions are <em>emotional</em> — ours was built to welcome, not perform</h2>
+        <h2>Before designing screens, I had to <em>define</em> the journey</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>V1 dropped users onto a blank dashboard with no context. No explanation of why gratitude matters, no guidance on how to participate, no reassurance about what happens to their words. Users felt like they were performing for an audience before they even understood the platform's purpose.</p>
+        <p>With no existing product architecture to build from, the first challenge was determining how a complex physical process could translate into a digital journey.</p>
+        <p>I began by mapping the information required to complete a booking and organizing it around the natural sequence of planning a move.</p>
+        <p>Rather than asking users to provide everything at once, the experience progressed from understanding the move itself to selecting transportation, reviewing the price, completing payment, and receiving confirmation.</p>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-4.jpg" alt="V1 annotations on the Thank You card flow — callouts for no context, no framing, no prompt guidance, no privacy controls, and performance pressure" style="width:100%;display:block;">
-        </div>
-      </div>
-
-      <div class="cs-row-label reveal">
-        <h2>The platform demanded <em>vulnerability</em> before earning trust</h2>
-      </div>
-      <div class="cs-divider" aria-hidden="true"></div>
-      <div class="cs-row-content reveal">
-        <p>Fixing the underlying issues meant rethinking the entire entry experience. Every step in V1 assumed users were ready to be seen — input personal information immediately, browse public decks with full names attached, write with no guidance, post with no choice. None of those steps asked whether users felt safe enough to share. The platform demanded vulnerability before earning trust.</p>
-      </div>
-      <div class="cs-row-media reveal">
-        <div class="cs-shot">
-          <img src="Images/gratitude-5.jpg" alt="V1 platform flow — Welcome and Sign-Up, View Community (Browse topics, View posted notes), Write Note (Create reflection, Directed gratitude, Additional context), Add to Deck (Publicly hosted, Limited interactions)" style="width:100%;display:block;">
+          <img src="Images/genesis-8.jpg" alt="Genesis booking journey — three phases: timing and location, capacity and specifications, payment and trust" style="width:100%;display:block;">
         </div>
       </div>
 
       <div class="cs-row-label reveal">
         <div class="cs-mini-card cs-mini-card-fill">
-          <span class="cs-mini-icon" style="color:#525252;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:26px;height:26px;"><path fill="currentColor" d="M12 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S2 17.5 2 12S6.5 2 12 2m0 2c-1.9 0-3.6.6-4.9 1.7l11.2 11.2c1-1.4 1.7-3.1 1.7-4.9c0-4.4-3.6-8-8-8m4.9 14.3L5.7 7.1C4.6 8.4 4 10.1 4 12c0 4.4 3.6 8 8 8c1.9 0 3.6-.6 4.9-1.7"/></svg>
+          <span class="cs-mini-icon icon-glow-gray" style="color:#666565;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:26px;height:26px;"><path d="M0 0h24v24H0z" fill="none"/><g fill="none" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 0H9c-1.886 0-2.828 0-3.414.586S5 14.114 5 16m7-4h3c1.886 0 2.828 0 3.414.586S19 14.114 19 16"/><path d="M2 19c0-1.414 0-2.121.44-2.56C2.878 16 3.585 16 5 16s2.121 0 2.56.44C8 16.878 8 17.585 8 19s0 2.121-.44 2.56C7.122 22 6.415 22 5 22s-2.121 0-2.56-.44C2 21.122 2 20.415 2 19Zm14 0c0-1.414 0-2.121.44-2.56C16.878 16 17.585 16 19 16s2.121 0 2.56.44c.44.439.44 1.146.44 2.56s0 2.121-.44 2.56c-.439.44-1.146.44-2.56.44s-2.121 0-2.56-.44C16 21.122 16 20.415 16 19ZM10.286 2h3.428C15.79 2 16 3.11 16 5s-.211 3-2.286 3h-3.428C8.21 8 8 6.89 8 5s.211-3 2.286-3Z"/></g></svg>
           </span>
-          <p>The V1 flow revealed five core friction points that created frustration in first-time users</p>
+          <p>A single move involves various logistical variables, that naturally cluster into three distinct phases</p>
         </div>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
         <div class="cs-mini-list">
           <div class="cs-mini-card">
-            <span class="cs-mini-icon cs-mini-icon-red">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><g fill="currentColor"><path fill-rule="evenodd" d="M10 7a2 2 0 0 1 2 2v7a2 2 0 1 1-4 0V9a2 2 0 0 1 2-2" clip-rule="evenodd"/><path d="M12 4a2 2 0 1 1-4 0a2 2 0 0 1 4 0M1.293 2.707a1 1 0 0 1 1.414-1.414l16 16a1 1 0 0 1-1.414 1.414z"/></g></svg>
+            <span class="cs-mini-icon icon-glow-green" style="color:#3FA121;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" style="width:24px;height:24px;"><path d="M0 0h1024v1024H0z" fill="none"/><path fill="currentColor" d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448s448-200.6 448-448S759.4 64 512 64m176.5 585.7l-28.6 39a7.99 7.99 0 0 1-11.2 1.7L483.3 569.8a7.92 7.92 0 0 1-3.3-6.5V288c0-4.4 3.6-8 8-8h48.1c4.4 0 8 3.6 8 8v247.5l142.6 103.1c3.6 2.5 4.4 7.5 1.8 11.1"/></svg>
             </span>
-            <p><span class="cs-mini-label">No purpose or framing</span> — Participants landed with no explanation of what the platform was</p>
+            <p><span class="cs-mini-label">Timing and location</span> — Aligning schedules, arrival windows, and details before touching the logistics</p>
           </div>
           <div class="cs-mini-card">
-            <span class="cs-mini-icon cs-mini-icon-red">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" style="width:26px;height:26px;"><path fill="currentColor" d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 0 0 0 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3c7.7-16.2 7.7-35 0-51.5M512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258s279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766m-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176s176-78.8 176-176s-78.8-176-176-176m0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112s112 50.1 112 112s-50.1 112-112 112"/></svg>
+            <span class="cs-mini-icon icon-glow-green" style="color:#3FA121;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:24px;height:24px;"><path d="M0 0h24v24H0z" fill="none"/><path fill="currentColor" d="M19.1 7.8c-.38-.5-.97-.8-1.6-.8H15V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2c0 1.65 1.35 3 3 3s3-1.35 3-3h4c0 1.65 1.35 3 3 3s3-1.35 3-3c1.1 0 2-.9 2-2v-3.67c0-.43-.14-.86-.4-1.2zM7 19a1.003 1.003 0 0 1-.87-1.5c.36-.62 1.33-.63 1.72-.02A.95.95 0 0 1 8 18c0 .55-.45 1-1 1m10 0a1.003 1.003 0 0 1-.87-1.5c.36-.62 1.33-.63 1.72-.02A.95.95 0 0 1 18 18c0 .55-.45 1-1 1m-2-7V9h2.5l2.25 3z"/></svg>
             </span>
-            <p><span class="cs-mini-label">Public exposure by default</span> — Full names and photos attached to every post created fear of judgment</p>
+            <p><span class="cs-mini-label">Capacity and specifications</span> — Translating household inventory into the right vehicle size and requirements</p>
           </div>
           <div class="cs-mini-card">
-            <span class="cs-mini-icon cs-mini-icon-red">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:26px;height:26px;"><g fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.333 16.048L16.57 3.81a2.56 2.56 0 0 1 3.62 3.619L7.951 19.667a2 2 0 0 1-1.022.547L3 21l.786-3.93a2 2 0 0 1 .547-1.022"/><path d="m14.5 6.5l3 3"/></g></svg>
+            <span class="cs-mini-icon icon-glow-green" style="color:#3FA121;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" style="width:24px;height:24px;"><path d="M0 0h56v56H0z" fill="none"/><path fill="currentColor" d="M4 28C4 14.745 14.745 4 28 4s24 10.745 24 24s-10.745 24-24 24S4 41.255 4 28m24.573 1.744c2.974.732 3.865 1.702 3.865 3.34c0 1.702-1.145 2.99-3.865 3.197zm-1.797-3.673c-2.544-.637-3.499-1.702-3.499-3.15s1.209-2.767 3.5-3.053zm1.797.429v-6.632c2.036.254 3.467 1.415 3.674 3.42h3.308c-.127-3.61-3.006-5.996-6.982-6.315v-2.687h-1.797v2.687c-4.008.303-6.87 2.656-6.87 6.219c0 3.228 2.179 5.042 6.218 5.98l.652.159v6.934c-2.56-.27-3.769-1.638-4.055-3.499h-3.292c.11 3.817 3.308 6.091 7.347 6.394v2.671h1.797V39.16c4.056-.287 7.237-2.497 7.237-6.394c0-3.387-2.29-5.105-6.473-6.075z"/></svg>
             </span>
-            <p><span class="cs-mini-label">Blank page paralysis</span> — Unlimited freedom with no guidance led to confusion and limited participation</p>
-          </div>
-          <div class="cs-mini-card">
-            <span class="cs-mini-icon cs-mini-icon-red">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="width:26px;height:26px;"><path fill="currentColor" d="M1 4.5A2.5 2.5 0 0 1 3.5 2h9A2.5 2.5 0 0 1 15 4.5v5a2.5 2.5 0 0 1-2.5 2.5H8.688l-3.063 2.68A.98.98 0 0 1 4 13.942V12h-.5A2.5 2.5 0 0 1 1 9.5zM3.5 3A1.5 1.5 0 0 0 2 4.5v5A1.5 1.5 0 0 0 3.5 11H5v2.898L8.312 11H12.5A1.5 1.5 0 0 0 14 9.5v-5A1.5 1.5 0 0 0 12.5 3zM12 5.5a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5m-2 3a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5"/></svg>
-            </span>
-            <p><span class="cs-mini-label">Burden of context</span> — Users had to explain their note's purpose rather than the platform providing structure</p>
-          </div>
-          <div class="cs-mini-card">
-            <span class="cs-mini-icon cs-mini-icon-red">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" style="width:26px;height:26px;"><path fill="currentColor" d="M26 21v-1a1 1 0 0 1 2 0v10h2V20a3.003 3.003 0 0 0-3-3a2.96 2.96 0 0 0-1.47.401a2.954 2.954 0 0 0-4-1A3 3 0 0 0 19 15a3 3 0 0 0-1 .185V10a3 3 0 0 0-6 0v11.105l-2.235-1.53v.001a2.999 2.999 0 0 0-3.882 4.55L12.323 30l1.347-1.478l-6.378-5.818A1 1 0 0 1 7 22a1 1 0 0 1 1.6-.8l5.4 3.695V10a1 1 0 0 1 2 0v11h2v-3a1 1 0 0 1 2 0v3h2v-2a1 1 0 0 1 2 0v2Z"/><path fill="currentColor" d="M28 12h-6v-2h6V4H4v6h4v2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h24a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2"/></svg>
-            </span>
-            <p><span class="cs-mini-label">One-way communication</span> — No way to engage with others beyond posting; no reactions, no feedback loop</p>
+            <p><span class="cs-mini-label">Payment and trust</span> — Clarifying deposits, itemized costs, and communication before asking for payment</p>
           </div>
         </div>
       </div>
 
       <div class="cs-row-label reveal cs-extra-gap-label">
-        <h2>We rebuilt the entry around <em>trust</em>, not exposure</h2>
+        <h2>Mapping the <em>platform</em> flow</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>I designed the V2 onboarding as a guided walkthrough that introduces the gratitude cycle upfront. The goal was to build trust incrementally: explain what gratitude means on this platform, show how notes travel from writer to reader, and clarify what "anonymous" actually means before users ever start writing.</p>
-        <p>The V2 onboarding compresses the core experience into a safe first run. Users practice the full cycle once with training wheels, then move into the platform with confidence. But onboarding only sets the stage. The features that follow — prompts, AI tagging, privacy controls, streaks — are what make the platform usable long term.</p>
+        <p>This structure became the foundation of the product. Each step answered a focused question before introducing the next, allowing users to understand the process without needing to hold every logistical variable in mind at once.</p>
+        <p>Once the journey was established, I could begin refining how each decision should work.</p>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-6.jpg" alt="V2 platform flow — Welcome and Sign-Up, then Onboarding steps for View Community, Write Note, and Add to Deck, each broken into platform synopsis, select prompt, create reflection, generated tags, post anonymously, react to cards, and input information" style="width:100%;display:block;">
+          <img src="Images/genesis-9.jpg" alt="Genesis platform flow" style="width:100%;display:block;">
         </div>
       </div>
 
       <div class="cs-row-label reveal">
         <div class="cs-mini-card cs-mini-card-fill">
-          <span class="cs-mini-icon" style="color:#525252;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:26px;height:26px;"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 12l6 6L20 6"/></svg>
+          <span class="cs-mini-icon icon-glow-gray" style="color:#666565;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="width:26px;height:26px;"><path d="M0 0h16v16H0z" fill="none"/><path fill="currentColor" d="M13.293 3.293a1 1 0 1 1 1.414 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 1 1 1.414-1.414L6 10.586z"/></svg>
           </span>
-          <p>The onboarding process walks users through each core action once</p>
+          <p>Details are gathered progressively, guiding users through one focused decision at a time before finalizing the move</p>
         </div>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
@@ -723,121 +806,53 @@
             <span class="cs-mini-icon cs-mini-icon-green" style="margin-top:-4px;">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:35px;height:35px;"><circle cx="12" cy="7.25" r="1.25" fill="currentColor"/><path fill="currentColor" d="M11 10h2v8h-2z"/></svg>
             </span>
-            <p><span class="cs-mini-label">Platform overview</span> — Participants immediately understand the purpose of the platform</p>
+            <p><span class="cs-mini-label">High-Level Scoping</span> — Exhausting forms and checklists are replaced with quick, easy to answer questions</p>
           </div>
           <div class="cs-mini-card">
             <span class="cs-mini-icon cs-mini-icon-green">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" style="width:24px;height:24px;"><path fill="currentColor" d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 0 0 0 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3c7.7-16.2 7.7-35 0-51.5M512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258s279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766m-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176s176-78.8 176-176s-78.8-176-176-176m0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112s112 50.1 112 112s-50.1 112-112 112"/></svg>
             </span>
-            <p><span class="cs-mini-label">Visibility choice</span> — Users decide whether to share anonymously or publicly before posting</p>
+            <p><span class="cs-mini-label">Transparent Alternatives</span> — The system recommends a vehicle, but gives users full control to browse and select</p>
           </div>
           <div class="cs-mini-card">
             <span class="cs-mini-icon cs-mini-icon-green">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:24px;height:24px;"><g fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.333 16.048L16.57 3.81a2.56 2.56 0 0 1 3.62 3.619L7.951 19.667a2 2 0 0 1-1.022.547L3 21l.786-3.93a2 2 0 0 1 .547-1.022"/><path d="m14.5 6.5l3 3"/></g></svg>
             </span>
-            <p><span class="cs-mini-label">Prompted reflection</span> — Users choose from specific prompts around topics they care about</p>
+            <p><span class="cs-mini-label">Simplified Editing</span> — Users can update their details directly from the summary page without backtracking</p>
           </div>
           <div class="cs-mini-card">
             <span class="cs-mini-icon cs-mini-icon-green">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="width:24px;height:24px;"><path fill="currentColor" d="M1 4.5A2.5 2.5 0 0 1 3.5 2h9A2.5 2.5 0 0 1 15 4.5v5a2.5 2.5 0 0 1-2.5 2.5H8.688l-3.063 2.68A.98.98 0 0 1 4 13.942V12h-.5A2.5 2.5 0 0 1 1 9.5zM3.5 3A1.5 1.5 0 0 0 2 4.5v5A1.5 1.5 0 0 0 3.5 11H5v2.898L8.312 11H12.5A1.5 1.5 0 0 0 14 9.5v-5A1.5 1.5 0 0 0 12.5 3zM12 5.5a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0 0 1h7a.5.5 0 0 0 .5-.5m-2 3a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5"/></svg>
             </span>
-            <p><span class="cs-mini-label">Community reactions</span> — Users can engage with others' posts through emoji reactions, creating feedback</p>
+            <p><span class="cs-mini-label">Integrated Chats</span> — Replaces off-platform haggling with secure, timed in-app messaging for both parties</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ============ KEY FEATURES ============ -->
-    <section class="cs-row" id="features">
-      <p class="cs-eyebrow">Key Features</p>
+    <!-- ============ KEY INTERACTIONS ============ -->
+    <section class="cs-row" id="interactions">
+      <p class="cs-eyebrow">Key Interactions</p>
       <div class="cs-row-label reveal">
-        <h2>Our platform is only as strong as the <em>interactions</em> it enables</h2>
+        <h2>Breaking down the <em>burden</em> of choice</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>With onboarding setting the emotional foundation, the rest of the platform needed to deliver on that promise. Each feature was designed to solve one of the three challenges we identified in V1: vulnerability, authenticity, or engagement.</p>
+        <p>Instead of presenting users with one overwhelming form, I structured the experience around progressive disclosure. Each screen introduced a focused decision, allowing the complexity of a move to unfold gradually.</p>
+        <p>Rather than asking for all move related details simultaneously, users could focus on one question at a time before moving forward.</p>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-7.jpg" alt="Key features in V2 — three columns mapping a V1 problem (blank cards & public posts, cards dropped into an abstract pile, public-by-default decks) to a guiding question and the V2 solution (guided prompts, recipient groups, embedded privacy controls)" style="width:100%;display:block;">
-        </div>
-      </div>
-
-      <div class="cs-row-label reveal">
-        <h2>But first, we needed to <em>re-design</em> the gratitude note</h2>
-      </div>
-      <div class="cs-divider" aria-hidden="true"></div>
-      <div class="cs-row-content reveal">
-        <p>If onboarding sets the emotional foundation, the note card is where users actually take the risk of sharing something personal. V1 treated the card as a simple container for text. That wasn't enough.</p>
-        <p>The card needed to make writing feel approachable while supporting the three mechanics that made V2 different: guided prompts, recipient connection, and privacy. We redesigned its architecture around those needs, turning the note from a blank content container into a structured space for reflection.</p>
-      </div>
-
-      <div class="cs-row-label reveal cs-extra-gap-label">
-        <div class="cs-shot">
-          <img src="Images/gratitude-8.jpg" alt="Annotated V1 note — a condensed card with the response and author called out" style="width:100%;display:block;">
-        </div>
-        <div class="cs-mini-list" style="margin-top:36px;">
-          <div class="cs-mini-card">
-            <span class="cs-mini-icon cs-p-icon-up">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></svg>
-            </span>
-            <p>The compact, vertically stacked design is familiar and easy to scan quickly, reducing cognitive load</p>
-          </div>
-          <div class="cs-mini-card">
-            <span class="cs-mini-icon cs-p-icon-down">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="translate(0,24) scale(1,-1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></g></svg>
-            </span>
-            <p>The author is more prominent than the content of the note, increasing performance anxiety</p>
-          </div>
-        </div>
-      </div>
-      <div class="cs-divider" aria-hidden="true"></div>
-      <div class="cs-row-content reveal">
-        <div class="cs-shot">
-          <img src="Images/gratitude-9.jpg" alt="Annotated V2 note — an elongated card with the selected prompt and additional details called out" style="width:100%;display:block;">
-        </div>
-        <div class="cs-mini-list" style="margin-top:36px;">
-          <div class="cs-mini-card">
-            <span class="cs-mini-icon cs-p-icon-up">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></svg>
-            </span>
-            <p>Incorporating the prompt directly into the writing experience decreases blank-page paralysis</p>
-          </div>
-          <div class="cs-mini-card">
-            <span class="cs-mini-icon cs-p-icon-up">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></svg>
-            </span>
-            <p>The elongated format allows for community metadata to be separated from personal reflection</p>
-          </div>
-          <div class="cs-mini-card">
-            <span class="cs-mini-icon cs-p-icon-down">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="translate(0,24) scale(1,-1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></g></svg>
-            </span>
-            <p>The elongated format used more horizontal space, creating challenges in scaling for smaller devices</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="cs-row-label reveal cs-extra-gap-label">
-        <h2>From a blank page to <em>guided</em> reflection</h2>
-      </div>
-      <div class="cs-divider" aria-hidden="true"></div>
-      <div class="cs-row-content reveal">
-        <p>V1 handed users a blank card and implied they were contributing to a public collection. Predictably, people froze or wrote thin, performative posts.</p>
-        <p>V2 replaces the blank page with curated prompts that lower the barrier without lowering the depth. Each prompt invites reflection while leaving room for personal meaning.</p>
-      </div>
-      <div class="cs-row-media reveal">
-        <div class="cs-shot">
-          <img src="Images/gratitude-10.jpg" alt="Onboarding process introduction — choose a prompt from a list, then reflect and write a gratitude note" style="width:100%;display:block;">
+          <img src="Images/genesis-10.jpg" alt="Genesis booking flow — route and property details collected in progressive steps" style="width:100%;display:block;">
         </div>
       </div>
 
       <div class="cs-row-label reveal">
         <div class="cs-mini-card cs-mini-card-fill">
-          <span class="cs-mini-icon" style="color:#525252;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:26px;height:26px;"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m4 12l6 6L20 6"/></svg>
+          <span class="cs-mini-icon icon-glow-gray" style="color:#666565;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="width:26px;height:26px;"><path d="M0 0h16v16H0z" fill="none"/><path fill="currentColor" d="M13.293 3.293a1 1 0 1 1 1.414 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 1 1 1.414-1.414L6 10.586z"/></svg>
           </span>
-          <p>The nnboarding process shows each core action once to enable users to independently explore</p>
+          <p>Capturing the route before diving into property details breaks complex logistics into smaller, simplier steps</p>
         </div>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
@@ -845,65 +860,187 @@
         <div class="cs-mini-list">
           <div class="cs-mini-card">
             <span class="cs-mini-icon cs-mini-num">1</span>
-            <p>Directing users through distinct categories before writing lowers cognitive load and sparks inspiration</p>
+            <p>Locations and distance are locked in before users are asked to detail the specifics of their space</p>
           </div>
           <div class="cs-mini-card">
             <span class="cs-mini-icon cs-mini-num">2</span>
-            <p>The chosen prompt remains anchored at the top to guide writing, with navigation to easily swap topics</p>
+            <p>The flow only asks for high-level details rather than overwhelming the user with a full inventory count</p>
           </div>
         </div>
       </div>
 
       <div class="cs-row-label reveal cs-extra-gap-label">
-        <h2>Expanding <em>gratitude</em> beyond the obvious</h2>
+        <h2>Removing the <em>guesswork</em> from logistics</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>V1 cards floated into decks, but there was no mechanism connecting a writer's gratitude to the people who inspired it. The community aspect remained theoretical — you were adding to a pile, not reaching a person.</p>
-        <p>V2 integrates AI to surface implicit recipient groups as users write. Tags like "UCSC Faculty," "Park Rangers," and "Environmental Conservationists" connect individual reflections to the communities behind them. The AI doesn't replace the writer's words — it helps their gratitude travel further.</p>
+        <p>In traditional platforms, users are forced to guess which truck capacity fits their belongings. To eliminate this friction, Genesis automatically recommends the ideal vehicle based on the property details provided in the previous step.</p>
+        <p>While the system handles the technical translation to reduce cognitive load, users retain full agency to view alternative truck sizes and adjust their selection before requesting a price estimate.</p>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-11.jpg" alt="Annotated unsung heroes page — recipient-group tags generated as metadata, with a participant quote about not having thought to thank the maintenance staff until the tag appeared" style="width:100%;display:block;">
+          <img src="Images/genesis-11.jpg" alt="Genesis vehicle recommendation — automatic truck size suggestion with alternatives" style="width:100%;display:block;">
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>Sometimes <em>fewer options</em> create a better path forward</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>We initially considered including a "save booking details" option within the booking flow. But because the early journey was designed to collect only the information necessary to reach a price estimate, introducing another exit point before users reached that value moment risked interrupting momentum.</p>
+        <p>Rather than adding another decision, we focused on making the flow concise enough to complete in one session. However, removing the feature was a tradeoff — it prioritized forward momentum over flexibility.</p>
+      </div>
+
+      <!-- genesis-12 (cut) / genesis-13 (kept) — images side by side on top,
+           then each image's own thumbs-up/down list stacked directly
+           underneath it, in the same left/right column. -->
+      <div class="cs-row-media reveal">
+        <div class="cs-compare-grid">
+          <div class="cs-shot">
+            <img src="Images/genesis-12.jpg" alt="Genesis — save booking details option, considered and cut" style="width:100%;display:block;">
+          </div>
+          <div class="cs-shot">
+            <img src="Images/genesis-13.jpg" alt="Genesis — the finalized single-session booking flow" style="width:100%;display:block;">
+          </div>
+        </div>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-compare-grid">
+          <div class="cs-mini-list">
+            <div class="cs-mini-card">
+              <span class="cs-mini-icon cs-p-icon-up">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></svg>
+              </span>
+              <p>Provides flexibility for users who aren't ready to complete the booking in a single session</p>
+            </div>
+            <div class="cs-mini-card">
+              <span class="cs-mini-icon cs-p-icon-down">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="translate(0,24) scale(1,-1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></g></svg>
+              </span>
+              <p>Introduces another exit point, disrupting momentum before the user reaches the price estimate</p>
+            </div>
+          </div>
+          <div class="cs-mini-list">
+            <div class="cs-mini-card">
+              <span class="cs-mini-icon cs-p-icon-up">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></svg>
+              </span>
+              <p>Eliminates secondary decisions, keeping the user entirely focused on moving forward</p>
+            </div>
+            <div class="cs-mini-card">
+              <span class="cs-mini-icon cs-p-icon-up">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></svg>
+              </span>
+              <p>Drives momentum, ensuring users reach the critical price estimate (the core value moment) faster</p>
+            </div>
+            <div class="cs-mini-card">
+              <span class="cs-mini-icon cs-p-icon-down">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g transform="translate(0,24) scale(1,-1)"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/></g></svg>
+              </span>
+              <p>Prioritizes forward momentum over flexibility, removing an easy way to pause the experience</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>Designing <em>trust</em> into the commitment point</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>The checkout experience was designed to make the financial process understandable at every stage. Before committing, users could review a detailed price breakdown, understand what was included in their estimate, and see how the deposit contributed to the final transaction.</p>
+        <p>The flow also surfaced cancellation policies and potential fees, helping users understand the consequences of changing plans before completing payment.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/genesis-14.jpg" alt="Genesis checkout — price breakdown, deposit, and cancellation policy" style="width:100%;display:block;">
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <div class="cs-shot">
+          <div class="annot-media">
+            <img src="Images/genesis-15.jpg" alt="Genesis checkout — deposit and driver confirmation" style="width:100%;display:block;">
+            <img src="Images/genesis-15-toggle.jpg" alt="Genesis checkout — deposit and driver confirmation with perspective overlay" class="annot-swap-g15">
+          </div>
+        </div>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <div class="annot-toggle-row" style="justify-content:flex-start;margin-top:6px;">
+          <label class="annot-toggle">
+            Perspective Overlay
+            <input type="checkbox" id="genesis15Toggle">
+          </label>
+        </div>
+        <div class="cs-mini-list cs-mini-list-uniform">
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon icon-glow-green" style="color:#3FA121;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:24px;height:24px;"><path d="M0 0h24v24H0z" fill="none"/><path fill="currentColor" d="M6 22h12c1.1 0 2-.9 2-2v-9c0-1.1-.9-2-2-2h-1V7c0-2.76-2.24-5-5-5S7 4.24 7 7v2H6c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2M9 7c0-1.65 1.35-3 3-3s3 1.35 3 3v2H9z"/></svg>
+            </span>
+            <p>Minimal deposit rather than the full total reduces financial friction and builds immediate trust</p>
+          </div>
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon icon-glow-green" style="color:#3FA121;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:24px;height:24px;"><path d="M0 0h24v24H0z" fill="none"/><path fill="currentColor" d="M8.76 7.95c-.19.19-.19.51 0 .71l.1.1c.76.76 2.07.76 2.83 0l3.04-3.04l.71.71l-.9.9l5.78 5.78c2.29-2.36 2.27-6.01-.07-8.35c-2.16-2.15-5.42-2.31-7.77-.54L8.77 7.96Z"/><path fill="currentColor" d="m9.59 15.81l.71-.71l4 4l1.19-1.19l-4.01-4.01l.71-.71l4.01 4.01l1.19-1.19L13.38 12l.71-.71l4.01 4.01l1.51-1.5l-5.79-5.78l-1.43 1.43c-.57.57-1.32.88-2.12.88s-1.55-.31-2.12-.88l-.1-.1c-.58-.58-.58-1.53 0-2.12l3.21-3.24c-2.33-1.55-5.42-1.31-7.5.75c-2.36 2.37-2.36 6.07 0 8.43l7.53 7.52c.19.19.45.29.71.29s.51-.1.71-.29l.89-.89l-4-4Z"/></svg>
+            </span>
+            <p>Explaining that the deposit locks in driver booking eliminates the anxiety of move day cancellations</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>Closing the <em>loop</em> and providing certainty</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>The user journey does not end when they press "pay." Generating a formal digital receipt and outlining clear next steps shifts the user's mindset from digital booking to physical coordination, reinforcing the platform's reliability and ensuring they feel secure in their transaction.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/genesis-16.jpg" alt="Genesis — digital receipt and move-day next steps" style="width:100%;display:block;">
         </div>
       </div>
 
       <div class="cs-row-label reveal">
-        <h2>Safety as a <em>feature</em>, not an afterthought</h2>
-      </div>
-      <div class="cs-divider" aria-hidden="true"></div>
-      <div class="cs-row-content reveal">
-        <p>V1 made exposure the default. Cards were public, writers were identifiable, and the deck structure amplified judgment — your contribution sat alongside others, evaluated as a collection. The fear of being seen killed authenticity before it could start.</p>
-        <p>V2 places agency at the point of decision. The anonymous sharing toggle lives right beside the publish button — impossible to miss, impossible to misunderstand — and is opt-in rather than default. We iterated heavily on placement, styling, and tooltip copy because safety needed to feel as intentional as the writing itself.</p>
-      </div>
-
-      <div class="cs-row-label reveal cs-extra-gap-label">
-        <div class="cs-shot annot-frame">
-          <div class="annot-toggle-row">
-            <label class="annot-toggle">
-              Perception Overlay
-              <input type="checkbox">
-            </label>
-          </div>
-          <div class="annot-media">
-            <img src="Images/gratitude-12.jpg" alt="V1 platform privacy controls — the Thank You card flow" style="width:100%;display:block;">
-            <img src="Images/gratitude-12-annot.jpg" alt="V1 platform privacy controls annotated — public by default, attached identity, performance pressure, confirms exposure" class="annot-swap-img">
-          </div>
+        <div class="cs-mini-card cs-mini-card-fill">
+          <span class="cs-mini-icon icon-glow-gray" style="color:#666565;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="width:26px;height:26px;"><path d="M0 0h16v16H0z" fill="none"/><path fill="currentColor" d="M13.293 3.293a1 1 0 1 1 1.414 1.414l-8 8a1 1 0 0 1-1.414 0l-4-4a1 1 0 1 1 1.414-1.414L6 10.586z"/></svg>
+          </span>
+          <p>An instant digital receipt provides closure, shifting users from booking anxiety to move-day readiness</p>
         </div>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <div class="cs-shot annot-frame">
-          <div class="annot-toggle-row">
-            <label class="annot-toggle">
-              Perspective Overlay
-              <input type="checkbox">
-            </label>
+        <div class="cs-mini-list">
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-mini-num">1</span>
+            <p>Keeping the financial handoff securely inside the platform eliminates the stress of cash negotiations</p>
           </div>
-          <div class="annot-media">
-            <img src="Images/gratitude-13.jpg" alt="V2 platform privacy controls — keep your note private or contribute it to the community" style="width:100%;display:block;">
-            <img src="Images/gratitude-13-annot.jpg" alt="V2 platform privacy controls annotated — private by default, point of action control beside the Next button" class="annot-swap-img">
+          <div class="cs-mini-card">
+            <span class="cs-mini-icon cs-mini-num">2</span>
+            <p>Generating a verifiable ID and explaining driver assignment removes all post-purchase guesswork</p>
           </div>
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>Anchoring the <em>post booking</em> experience</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>To bring the journey full circle, the post-booking experience serves as a centralized hub for all move details. Rather than leaving users to hunt through scattered email threads, the dashboard provides a clear, step-by-step visual tracker that monitors the move from booking to final delivery.</p>
+        <p>When it's time to coordinate with the driver, users can rely on a secure, in-app messaging system. This keeps all conversations documented within the platform, protecting user privacy and removing the friction of handing out personal phone numbers.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/genesis-17.jpg" alt="Genesis — post-booking move tracker" style="width:100%;display:block;">
+        </div>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/genesis-18.jpg" alt="Genesis — in-app driver messaging" style="width:100%;display:block;">
         </div>
       </div>
     </section>
@@ -912,77 +1049,147 @@
     <section class="cs-row" id="design-system">
       <p class="cs-eyebrow">Design System</p>
       <div class="cs-row-label reveal">
-        <h2>A visual system <em>designed</em> to feel warm and welcoming</h2>
+        <h2>Grounding the <em>experience</em> through a focused visual language</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>The original brown palette gave Gratitude a warm, grounded quality. But as the platform grew, the interface needed more room to breathe.</p>
-        <p>The primary canvas remained white, but introduced green as the dominant accent across interactions and content. The warmth remained, but the lighter palette created more space between elements and clearer relationships between content, actions, and supporting information. The change wasn't a rebrand. It was an evolution — the same Gratitude, with a visual language better suited to where the platform was going.</p>
+        <p>The visual system relies on a focused, high-contrast palette designed to build immediate brand trust and reduce cognitive load. By restricting the palette to a core four-color stack—anchored by the primary Genesis green—the interface maintains a clean, utilitarian aesthetic that never distracts from the core booking tasks.</p>
+        <p>Typography was selected specifically for legibility across dense logistical information, ensuring that critical details like price breakdowns, dates, and addresses remain highly scannable.</p>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-14.jpg" alt="V1 color palette — brown-toned cards and swatches with feedback: amplified blank-page anxiety, felt clinical and cold, felt impersonal and heavy, failed to evoke positivity" style="width:100%;display:block;">
+          <img src="Images/genesis-19.jpg" alt="Genesis design system — color palette" style="width:100%;display:block;">
         </div>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-15.jpg" alt="V2 color palette — white canvas with green accents, annotated as visually anchoring the journal, softening textual contrast, inspiring positive growth, and adding comforting warmth" style="width:100%;display:block;">
+          <img src="Images/genesis-20.jpg" alt="Genesis design system — typography" style="width:100%;display:block;">
         </div>
       </div>
 
-      <div class="cs-row-label reveal">
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>Turning unexpected friction into <em>clear paths</em> forward</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>Designing for edge cases meant ensuring that user mistakes or system failures were handled gracefully. The platform employs a dual approach to error recovery to prevent drop-off. Inline validation provides real-time, descriptive helper text on forms to guide users before they submit. For high-stakes actions, such as a failed payment, explicit overlapping system alerts instantly notify the user without navigating them away from the page, preserving their inputted data and allowing for quick resolution.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/genesis-21.jpg" alt="Genesis design system — error and edge-case states" style="width:100%;display:block;">
+        </div>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-compare-grid">
+          <div class="cs-shot" style="margin-top:0;">
+            <img src="Images/genesis-22.jpg" alt="Genesis design system — error handling in context" style="width:100%;display:block;">
+          </div>
+          <div class="cs-mini-list">
+            <div class="cs-mini-card">
+              <span class="cs-mini-icon icon-glow-green" style="color:#3FA121;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" style="width:24px;height:24px;"><path d="M0 0h24v24H0z" fill="none"/><path fill="currentColor" d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m-7 12h-2v-2h2zm0-4h-2V6h2z"/></svg>
+              </span>
+              <p><span class="cs-mini-label">Error Feedback</span> — Clear, specific messaging tells users what went wrong and what to do next</p>
+            </div>
+            <div class="cs-mini-card">
+              <span class="cs-mini-icon icon-glow-green" style="color:#3FA121;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:24px;height:24px;"><path d="M0 0h24v24H0z" fill="none"/><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94c0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6s3.6 1.62 3.6 3.6s-1.62 3.6-3.6 3.6"/></svg>
+              </span>
+              <p><span class="cs-mini-label">Recovery System</span> — Users can correct a mistake in place, without losing progress elsewhere in the flow</p>
+            </div>
+            <div class="cs-mini-card">
+              <span class="cs-mini-icon icon-glow-green" style="color:#3FA121;">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" style="width:24px;height:24px;"><path d="M0 0h1024v1024H0z" fill="none"/><path fill="currentColor" d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 0 0 0 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3c7.7-16.2 7.7-35 0-51.5M512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258s279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766m-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176s176-78.8 176-176s-78.8-176-176-176m0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112s112 50.1 112 112s-50.1 112-112 112"/></svg>
+              </span>
+              <p><span class="cs-mini-label">Proactive Prevention</span> — Constraints and inline validation catch likely mistakes before they happen</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
         <h2>Consistency made the <em>complexity</em> disappear</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>As the platform grew, so did the number of interactions. Cards, buttons, tags, inputs, toggles, prompts, and feedback states all needed to feel like parts of the same experience. I translated the visual language into a reusable component system so new features could build on the same foundation rather than introduce another visual pattern. Consistent spacing, hierarchy, and interaction states kept the experience approachable even as we introduced AI-generated recipient groups and privacy controls.</p>
+        <p>To maintain consistency across the booking flow, the interface was built using a robust, reusable component library. Interactive elements, such as the progressive vehicle selection cards and modular text inputs, were standardized to ensure predictable behavior. All primary call-to-action buttons and form fields maintain a minimum 44x44px touch target, embedding usability and accessibility directly into the component structure rather than treating them as an afterthought.</p>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-16.jpg" alt="Annotated component spec — posted-card and prompt-selection components with spacing measurements and a component properties panel" style="width:100%;display:block;">
+          <img src="Images/genesis-23.jpg" alt="Genesis design system — component consistency" style="width:100%;display:block;">
         </div>
       </div>
 
-      <div class="cs-row-label reveal">
-        <h2>Providing more <em>context</em> through dialogue</h2>
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>Scaling the <em>experience</em> across devices</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>A calming visual system could only go so far. At high-friction moments, users still needed to know what would happen when they clicked, shared, or changed a privacy setting.</p>
-        <p>We introduced contextual tooltips and microcopy at these moments to answer those questions in place. Instead of adding another layer of instructions, the interface provides clarity exactly when uncertainty appears — helping users move forward without breaking the flow.</p>
+        <p>The structured, single-decision screens were designed specifically to scale seamlessly across breakpoints. By keeping the layouts vertically stacked and prioritizing progressive disclosure, the interface adapts naturally to smaller mobile devices without sacrificing visual hierarchy. This ensures that the core booking experience—from the initial route visualization to the final digital receipt—remains just as intuitive and uncluttered on a phone as it is on a desktop monitor.</p>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-17.jpg" alt="Review the unsung heroes underlying your note — screen with recipient-group and topic tags, plus a three-step dialogue workflow: Unsung Heroes, Generated Tags, Privacy Toggle" style="width:100%;display:block;">
+          <img src="Images/genesis-24.jpg" alt="Genesis design system — responsive layout" style="width:100%;display:block;">
         </div>
       </div>
 
-      <div class="cs-row-label reveal">
+      <div class="cs-row-label reveal cs-extra-gap-label">
         <h2>The <em>system</em> in practice</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>The final system had to work across every part of the experience — onboarding, writing, sharing, and community discovery — without making the interface feel overwhelming. Each interaction has enough structure to guide users without competing with what matters most: the gratitude itself.</p>
-        <p>The result was a visual system that made a growing set of features feel like one experience. The palette, components, and hierarchy work together to give Gratitude a consistent identity from the first screen to the final note.</p>
+        <p>The final system had to work across every part of the experience—from route planning and vehicle selection to secure payments and post-booking coordination—without making the interface feel overwhelming. Each interaction provides enough structure to guide users without competing with what matters most: the clarity of their move.</p>
+        <p>The result was a visual system that made a complex set of logistical steps feel like one cohesive experience. The focused palette, reusable components, and clear hierarchy work together to give Genesis a consistent identity from the first booking screen to the final delivery dashboard.</p>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-18.jpg" alt="Onboarding introduction — welcome screen and first-prompt selection with three suggested gratitude prompts" style="width:100%;display:block;">
+          <img src="Images/genesis-25.jpg" alt="Genesis design system in practice" style="width:100%;display:block;">
         </div>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-19.jpg" alt="Reflect and write a gratitude note, then review the unsung heroes and relevant communities generated from it" style="width:100%;display:block;">
+          <img src="Images/genesis-26.jpg" alt="Genesis design system in practice" style="width:100%;display:block;">
         </div>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-20.jpg" alt="Choosing to keep a note private or share it with the community, and using streaks to build a habit of gratitude" style="width:100%;display:block;">
+          <img src="Images/genesis-27.jpg" alt="Genesis design system in practice" style="width:100%;display:block;">
         </div>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-21.jpg" alt="Completed onboarding flow — recipient-category selection and a final confirmation screen inviting the user to explore" style="width:100%;display:block;">
+          <img src="Images/genesis-28.jpg" alt="Genesis design system in practice" style="width:100%;display:block;">
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VALIDATION ============ -->
+    <section class="cs-row" id="validation">
+      <p class="cs-eyebrow">Early Validation</p>
+      <div class="cs-row-label reveal">
+        <h2>Did the <em>experience</em> actually feel manageable?</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>After refining the booking journey into a high-fidelity, interactive prototype, we tested the experience with six participants from Latin America. Four of the six participants compared the multi-step experience favorably to familiar transportation products like Uber and Lyft. Breaking the booking into focused decisions helped participants understand what was being asked of them without confronting every logistical variable at once.</p>
+        <p>The feedback supported the structural strategy behind the experience: complexity didn't necessarily need to disappear—it needed to be introduced at the right moment.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/genesis-29.jpg" alt="Genesis usability testing — booking journey feedback" style="width:100%;display:block;">
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>The <em>tension</em> between disclosure and transparency</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>Usability testing revealed an important tension within the design: prioritizing progressive disclosure meant sacrificing early financial transparency. While users appreciated the step-by-step logistics, they felt blindsided by discovering the deposit requirement at the very end of the flow. This feedback highlighted a clear need to introduce the upfront cost well before the final checkout screen.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/genesis-30.jpg" alt="Genesis usability testing — deposit disclosure timing" style="width:100%;display:block;">
         </div>
       </div>
     </section>
@@ -991,74 +1198,60 @@
     <section class="cs-row" id="retrospective" style="padding-bottom:160px;">
       <p class="cs-eyebrow">Retrospective</p>
       <div class="cs-row-label reveal">
-        <h2>Did the <em>design</em> actually change how users felt?</h2>
+        <h2>Building a <em>foundation</em> before seeing the outcome</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>Following the launch, our team conducted formal interviews with 15 participants to evaluate the new platform experience. The results reinforced our central hypothesis: the architecture of an interface can shape how safe people feel using it.</p>
-        <p>After using V2, all participants reported feeling more comfortable sharing gratitude. They pointed to the anonymous environment and inspiration from other people's notes as key factors. AI-generated recipient tags also helped create a stronger sense of connection, with users describing how seeing their communities highlighted made them feel seen and valued.</p>
+        <p>Because my involvement concluded prior to public launch, success was measured through the delivery of a robust MVP foundation rather than live marketplace metrics. The primary outcome of this phase was a complete end-to-end customer booking architecture, supported by an interactive prototype and a scalable component system.</p>
+        <p>Ultimately, this work answered the core question of what Genesis could become. Rather than just a collection of visual concepts, it established a cohesive, user-centered experience with the structural maturity required to move directly into development.</p>
       </div>
       <div class="cs-row-media reveal">
         <div class="cs-shot">
-          <img src="Images/gratitude-22.jpg" alt="Visualized results — 93% of participants preferred the onboarding experience and felt it empowered them to reflect more on gratitude, alongside a participant quote about the feeling being linked to gratitude expression rather than the people" style="width:100%;display:block;">
+          <img src="Images/genesis-31.jpg" alt="Genesis MVP foundation — end-to-end booking architecture" style="width:100%;display:block;">
         </div>
       </div>
 
-      <div class="cs-row-label reveal">
-        <h2>The new tradeoff: the <em>anonymity</em> paradox</h2>
-      </div>
-      <div class="cs-divider" aria-hidden="true"></div>
-      <div class="cs-row-content reveal">
-        <p>Anonymity solved one of V1's biggest barriers: the fear of being seen. But once names and faces disappeared, something else disappeared with them. Some participants found the reading experience less personal without human context, describing it as slightly "sterile."</p>
-        <p>The same anonymity that gave writers the confidence to share could make it harder for readers to connect with the person behind the reflection. The lesson wasn't that anonymity was wrong. It was that psychological safety and human connection aren't opposing problems — they have to be designed together.</p>
-      </div>
-      <div class="cs-row-media reveal">
-        <div class="cs-shot">
-          <img src="Images/gratitude-23.jpg" alt="Visualized participant quotes on anonymity — feeling connected but less so than with named context, anonymity feeling sterile, not worrying about being recognized, and anonymity discouraging rage bait in favor of honesty" style="width:100%;display:block;">
-        </div>
-      </div>
-
-      <div class="cs-row-label reveal">
+      <div class="cs-row-label reveal cs-extra-gap-label">
         <h2>My <em>key</em> takeaways</h2>
       </div>
       <div class="cs-divider" aria-hidden="true"></div>
       <div class="cs-row-content reveal">
-        <p>Building Gratitude changed how I think about the relationship between interface and emotion. A button isn't just a button when it controls whether someone feels safe sharing something personal. A card isn't just a container when it determines how someone approaches reflection. The biggest lesson I took from V2 is simple: good product design doesn't just support what people do. It shapes how they feel while doing it.</p>
+        <p>Designing Genesis changed how I think about the relationship between digital interfaces and physical logistics. A dashboard isn't just a layout of information, it also provides the exact peace of mind someone needs on moving day. The biggest lesson I took from building this MVP is simple: good product design doesn't just organize complex tasks. It replaces real-world anxiety with predictable certainty.</p>
         <div class="cs-takeaway-list">
           <div class="cs-takeaway-card">
-            <span class="cs-takeaway-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path fill="currentColor" d="M20 13a5 5 0 0 0 10 0a1 1 0 0 0-.105-.447l-4-8a1 1 0 0 0-1.211-.502l-6.331 2.11A3.03 3.03 0 0 0 17 5.184V2h-2v3.184a2.995 2.995 0 0 0-1.996 2.76l-6.32 2.107a1 1 0 0 0-.578.501l-4 8A1 1 0 0 0 2 19a5 5 0 0 0 10 0a1 1 0 0 0-.105-.447L8.41 11.584l5.237-1.746a3.03 3.03 0 0 0 1.353.977V28H6v2h20v-2h-9V10.816a2.995 2.995 0 0 0 1.996-2.76l4.03-1.344l-2.92 5.84A1 1 0 0 0 20 13M7 22a3 3 0 0 1-2.815-2h5.63A3 3 0 0 1 7 22m2.382-4H4.618L7 13.236ZM16 9a1 1 0 1 1 1-1a1 1 0 0 1-1 1m9 7a3 3 0 0 1-2.815-2h5.63A3 3 0 0 1 25 16m0-8.764L27.382 12h-4.764Z"/></svg>
+            <span class="cs-takeaway-icon" style="color:#207221;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1.25em" height="1em" viewBox="0 0 640 512"><path d="M0 0h640v512H0z" fill="none"/><path fill="currentColor" d="M434.7 64h-85.9c-8 0-15.7 3-21.6 8.4l-98.3 90c-.1.1-.2.3-.3.4c-16.6 15.6-16.3 40.5-2.1 56c12.7 13.9 39.4 17.6 56.1 2.7c.1-.1.3-.1.4-.2l79.9-73.2c6.5-5.9 16.7-5.5 22.6 1c6 6.5 5.5 16.6-1 22.6l-26.1 23.9L504 313.8c2.9 2.4 5.5 5 7.9 7.7V128l-54.6-54.6c-5.9-6-14.1-9.4-22.6-9.4M544 128.2v223.9c0 17.7 14.3 32 32 32h64V128.2zm48 223.9c-8.8 0-16-7.2-16-16s7.2-16 16-16s16 7.2 16 16s-7.2 16-16 16M0 384h64c17.7 0 32-14.3 32-32V128.2H0zm48-63.9c8.8 0 16 7.2 16 16s-7.2 16-16 16s-16-7.2-16-16c0-8.9 7.2-16 16-16m435.9 18.6L334.6 217.5l-30 27.5c-29.7 27.1-75.2 24.5-101.7-4.4c-26.9-29.4-24.8-74.9 4.4-101.7L289.1 64h-83.8c-8.5 0-16.6 3.4-22.6 9.4L128 128v223.9h18.3l90.5 81.9c27.4 22.3 67.7 18.1 90-9.3l.2-.2l17.9 15.5c15.9 13 39.4 10.5 52.3-5.4l31.4-38.6l5.4 4.4c13.7 11.1 33.9 9.1 45-4.7l9.5-11.7c11.2-13.8 9.1-33.9-4.6-45.1"/></svg>
             </span>
             <div class="cs-takeaway-text">
-              <h5>A feature is a tradeoff, not a cure-all</h5>
-              <p>While removing identity provided the necessary safety to write authentically, it stripped away the interpersonal context required to deeply connect</p>
+              <h5>Transparency is a part of trust</h5>
+              <p>Hiding complex logistics or costs doesn't help the user — translating them into clear, actionable steps at the right time does</p>
             </div>
           </div>
           <div class="cs-takeaway-card">
-            <span class="cs-takeaway-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M8.5 10a1.5 2 0 1 0 0 4a1.5 2 0 1 0 0-4m7 0a1.5 2 0 1 0 0 4a1.5 2 0 1 0 0-4M8 16h8v2H8z"/><path fill="currentColor" d="M21 11V8c0-1.1-.9-2-2-2h-6V4.61c.3-.27.5-.67.5-1.11c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5c0 .44.2.84.5 1.11V6H5c-1.1 0-2 .9-2 2v3c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1v3c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-3c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1M5 20V8h14v12z"/></svg>
+            <span class="cs-takeaway-icon" style="color:#207221;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 640 640"><path d="M0 0h640v640H0z" fill="none"/><path fill="currentColor" d="M184 120c0-30.9 25.1-56 56-56h24c17.7 0 32 14.3 32 32v448c0 17.7-14.3 32-32 32h-32c-29.8 0-54.9-20.4-62-48h-2c-44.2 0-80-35.8-80-80c0-18 6-34.6 16-48c-19.4-14.6-32-37.8-32-64c0-30.9 17.6-57.8 43.2-71.1c-7.1-12-11.2-26-11.2-40.9c0-44.2 35.8-80 80-80zm272 0v24c44.2 0 80 35.8 80 80c0 15-4.1 29-11.2 40.9C550.5 278.2 568 305 568 336c0 26.2-12.6 49.4-32 64c10 13.4 16 30 16 48c0 44.2-35.8 80-80 80h-2c-7.1 27.6-32.2 48-62 48h-32c-17.7 0-32-14.3-32-32V96c0-17.7 14.3-32 32-32h24c30.9 0 56 25.1 56 56"/></svg>
             </span>
             <div class="cs-takeaway-text">
-              <h5>AI should augment instead of author</h5>
-              <p>Leveraging generative AI strictly to process background metadata expanded the community's reach without overriding the user's genuine voice</p>
+              <h5>Pacing can prevent frustration</h5>
+              <p>Moving is inherently complex, but through progressive disclosure, logistics become single-decision screens that maintain user momentum without triggering cognitive overload</p>
             </div>
           </div>
           <div class="cs-takeaway-card">
-            <span class="cs-takeaway-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="currentColor" d="M2 12c0 1.08.43 2.09 1.17 2.83c-.11.38-.17.77-.17 1.17c0 1.96 1.41 3.59 3.31 3.93C6.86 21.16 8.11 22 9.5 22c.54 0 1.04-.13 1.5-.35V2.18c-.31-.11-.65-.18-1-.18c-1.3 0-2.41.83-2.83 2.01A3.51 3.51 0 0 0 4 7.5c0 .33.05.65.14.96C2.87 9.14 2 10.49 2 12m17.86-3.54c.09-.31.14-.64.14-.96c0-1.82-1.39-3.32-3.17-3.48A3.01 3.01 0 0 0 14 2c-.35 0-.69.07-1 .18v19.47c.46.22.96.35 1.5.35c1.39 0 2.63-.83 3.19-2.06A4.006 4.006 0 0 0 21 16c0-.4-.06-.79-.17-1.17c.75-.75 1.17-1.76 1.17-2.83c0-1.5-.86-2.86-2.14-3.54"/></svg>
+            <span class="cs-takeaway-icon" style="color:#207221;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16"><path d="M0 0h16v16H0z" fill="none"/><path fill="currentColor" d="M10 14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-1h4zM8 1a5 5 0 0 1 3.193 8.847C10.536 10.393 10 11.136 10 11.99a.01.01 0 0 1-.01.01H6.01a.01.01 0 0 1-.01-.01c0-.854-.536-1.597-1.193-2.143A5 5 0 0 1 8 1m0 7a1 1 0 0 0-1 1v2h2V9a1 1 0 0 0-1-1"/></svg>
             </span>
             <div class="cs-takeaway-text">
-              <h5>Intentional friction can reduce cognitive load</h5>
-              <p>Adding a multi-step flow to curate prompts required more clicks, but it successfully cured blank-page paralysis and built user confidence</p>
+              <h5>Constraints can be opportunities</h5>
+              <p>While the goal is a seamless flow, introducing intentional friction, like explicit error states and required confirmations, prevents more frustrating mistakes later on</p>
             </div>
           </div>
           <div class="cs-takeaway-card">
-            <span class="cs-takeaway-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="currentColor" d="M11 1a4 4 0 1 1-1.646 7.646L8 10v2H6v2H4l-1 1H1v-2l6.354-6.354A4 4 0 0 1 11 1m1 2a1 1 0 1 0 0 2a1 1 0 0 0 0-2"/></svg>
+            <span class="cs-takeaway-icon" style="color:#207221;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 512 512"><path d="M0 0h512v512H0z" fill="none"/><path fill="currentColor" d="M256 112a56 56 0 1 1 56-56a56.06 56.06 0 0 1-56 56"/><path fill="currentColor" d="m432 112.8l-.45.12l-.42.13c-1 .28-2 .58-3 .89c-18.61 5.46-108.93 30.92-172.56 30.92c-59.13 0-141.28-22-167.56-29.47a74 74 0 0 0-8-2.58c-19-5-32 14.3-32 31.94c0 17.47 15.7 25.79 31.55 31.76v.28l95.22 29.74c9.73 3.73 12.33 7.54 13.6 10.84c4.13 10.59.83 31.56-.34 38.88l-5.8 45l-32.19 176.19q-.15.72-.27 1.47l-.23 1.27c-2.32 16.15 9.54 31.82 32 31.82c19.6 0 28.25-13.53 32-31.94s28-157.57 42-157.57s42.84 157.57 42.84 157.57c3.75 18.41 12.4 31.94 32 31.94c22.52 0 34.38-15.74 32-31.94a57 57 0 0 0-.76-4.06L329 301.27l-5.79-45c-4.19-26.21-.82-34.87.32-36.9a1 1 0 0 0 .08-.15c1.08-2 6-6.48 17.48-10.79l89.28-31.21a17 17 0 0 0 1.62-.52c16-6 32-14.3 32-31.93S451 107.81 432 112.8"/></svg>
             </span>
             <div class="cs-takeaway-text">
-              <h5>Simplicity is key to the user experience</h5>
-              <p>Stripping away complex social mechanics like public feeds transformed a public platform into a focused space for personal reflection</p>
+              <h5>Accessibility is foundational</h5>
+              <p>Embedding accessible practices into the core architecture ensures the platform stays intuitive for everyone, especially older demographics</p>
             </div>
           </div>
         </div>
@@ -1092,7 +1285,7 @@
 
 <script src="stellar.js"></script>
 <script>
-  // ---- CONTENT sidebar scroll-spy (page-specific to gratitude.html) ----
+  // ---- CONTENT sidebar scroll-spy (page-specific to genesis.html) ----
   (function () {
     const links = Array.from(document.querySelectorAll('#csContentList a'));
     if (!links.length) return;

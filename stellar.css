@@ -91,9 +91,23 @@
   .eyebrow{font-size:0.92rem;color:var(--muted);margin:0 0 14px;}
   :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:4px;}
 
-  /* custom cursor (pointer devices only) — a translucent gray dot that
-     morphs into a pill hugging whatever text/link it's over, or steps
-     back if that element already has its own bubble/background. */
+
+  /* reveal on scroll */
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.is-visible{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1;transform:none;transition:none;} }
+
+  .btn{
+    font-size:0.84rem;font-weight:600;padding:9px 18px;border-radius:999px;
+    display:inline-flex;align-items:center;gap:8px;border:1px solid transparent;
+    transition:transform .25s ease, background .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .btn-dark{background:var(--ink);color:#fff;}
+  .btn-dark:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(21,22,26,0.25);}
+  .btn-light{background:#fff;color:var(--ink);}
+  .btn-light:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(255,255,255,0.18);}
+  .btn-outline{border-color:#cfcdc6;color:var(--ink);background:#fff;}
+  .btn-outline:hover{transform:translateY(-2px);border-color:var(--ink);}
 
   /* ---------------- nav (floating pill, fixed) ---------------- */
   /* fixed nav row — no bar/background of its own; only the middle
@@ -118,37 +132,37 @@
   /* pill sits at the exact centre of the viewport regardless of side content */
   .nav-inner .nav-links{position:absolute;left:50%;transform:translateX(-50%);}
   .brand{display:flex;align-items:center;}
-  .brand-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.9rem;color:#686868;letter-spacing:0.02em;}
-  .nav-links{display:flex;align-items:center;gap:24px;font-size:0.7rem;color:#686868;}
+  .brand-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.98rem;color:var(--on-light);letter-spacing:0.02em;}
+  .nav-links{display:flex;align-items:center;gap:24px;font-size:0.86rem;color:#686868;}
   .nav-tabs {
     display: inline-flex;
     align-items: center;
     gap: 2px;
     -webkit-backdrop-filter: blur(18px) saturate(140%);
     backdrop-filter: blur(18px) saturate(140%);
-    background: rgba(17, 17, 17, 0.28);
+    background: rgba(17, 17, 17, 0.38);
     border: 1px solid rgba(255, 255, 255, 0.25); /* Changed from #A8A8A8 */
     border-radius: 999px;
     padding: 7px;
     position: relative;
   }
-  .nav-tabs .tab{position:relative;font-size:0.8rem;color:#b3b3b3;padding:9px 22px;border-radius:999px;transition:background .2s ease, color .2s ease;}
+  .nav-tabs .tab{position:relative;font-size:0.8rem;color:#686868;padding:9px 22px;border-radius:999px;transition:background .2s ease, color .2s ease;}
   .nav-tabs .tab:hover{color:#fff;}
   .nav-tabs .tab.active {
     background: rgba(80, 80, 80, 0.5); /* Softer background fill */
-    color: #f5f5f5;
+    color: #fff;
     /* Reduced opacity and spread for a smoother blend */ 
-    box-shadow: 0 0 15px rgba(85, 85, 85, 0.35); 
+    box-shadow: 0 0 15px rgba(85, 85, 85, 0.5); 
   }
   .nav-tabs .tab.active .tab-notch{
     content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%);
-    width:18px;height:3px;border-radius:2px;background:#e7e7e7;
+    width:18px;height:3px;border-radius:2px;background:#fff;
   }
   .nav-right{display:flex;align-items:center;gap:34px;}
   .link-arrow{font-size:0.85em;display:inline-block;margin-left:2px;}
   .btn-arrow{width:10px;height:11px;display:inline-block;opacity:0.78;}
   .nav-link-plain{display:inline-flex;align-items:center;gap:7px;color:#686868;font-size:0.88rem;transition:color .2s ease, transform .2s ease;}
-  .nav-link-plain:hover{color:#8a8a8a;transform:translateY(-1px);} /*change this to rounded button*/ 
+  .nav-link-plain:hover{color:#fff;transform:translateY(-1px);}
   .nav-toggle{display:none;background:none;border:0;font-size:1.3rem;color:#fff;order:3;}
   .mobile-resume{display:none;}
 
@@ -315,56 +329,30 @@
     color:transparent;-webkit-text-stroke:1.5px #9E9E9E;
     letter-spacing:-0.03em;user-select:none;line-height:1;
   }
-  .cg-frame{position:relative;border-radius:24px;overflow:visible;}
-  /* CASE FRAME HEIGHT: the frame image's natural ratio is ~1.84 (wide & shallow).
-     This stretches it vertically at every screen size — lower the number for taller. */
-  .cg-bg{width:100%;height:auto;aspect-ratio:1.72;object-fit:fill;display:block;border-radius:24px;position:relative;z-index:1;}
+  /* FLAT HERO IMAGE — no frame/bezel wrapper, no hover glow: each card
+     just places its (already-finished) hero image straight on the page. */
+  .cg-shot{ width:100%; height:auto; display:block; }
 
-  /* HOVER GLOW — soft blurred halo that fades in behind the overlay
-     screenshot when the card is hovered. Tune color/size/blur here. */
-  .cg-glow{
-    position:absolute;inset:6%;border-radius:50%;
-    background:radial-gradient(circle, rgba(255,255,255,0.55), rgba(255,255,255,0) 70%);
-    filter:blur(48px);
-    opacity:0;z-index:2;pointer-events:none;
-    transition:opacity .45s ease;
+  /* caption block sits below the hero image — logo to the LEFT of the
+     title/tags/description text, not stacked above it */
+  .cg-caption{padding-top:20px;display:flex;align-items:flex-start;gap:18px;}
+  .cg-client-logo-box{
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+    width:56px;height:56px;border-radius:14px;margin-top:2px;
+    background:#fff;border:1px solid #E6E4DF;
+    box-shadow:0 4px 10px rgba(20,20,20,0.08);
+    overflow:hidden;
   }
-  .case-card:hover .cg-glow{opacity:0.55;}
-  @media (prefers-reduced-motion: reduce){ .cg-glow{transition:none;} }
-
-  /* CASE STUDY OVERLAY IMAGES — each card's screenshot gets its OWN class
-     because the two images are different sizes/ratios (Genesis ~1.37:1,
-     Gratitude ~1.47:1) and need different scale/position values to sit
-     right in the frame. Shared properties (display, alignment) live on
-     the base .cg-shot; scale + position are set per-card below.
-
-     TO ADJUST EACH ONE:
-       width         → SCALE. Larger % = bigger image.
-       margin-left   → HORIZONTAL position (more negative = further left).
-       margin-bottom → VERTICAL position (more negative = further down).
-  */
-  .cg-shot{
-    position:absolute;left:50%;bottom:0;max-width:none;display:block;
-    transform:translateX(-50%);z-index:3;
-  }
-
-  .cg-shot-genesis{ width:78%; margin-bottom:-6%; }
-  .cg-shot-gratitude{ width:68%; margin-bottom:-6%; }
-
-  /* caption block — lives OUTSIDE the frame now */
-  .cg-caption{padding-top:28px;}
+  .cg-client-logo{display:block;width:60%;height:60%;object-fit:contain;}
+  .cg-caption-text{flex:1 1 auto;min-width:0;}
   .cg-caption-head{
-    display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 16px;margin-bottom:10px;
+    display:flex;align-items:flex-end;flex-wrap:wrap;gap:8px 16px;margin-bottom:10px;
   }
   .cg-caption-head h3{font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:1.4rem;color:var(--ink);margin:0;}
   .cg-caption .case-tags{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:0.8rem;color:var(--muted);margin:0;}
   .cg-caption p{font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.95rem;color:var(--ink-soft);line-height:1.65;margin:0;max-width:520px;}
 
   @media (max-width:1240px){ .case-num{position:static;display:block;margin-bottom:10px;} }
-  @media (max-width:880px){
-    .cg-shot-genesis,
-    .cg-shot-gratitude{ width:88%; margin-bottom:-4%; }
-  }
 
   /* ---------------- life outside pixels (confined grid) ---------------- */
   .outside{padding:120px 0 100px;background:#fff;}
