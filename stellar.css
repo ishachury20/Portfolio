@@ -4,42 +4,21 @@
 
    QUICK-EDIT GUIDE — HERO SECTION SIZES
    ─────────────────────────────────────────────────────────────
-   HEADLINE FONT SIZE    →  .hw-alex  and  .hw-serif
-                            font-size: clamp(1.7rem, 4.1vw, 2.55rem)
-                            Raise all 3 numbers to go bigger, lower them to shrink.
+   The hero is now just two layered images — Images/hero-final.jpg
+   (background) and Images/hero-controller-final.png (the controller,
+   layered on top). All text/heading copy is baked into hero-final.jpg
+   itself, so there's no separate heading/body CSS to tune here anymore.
 
-   SUBTITLE SIZE         →  .hero-sub   →  font-size: 18px
-   BODY COPY SIZE        →  .hero-body  →  font-size: 16px
-
-   CARD IMAGE SIZE       →  .cards-stack  →  max-width: 100%
-                            Change to e.g. 90% to make it smaller,
-                            or use a px value like 560px.
-
-   OUTLINE CARDS SIZE    →  .outline-1  and  .outline-2  →  scale(0.8)
-                            Raise the scale value to make outlines larger.
-   OUTLINE HOVER OFFSET  →  .cards-stack:has(.cards-front:hover) rules
-                            Change the translate values for more / less poke.
-
-   LOGO ROW HEIGHTS      →  .logos-set img  →  height: 26px
-                            One rule controls all logos equally now.
-
-   HERO TEXT SPACING     →  .hero-heading → margin:0 0 28px  (below INTERACTION/DESIGNER)
-                            .hero-sub     → margin:0 0 62px  (below "MS HCI @ UCSC")
-                            .hero-body    → margin:0 0 54px  (below the description,
-                                                              i.e. gap above the icons)
-   HERO VERTICAL HEIGHT  →  .hero  →  padding:128px 0 60px
-                            First number = space under the nav,
-                            last = space above the logo strip.
-   HERO COLUMNS RATIO    →  .hero-main  →  grid-template-columns:0.7fr 1.3fr
-                            Raise the second number to give the cards more width.
-   HERO IMAGE SIZE       →  .cards-stack →  max-width:100%   (of its grid column)
+   CONTROLLER SIZE/POSITION →  .hero-final-controller
+                               width / right / bottom control its size
+                               and how far it overlaps the frame below it.
+   HERO VERTICAL HEIGHT     →  .hero  →  padding:128px 0 60px
+                               First number = space under the nav,
+                               last = space above the bottom edge.
    ─────────────────────────────────────────────────────────────
 
    FONTS USED
    ─────────────────────────────────────────────────────────────
-   Hero "INTERACTION"    →  Alexandria Bold
-   Hero "DESIGNER"       →  Noto Serif Bold
-   Hero subtitle / body  →  Be Vietnam Pro (400 regular, 700 bold)
    Nav brand name,
    all headings (h2/h3)  →  Plus Jakarta Sans (600, 700, 800)
    Nav "Interaction
@@ -56,7 +35,7 @@
     --ink:#15161a;
     --ink-soft:#56565c;
     --muted:#9a9a96;
-    --dark:#111111;
+    --dark:#191919;
     --on-dark:#f3f1ec;
     --on-dark-soft:#aaa7a0;
     --on-dark-line:rgba(255,255,255,0.12);
@@ -68,10 +47,6 @@
   *{box-sizing:border-box;}
   html{
     scroll-behavior:smooth;
-    /* SNAP: hero → work section only. "proximity" (not "mandatory") so it
-       settles onto whichever one you're closest to instead of hijacking
-       every scroll on the page — bump to "mandatory" for a firmer snap. */
-    scroll-snap-type:y proximity;
   }
   body{
     margin:0;
@@ -183,116 +158,41 @@
 
   .hero-block{
     background:var(--dark);
-    border-radius:0 0 60px 60px;
-    /* LOCKED HERO: pins to the top of the viewport as the page scrolls,
-       so the white .section below (higher z-index, rounded top, -60px
-       overlap) slides up and covers it like a sheet being pulled over. */
-    position:sticky;
-    top:0;
-    /* +60px so the white section's -60px overlap never peeks above the fold */
-    min-height:calc(100vh + 60px);
+    border-radius:0 0 62px 62px;
+    /* No more scroll-locking: this used to be position:sticky so it
+       pinned to the viewport while a taller buffer scrolled underneath.
+       Now it's a normal block — it scrolls away like any other section,
+       and .section.work's own -60px margin still overlaps its rounded
+       bottom corner as it comes up behind it. */
     z-index:1;
     display:flex;
     flex-direction:column;
     overflow:hidden;
-    scroll-snap-align:start;
   }
-  .hero{flex:1;display:flex;align-items:center;padding:96px 0 60px;}
+  .hero{flex:1;display:flex;align-items:flex-start;padding:50px 0 60px;}
 
-  /* main hero content */
-  .hero-main{display:grid;grid-template-columns:0.62fr 1.38fr;gap:56px;align-items:center;padding-top:36px;padding-bottom:80px;}
-  .hero-heading{display:flex;flex-direction:column;line-height:1.0;gap:6px;margin:-35px 0 32px;}
-  .hw-alex{
-    font-family:'Alexandria', sans-serif;font-weight:700;
-    font-size:clamp(1.7rem, 4.1vw, 2.65rem);color:var(--on-dark);
+  /* main hero content — now just the two layered hero images
+     (hero-final.jpg underneath, hero-controller-final.png on top).
+     No cropping: the image renders at its own natural aspect ratio
+     (full width, height auto) and sits at the top of .hero via
+     align-items:flex-start above. */
+  .hero-main{padding-top:66px;padding-bottom:80px;}
+  .hero-main-visual{display:block;}
+  .hero-visual{position:relative;width:100%;}
+  .hero-final-bg{width:100%;display:block;border-radius:32px;}
+  /* controller layered on top, anchored to the bottom-right, sized as a
+     fraction of the background image so it scales with it responsively */
+  .hero-final-controller{
+    position:absolute;z-index:2;
+    width:54%;right:2%;bottom:-15%;
+    pointer-events:none;user-select:none;
+    opacity:0.75; 
   }
-  .hw-serif{
-    font-family:'Noto Serif', serif;font-weight:700;
-    font-size:clamp(1.7rem, 4.1vw, 2.65rem);color:#ABABAB;
+  @media (max-width:880px){
+    .hero-final-controller{width:60%;right:0;bottom:-3%}
   }
-  .hero-sub{
-    font-family:'Be Vietnam Pro', sans-serif;font-weight:700;font-size:17.75px;
-    color:#525252 ;margin:0 0 45px;
-  }
-  .hero-body {
-  font-family: 'Be Vietnam Pro', sans-serif;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--on-dark-body);
-  max-width: 315px; /* Adjust this number slightly until the break is exactly at 'users' */
-  margin: 0 0 70px;
-  }
-
-  /* logos marquee, pulled up close to the body copy, constrained to the text column */
-  .hero-tile{
-    width:42px;height:42px;border-radius:10px;
-    background:#292929;border:0.85px solid #9E9E9E;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 8px 18px #7d7d7d16, 0 2px 6px rgba(255,255,255,0.06);
-    transition:transform .25s ease, border-color .25s ease, background .25s ease;
-  }
-  .hero-tile svg{width:17px;height:17px;color:#fff;}
-  .hero-tile:hover{transform:translateY(-3px);border-color:#6a6a6a;background:#2a2a2a;}
-  .logos-mini{margin-top:0;overflow:hidden;max-width:307px;}
-  .logos-track{display:flex;width:max-content;animation:marquee 20s linear infinite;}
-  .logos-mini:hover .logos-track{animation-play-state:paused;}
-  .logos-set{display:flex;align-items:center;gap:30px;padding-right:30px;}
-  /* LOGO SIZES — tune each company independently (class-based:
-   works with base64 srcs and the alt="" loop duplicates) */
-  .logos-set img{width:auto;object-fit:contain;opacity:0.75;transition:opacity .25s ease;}
-  .logos-set .logo-ms{height:31px;}
-  .logos-set .logo-ls{height:35px;}
-  .logos-set .logo-ucsc{height:40px;}
-  .logo-dot{width:5px;height:5px;border-radius:50%;background:#4d4d4d;flex-shrink:0;}
-  /* LOGO SIZES — tune each company independently */
-  .logo-dot{width:5px;height:5px;border-radius:50%;background:#ffffff;flex-shrink:0;}
-  .logos-set img:hover{opacity:1;}
-  @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
-  @media (prefers-reduced-motion: reduce){ .logos-track{animation:none;} }
-
-  .hero-art{display:flex;align-items:center;justify-content:center;}
-  /* CARD IMAGE SIZE: change the scale() value — 1.6 = 160% */
-  .cards-stack {
-    position: relative;
-    width: 100%;
-    max-width: none;
-    /* Changed from translateX(7%) scale(1.6) */
-    transform: translateX(4%) scale(1.45); 
-    transform-origin: center center;
-  }
-  .cards-front{position:relative;width:100%;display:block;z-index:3;}
-  .card-outline{
-    position:absolute;top:0;left:0;width:100%;height:100%;object-fit:contain;
-    z-index:1;opacity:0.85;pointer-events:none;
-    transition:transform .45s cubic-bezier(.2,.8,.2,1), opacity .35s ease;
-  }
-  .outline-1 {
-  /* Increased translate distances to fan it out, decreased scale to 0.42 */
-  transform: translate(-110px, -25px) rotate(-1deg) scale(0.37);
-  }
-
-  .outline-2 {
-    /* Increased translate distances to fan it out, decreased scale to 0.42 */
-    transform: translate(110px, -5px) rotate(1deg) scale(0.37);
-    z-index: 2;
-  }
-  /* frames react only while the pointer is on the cards image itself,
-     so they snap back as soon as the cursor leaves it */
-  .cards-stack:has(.cards-front:hover) .outline-1{transform:translate(-115px,-25px) rotate(-1deg) scale(0.38);opacity:1;}
-  .cards-stack:has(.cards-front:hover) .outline-2{transform:translate(115px,-5px) rotate(1deg) scale(0.38);opacity:1;}
-  @media (prefers-reduced-motion: reduce){ .card-outline{transition:none;} }
-  @media (max-width:880px){ .hero-main{grid-template-columns:1fr;} .cards-stack{max-width:520px;} }
 
   /* soft-fading arrow sitting above the case-study section */
-  .scroll-cue{
-    position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
-    width:36px;height:36px;display:flex;align-items:center;justify-content:center;
-    color:var(--on-dark);z-index:10;animation:fadecue 2.4s ease-in-out infinite;
-  }
-  @keyframes fadecue{0%,100%{opacity:0.25;}50%{opacity:0.95;}}
-  @media (prefers-reduced-motion: reduce){ .scroll-cue{animation:none;opacity:0.7;} }
-
   /* ---------------- shared section heading ---------------- */
   /* ↓ EXTEND WHITE BACKGROUND: increase these values to make sections taller overall */
   .section{padding:90px 0;}
@@ -312,8 +212,7 @@
 
   .section.work{
     background:#ffffff;position:relative;z-index:5;
-    border-radius:60px 60px 0 0;margin-top:-60px;padding-top:140px;
-    scroll-snap-align:start;
+    border-radius:60px 60px 0 0;margin-top:80px;padding-top:140px;
   }
   .case-tags{font-size:0.86rem;color:var(--muted);margin:0 0 16px;letter-spacing:0.01em;}
 
