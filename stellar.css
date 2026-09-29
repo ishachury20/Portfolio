@@ -43,6 +43,7 @@
     --radius-lg:28px;
     --radius-md:20px;
     --maxw:1020px;
+    --controller-opacity:0.18;   /* shared by the hero + footer controller-art images */
   }
   *{box-sizing:border-box;}
   html{
@@ -94,7 +95,6 @@
     height: 68px;
     transform: translateX(-50%);
     width: calc(100% - 24px);
-    max-width: calc(var(--maxw) + 280px);
     background: transparent;
     z-index: 60;
   }
@@ -104,10 +104,22 @@
     display:flex;align-items:center;justify-content:space-between;height:64px;
     position:relative;
   }
-  /* pill sits at the exact centre of the viewport regardless of side content */
-  .nav-inner .nav-links{position:absolute;left:50%;transform:translateX(-50%);}
+  /* pill sits at the exact centre of the viewport regardless of side content,
+     centered on BOTH axes (top+translateY, not just left+translateX) so it
+     lines up with .brand and .nav-right even though it's taken out of the
+     nav-inner flex row by position:absolute */
+  .nav-inner .nav-links{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);}
   .brand{display:flex;align-items:center;}
-  .brand-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.98rem;color:var(--on-light);letter-spacing:0.02em;}
+  /* name + role grouped as one block (so its vertical middle lines up with
+     the Work/About pill and Resume), left-aligned so both lines share the
+     same left edge as "Isha Chury" */
+  .brand-text{display:flex;flex-direction:column;align-items:flex-start;}
+  .brand-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.98rem;color:#686868;letter-spacing:0.02em;line-height:1;}
+  .brand-role{
+    margin-top:3px;
+    font-family:'Inter',sans-serif;font-weight:500;font-size:0.6rem;
+    color:#8d8b85;letter-spacing:0.02em;white-space:nowrap;line-height:1;
+  }
   .nav-links{display:flex;align-items:center;gap:24px;font-size:0.86rem;color:#686868;}
   .nav-tabs {
     display: inline-flex;
@@ -121,7 +133,7 @@
     padding: 7px;
     position: relative;
   }
-  .nav-tabs .tab{position:relative;font-size:0.8rem;color:#686868;padding:9px 22px;border-radius:999px;transition:background .2s ease, color .2s ease;}
+  .nav-tabs .tab{position:relative;font-size:0.8rem;line-height:1;color:#686868;padding:9px 22px;border-radius:999px;transition:background .2s ease, color .2s ease;}
   .nav-tabs .tab:hover{color:#fff;}
   .nav-tabs .tab.active {
     background: rgba(80, 80, 80, 0.5); /* Softer background fill */
@@ -133,11 +145,36 @@
     content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%);
     width:18px;height:3px;border-radius:2px;background:#fff;
   }
+  .nav-tabs .tab.about-link{color:#FDFDFD;}
+  .nav-tabs .tab.about-link:hover{color:#fff;}
   .nav-right{display:flex;align-items:center;gap:34px;}
   .link-arrow{font-size:0.85em;display:inline-block;margin-left:2px;}
-  .btn-arrow{width:10px;height:11px;display:inline-block;opacity:0.78;}
-  .nav-link-plain{display:inline-flex;align-items:center;gap:7px;color:#686868;font-size:0.88rem;transition:color .2s ease, transform .2s ease;}
-  .nav-link-plain:hover{color:#fff;transform:translateY(-1px);}
+  /* the glyph itself is solid white (only alpha varies) — brightness()
+     scales those white pixels down to a neutral gray instead of the
+     bright-white it was before; grayscale() alone would do nothing
+     since white already has no hue to remove. */
+  .btn-arrow{width:10px;height:11px;display:inline-block;opacity:0.78;filter:brightness(0.42);}
+  .nav-link-plain{
+    position:relative;display:inline-flex;align-items:center;gap:7px;
+    color:#686868;font-size:0.8rem;line-height:1;
+    transition:color .2s ease, transform .2s ease;
+  }
+  .nav-link-plain:hover{color:#7f7f7f;transform:translateY(-1px);}
+
+  /* pill behind Resume on hover — same glass-pill treatment as the
+     Work/About bubble (.nav-tabs) above: blurred translucent dark fill,
+     soft light border, fully rounded (999px) */
+  .nav-link-plain::before{
+    content:"";position:absolute;inset:-10px -16px;
+    background:rgba(33, 33, 33, 0.08);
+    border-radius:999px;
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    backdrop-filter:blur(18px) saturate(140%);
+    opacity:0;
+    transition:opacity .2s ease;
+    z-index:-1;
+  }
+  .nav-link-plain:hover::before{opacity:1;}
   .nav-toggle{display:none;background:none;border:0;font-size:1.3rem;color:#fff;order:3;}
   .mobile-resume{display:none;}
 
@@ -184,9 +221,9 @@
      fraction of the background image so it scales with it responsively */
   .hero-final-controller{
     position:absolute;z-index:2;
-    width:54%;right:2%;bottom:-15%;
+    width:54%;right:2%;bottom:-20%;
     pointer-events:none;user-select:none;
-    opacity:0.75; 
+    opacity:0.9;
   }
   @media (max-width:880px){
     .hero-final-controller{width:60%;right:0;bottom:-3%}
@@ -220,7 +257,7 @@
      soft glow behind it on hover), caption BELOW the frame (icon-less
      heading row + tags, then description), big number floating outside
      the left margin. */
-  .case-card{margin-bottom:100px;position:relative;}
+  .case-card{margin-bottom:160px;position:relative;}
   .case-card-link{position:absolute;inset:0;z-index:4;border-radius:24px;}
   .case-num{
     position:absolute;top:10px;left:-112px;width:90px;text-align:center;
@@ -233,12 +270,29 @@
   .cg-shot{ width:100%; height:auto; display:block; }
 
   /* caption block sits below the hero image — logo to the LEFT of the
-     title/tags/description text, not stacked above it */
-  .cg-caption{padding-top:20px;display:flex;align-items:flex-start;gap:18px;}
+     title/tags/description text, not stacked above it.
+     Each hero photo bakes in a different amount of drop-shadow/backdrop
+     below its device mockup, so margin-top is set PER CARD (not shared)
+     to pull every caption up to the same tight, final on-screen gap
+     (measured against the actual device edge at this card's ~1020px
+     display width). Negative margin is used instead of more image
+     cropping so the shadow/artwork itself is never touched:
+       beacon    (dark bg, deeper baked shadow) -> -30px
+       genesis   (~70px baked-in shadow)        ->  -8px
+       health-1  (~70px baked-in shadow)        ->  -8px
+       gratitude (~48px baked-in shadow)        ->  13px
+     All four were bumped +20px from the previous tighter pass (per
+     request) while keeping the same relative offsets between cards.
+     If you swap in a differently-cropped hero image for a card, its
+     baked-in shadow height will change and this number will need
+     re-tuning to match. */
+  .cg-caption{margin-top:-8px;padding-top:0;display:flex;align-items:flex-start;gap:18px;position:relative;z-index:2;}
+  .case-card-gratitude .cg-caption{margin-top:13px;}
+  .case-card-beacon .cg-caption{margin-top:-30px;}
   .cg-client-logo-box{
     display:flex;align-items:center;justify-content:center;flex-shrink:0;
     width:56px;height:56px;border-radius:14px;margin-top:2px;
-    background:#fff;border:1px solid #E6E4DF;
+    background:#fff;border:1px solid #A5A5A5;
     box-shadow:0 4px 10px rgba(20,20,20,0.08);
     overflow:hidden;
   }
@@ -285,8 +339,8 @@
   @media (max-width:560px){ .collage{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px;} }
 
   /* ---------------- sandbox: two separate containers with a gap ---------------- */
-  .sandbox{background:#fff;position:relative;z-index:5;padding-top:190px;padding-bottom:250px;}
-  .sandbox-head{display:flex;align-items:center;gap:22px;justify-content:center;margin-bottom:70px;}
+  .sandbox{background:#fff;position:relative;z-index:5;padding-top:10px;padding-bottom:200px;}
+  .sandbox-head{display:flex;align-items:center;gap:32px;justify-content:center;margin-bottom:70px;}
   .sandbox-head .ln{flex:1;height:1px;background:#333333;position:relative;}
   .sandbox-head .ln::before,
   .sandbox-head .ln::after{
@@ -305,7 +359,7 @@
   }
   .sandbox-img{width:100%;height:auto;border-radius:0;display:block;}
   .sandbox-info{
-    background:var(--ink);color:var(--on-dark);border-radius:24px;padding:36px 46px;
+    background:var(--ink);color:var(--on-dark);border-radius:24px;padding:56px 64px;
     aspect-ratio:1620/1281;   /* = Talking-V2.png's exact ratio, so both cards match at every screen size */
     position:relative;display:flex;flex-direction:column;justify-content:center;transition:opacity .2s ease;
     overflow:hidden;   /* clips the arrow semicircle exactly at the panel edge */
@@ -315,9 +369,11 @@
     content:"";position:absolute;inset:12px;border:0.9px solid rgb(255, 255, 255);
     border-radius:16px;pointer-events:none;
   }
-  .sandbox-info h3{font-size:1.6rem;margin-bottom:16px;color:#fff;}
-  .sandbox-info p{color:#c7c5be;line-height:1.65;font-size:0.98rem;margin-bottom:22px;}
-  .sandbox-info .credit{font-size:0.95rem; font-weight:600; color:#8d8b85;}
+  .sandbox-info h3{font-size:1.3rem;margin-bottom:12px;font-weight:900;color:#fff;}
+  .sandbox-info p{color:#b1b1b1;line-height:1.55;font-size:1rem; font-weight:500;margin-bottom:42px;}
+  .sandbox-info .credit{font-size:0.95rem; font-weight:600; color:#8d8b85;display:inline-flex;align-items:center;gap:6px;text-decoration:none;transition:color .2s ease;}
+  a.credit:hover{color:#c7c5be;}
+  .sandbox-info .credit img{width:13px;height:15px;opacity:0.55;filter:brightness(2.4);}
 
   /* semicircle arrow — clipped at the panel edge (only the inner half shows) */
   .sandbox-arrow{
@@ -354,7 +410,7 @@
   .footer-heading{font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:#8d8b85;margin-bottom:12px;font-weight:700;}
   .footer-col a{display:block;color:#d8d6cf;font-size:0.86rem;margin-bottom:9px;transition:color .2s ease, padding-left .2s ease;}
   .footer-col a:hover{color:#fff;padding-left:4px;}
-  .footer-art{position:absolute;right:-310px;bottom:-310px;top:auto;transform:none;width:560px;opacity:0.35;z-index:1;pointer-events:none;}
+  .footer-art{position:absolute;right:-310px;bottom:-310px;top:auto;transform:none;width:560px;opacity:var(--controller-opacity);z-index:1;pointer-events:none;}
   .footer-copy{
     display:flex;justify-content:space-between;align-items:center;
     color:#6f6d68;font-size:0.76rem;margin-top:56px;position:relative;z-index:2;
