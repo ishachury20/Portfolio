@@ -209,13 +209,126 @@
     .cs-key-concept-inner{padding:32px 26px;}
     .cs-archived-inner{padding:40px 26px;}
   }
+  /* ---------------- FIXED "CONTENTS" sidebar ---------------- */
+  .cs-fixed-right{
+    position:fixed;top:26px;right:40px;z-index:50;
+    display:flex;flex-direction:column;align-items:flex-start;gap:20px;
+  }
+  .cs-content-nav{
+    text-align:left;
+    margin-top:30px;
+  }
+  .cs-content-label{
+    font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:0.72rem;
+    letter-spacing:0.15em;text-transform:uppercase;color:#BCBCBC;margin:0 0 30px;
+  }
+  .cs-content-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:15px;}
+  .cs-content-list a{
+    display:block;text-align:left;
+    font-family:'Space Grotesk',sans-serif;font-size:0.72rem;font-weight:500;color:#BCBCBC;
+    transition:color .3s ease;
+  }
+  .cs-content-list a.current{color:#535353;font-weight:600;}
+  @media (max-width:1360px){ .cs-fixed-right{display:none;} }
+
+  /* ---------------- problem card grid (full row width, below the text) ----------------
+     Two independent columns (like gratitude.html) rather than a single flat grid, so
+     thumbs-up always lands on the left and thumbs-down always on the right regardless
+     of how many of each there are. Border color is bound to the icon type via :has()
+     instead of nth-child position, since position no longer implies up/down. */
+  .cs-problem-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:29px;}
+  .cs-problem-col{display:flex;flex-direction:column;gap:36px;}
+  .cs-problem-card{
+    display:flex;align-items:flex-start;justify-content:center;gap:32px;
+    background:#FEFEFE;border:1px solid var(--line);border-radius:15px;padding:32px;
+  }
+  .cs-problem-card:has(.cs-p-icon-up){border-color:#191919;}
+  .cs-problem-card:has(.cs-p-icon-down){border-color:#868585;}
+  .cs-problem-card .cs-p-icon{
+    display:flex;align-items:center;flex-shrink:0;
+  }
+  .cs-p-icon-svg{width:36px;height:36px;display:block;}
+  .cs-p-icon-up{filter:drop-shadow(0 0 5px rgba(30,129,23,.45));}
+  .cs-p-icon-up path{fill:#A5E093;stroke:#1E8117;stroke-width:0.6;stroke-linejoin:round;stroke-linecap:round;}
+  .cs-p-icon-down{filter:drop-shadow(0 0 5px rgba(201,64,60,.45));}
+  .cs-p-icon-down path{fill:#ECA09E;stroke:#C9403C;stroke-width:0.6;stroke-linejoin:round;stroke-linecap:round;}
+  .cs-p-text{flex:0 1 auto;max-width:290px;min-width:0;}
+  .cs-problem-card h5{font-family:'Be Vietnam Pro',sans-serif;font-size:1rem;font-weight:500;margin:0 0 12px;}
+  .cs-problem-card p{font-family:'Be Vietnam Pro',sans-serif;font-weight:400;font-size:0.75rem;line-height:1.55;color:var(--ink-soft);margin:0;}
+  .cs-problem-card p b,.cs-problem-card p strong{font-weight:600;font-style:italic;color:var(--ink);}
+  @media (max-width:1000px){ .cs-problem-grid{grid-template-columns:1fr;} }
+
+  /* ---------------- Next pill (top-right, above Contents) ---------------- */
+  .cs-pill-btn{
+    display:inline-flex;align-items:center;
+    padding:5px;border-radius:999px;
+    border:1px solid rgba(255,255,255,0.18);
+    background: rgba(17, 17, 17, 0.28);
+    -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    transition:background .2s ease, border-color .2s ease, transform .2s ease;
+  }
+  .cs-pill-btn:hover{background:rgba(25,25,25,0.6);border-color:rgba(255,255,255,0.35);transform:translateY(-1px);}
+  .cs-pill-btn-inner{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:8px 20px;border-radius:999px;
+    background:rgba(80,80,80,0.55);
+    box-shadow:0 0 15px rgba(85,85,85,0.5);
+    color:#f2f2f0;font-family:'Be Vietnam Pro',sans-serif;font-size:0.75rem;
+  }
+
+  /* ---------------- stacked image pair (Design System / Retrospective) ---------------- */
+  .cs-img-pair{display:flex;flex-direction:column;gap:29px;}
+
+  /* ---------------- retrospective ---------------- */
+  .cs-retro-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+  .cs-retro-col h4{font-size:0.92rem;font-weight:700;margin:0 0 12px;}
+  .cs-retro-col ul{margin:0;padding-left:18px;}
+  .cs-retro-col li{font-size:0.88rem;line-height:1.65;color:var(--ink-soft);margin-bottom:8px;}
+
+  /* "My key takeaways" — heading + body sit together in the LEFT column;
+     the insight cards below use the SAME icon-left / text-right layout
+     as .cs-problem-card: icon fixed-width column, everything else (title
+     + body) grouped together as one text column, the whole icon+text
+     pairing grouped and centered within the card. */
+  .cs-takeaway-list{display:flex;flex-direction:column;gap:36px;margin-top:52px;}
+  .cs-takeaway-card{
+    display:flex;align-items:flex-start;justify-content:center;gap:24px;
+    background:#FEFEFE;border:1px solid #868585;border-radius:15px;
+    padding-top:44px;padding-bottom:44px;
+    padding-left:24px;padding-right:24px;
+  }
+  .cs-takeaway-icon{
+    display:flex;align-items:center;flex-shrink:0;color:#2E5BE8;
+    filter:drop-shadow(0 0 6px #b9cbf8);
+  }
+  .cs-takeaway-icon svg{width:28px;height:28px;display:block;}
+  .cs-takeaway-text{flex:0 1 auto;max-width:310px;min-width:0;}
+  .cs-takeaway-card h5{font-family:'Be Vietnam Pro',sans-serif;font-size:1rem;font-weight:500;margin:0 0 14px;}
+  .cs-takeaway-card p{font-family:'Be Vietnam Pro',sans-serif;font-weight:400;font-size:0.83rem;line-height:1.55;color:var(--ink-soft);margin:0;}
+
 </style>
 </head>
 <body>
 
-<!-- ============ FIXED: Back only ============ -->
+<!-- ============ FIXED: Back (left) / Contents (right) ============ -->
 <div class="cs-fixed-back reveal">
   <a class="cs-pill-back" href="index.html#work">&larr; Back</a>
+</div>
+
+<div class="cs-fixed-right reveal">
+  <a class="cs-pill-btn" href="index.html#work"><span class="cs-pill-btn-inner">Next &rarr;</span></a>
+  <nav class="cs-content-nav" aria-label="Case study sections">
+    <p class="cs-content-label">Contents</p>
+    <ul class="cs-content-list" id="csContentList">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#context">Context</a></li>
+      <li><a href="#problem">The Problem</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#interactions">Key Interactions</a></li>
+      <li><a href="#design-system">Design System</a></li>
+      <li><a href="#retrospective">Retrospective</a></li>
+    </ul>
+  </nav>
 </div>
 
 <!-- ============ HERO: centered title + cover ============ -->
@@ -260,38 +373,277 @@
         <p>The final deliverable evolved from a conceptual prompt into a highly actionable, interactive utility. It culminated in a streamlined resource-finding experience that earned our team the "Real World User Empathy" award, successfully proving the product's viability for real-world application.</p>
       </div>
 
-      <!-- ============ KEY CONCEPT ============ -->
-      <div class="cs-key-concept reveal">
-        <div class="cs-key-concept-inner">
-          <span class="cs-key-tag">Key Concept</span>
-          <p>A platform designed to bridge the gap between <b>unhoused individuals</b> and critical resources including food and shelter</p>
+
+    </section>
+
+    <!-- ============ CONTEXT ============ -->
+    <section class="cs-row" id="context" style="border-top:1px solid transparent;border-image:linear-gradient(to right, #FFFFFF 0%, #909090 50%, #FFFFFF 100%) 1;margin-top:18px;padding-top:94px;">
+      <p class="cs-eyebrow">Context</p>
+      <div class="cs-row-label reveal">
+        <h2>Exploring how <em>AI accelerates</em> research in a high-stakes design sprint</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>The overarching goal of the designathon was to explore how AI can accelerate and enhance the research and design process throughout the designathon. Our core focus was the unhoused community and a deceptively simple question: how do we connect people to critical aid when they need it most?</p>
+        <p>Working against an 6-hour clock, our team leveraged NotebookLM to ingest academic literature, government reports, and competitor app reviews, using AI as a force multiplier to map the broader systemic landscape before ever designing a screen.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot"><img src="Images/beacon-1.jpg" alt="Beacon — designathon timeline" style="width:100%;display:block;"></div>
+      </div>
+    </section>
+
+    <!-- ============ THE PROBLEM ============ -->
+    <section class="cs-row" id="problem">
+      <p class="cs-eyebrow">The Problem</p>
+      <div class="cs-row-label reveal">
+        <h2>The ground <em>reality</em> of a broken support ecosystem</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>At the center of housing insecurity lies a critical access barrier: unhoused individuals desperately need immediate aid&mdash;shelter, food, and government assistance&mdash;yet they remain locked out of the very systems designed to help them due to a fractured, untrustworthy support ecosystem.</p>
+        <p>Using NotebookLM to analyze our research dataset, we uncovered a broken network plagued by outdated information, high friction, and deep user distrust.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot"><img src="Images/beacon-2.jpg" alt="Beacon — visualized user quotes on the broken support ecosystem" style="width:100%;display:block;"></div>
+      </div>
+    </section>
+
+    <!-- ============ RESEARCH ============ -->
+    <section class="cs-row" id="research">
+      <p class="cs-eyebrow">Research</p>
+      <div class="cs-row-label reveal">
+        <h2>When <em>synthetic</em> data hits its limit</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>While AI helped us rapidly process academic literature, government reports, and competitor frameworks to generate 25 synthetic user personas, data alone couldn't capture the friction of the real world.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot"><img src="Images/beacon-3.jpg" alt="Beacon — NotebookLM research synthesis" style="width:100%;display:block;"></div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>Bridging the <em>empathy</em> gap</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>To bridge the gap, we engaged in firsthand outreach: calling 211 (which took five minutes just to reach an operator) and messaging local shelters to experience unmonitored auto-replies and broken phone trees firsthand. This hybrid approach&mdash;combining NotebookLM's rapid synthesis with live validation&mdash;ensured our design decisions were rooted in real human friction.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot"><img src="Images/beacon-4.jpg" alt="Beacon — social media outreach to shelters and support lines" style="width:100%;display:block;"></div>
+      </div>
+
+      <div class="cs-row-media reveal">
+        <div class="cs-problem-grid">
+          <div class="cs-problem-col">
+            <div class="cs-problem-card">
+              <div class="cs-p-icon">
+                <svg class="cs-p-icon-svg cs-p-icon-up" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
+                </svg>
+              </div>
+              <div class="cs-p-text">
+                <h5>Centralized starting points</h5>
+                <p>Services like 211 attempt to consolidate various city resources into a unified access point</p>
+              </div>
+            </div>
+          </div>
+          <div class="cs-problem-col">
+            <div class="cs-problem-card">
+              <div class="cs-p-icon">
+                <svg class="cs-p-icon-svg cs-p-icon-down" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <g transform="translate(0,24) scale(1,-1)">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
+                  </g>
+                </svg>
+              </div>
+              <div class="cs-p-text">
+                <h5>Critical time delays</h5>
+                <p>Wait times can stretch beyond five minutes just to reach a human operator creating delays</p>
+              </div>
+            </div>
+            <div class="cs-problem-card">
+              <div class="cs-p-icon">
+                <svg class="cs-p-icon-svg cs-p-icon-down" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <g transform="translate(0,24) scale(1,-1)">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M15.03 9.684h3.965c.322 0 .64.08.925.232s.532.374.717.645a2.11 2.11 0 0 1 .242 1.883l-2.36 7.201c-.288.814-.48 1.355-1.884 1.355c-2.072 0-4.276-.677-6.157-1.256c-.472-.145-.924-.284-1.348-.404h-.115V9.478a25.5 25.5 0 0 0 4.238-5.514a1.8 1.8 0 0 1 .901-.83a1.74 1.74 0 0 1 1.21-.048c.396.13.736.397.96.757c.225.36.32.788.269 1.211zM4.177 10H7v8a2 2 0 1 1-4 0v-6.823C3 10.527 3.527 10 4.176 10Z"/>
+                  </g>
+                </svg>
+              </div>
+              <div class="cs-p-text">
+                <h5>Automated bureaucratic walls</h5>
+                <p>Auto-replies frequently block immediate assistance with rigid eligibility rules and criteria</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- ============ BEACON SCREENSHOTS ============ -->
-      <div class="cs-beacon-images">
-        <div class="cs-shot reveal">
-          <img src="Images/beacon-1.jpg" alt="Beacon — onboarding language selection and quick-question flow">
-        </div>
-        <div class="cs-shot reveal">
-          <img src="Images/beacon-2.jpg" alt="Beacon — assistance and qualification cards">
-        </div>
-        <div class="cs-shot reveal">
-          <img src="Images/beacon-3.jpg" alt="Beacon — nearby shelters and food listings with availability tags">
-        </div>
-        <div class="cs-shot reveal">
-          <img src="Images/beacon-4.jpg" alt="Beacon — resource category cards including SNAP, CalFresh, Medi-Cal, and Veteran benefits">
-        </div>
-        <div class="cs-shot reveal">
-          <img src="Images/beacon-5.jpg" alt="Beacon — isometric mockup composite of the core app screens">
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>Grounding ideas in <em>survival</em> constraints</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>We pivoted into rapid ideation around three core "How Might We" challenges: eliminating wasted physical trips, dismantling deep user distrust, and simplifying intimidating bureaucracy. We whiteboarded solutions built strictly around survival constraints, focusing on real-world utility. This groundwork established the parameters needed to structure our AI prompts and user flows.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot"><img src="Images/beacon-5.jpg" alt="Beacon — team ideation" style="width:100%;display:block;"></div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>Structuring <em>AI prompts</em> to architect user flows</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>With our research insights and user constraints established, we structured detailed AI prompts to map out our primary user flows and interaction architecture before jumping into high-fidelity design.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot"><img src="Images/beacon-6.jpg" alt="Beacon — Figma Make AI prompt" style="width:100%;display:block;"></div>
+      </div>
+    </section>
+
+    <!-- ============ KEY INTERACTIONS ============ -->
+    <section class="cs-row" id="interactions">
+      <p class="cs-eyebrow">Key Interactions</p>
+      <div class="cs-row-label reveal">
+        <h2>Translating <em>survival needs</em> into a zero-friction flow</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>Guided by our user flows, we designed an interface organized around instant access to three critical pillars: shelter, food, and government assistance.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/beacon-7.jpg" alt="Beacon — isometric mockup composite of the core app screens" style="width:100%;display:block;">
         </div>
       </div>
 
-      <!-- ============ ARCHIVED PROJECT NOTICE ============ -->
-      <div class="cs-archived-box reveal">
-        <div class="cs-archived-inner">
-          <p class="cs-archived-title">This is an <b>archived</b> project</p>
-          <p class="cs-archived-sub">Please reach out if you would like to learn more</p>
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>Privacy as a <em>baseline</em>, not a feature</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>With 60% of unhoused users distrusting apps over data tracking, Beacon features zero mandatory sign-up ("Free. No sign-up, no email, no ID"), keeping all onboarding answers securely on-device.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/beacon-8.jpg" alt="Beacon — onboarding language selection and quick-question flow" style="width:100%;display:block;">
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>Structuring cards for <em>zero wasted</em> trips</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>To prevent people from being turned away at doors, every shelter card features a transparent "Who can stay" checklist (rules, age limits, inclusivity), alongside live status badges ("serving now", "beds open") and one-tap calling.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/beacon-9.jpg" alt="Beacon — nearby shelters and food listings with availability tags" style="width:100%;display:block;">
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>Demystifying aid to <em>motivate</em> action</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>Instead of replicating overwhelming government applications, the assistance hub acts as a low-friction routing tool. Breaking baseline eligibility into a progressive, single-question flow led by tangible value reduces cognitive load and empowers users to seek external aid.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-shot">
+          <img src="Images/beacon-10.jpg" alt="Beacon — assistance and qualification cards" style="width:100%;display:block;">
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DESIGN SYSTEM ============ -->
+    <section class="cs-row" id="design-system">
+      <p class="cs-eyebrow">Design System</p>
+      <div class="cs-row-label reveal">
+        <h2>Rapid component <em>architecture</em> built for constraints</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>During our research sprint we identified "The Resource Vampire" &mdash; apps built around heavy, high-resolution interactive maps that can drain 15% of a user's battery in five minutes. To preserve battery life and reduce data consumption, I designed Beacon's component system around lightweight, text-first utility cards, keeping the map as a compact, secondary preview.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-img-pair">
+          <div class="cs-shot"><img src="Images/beacon-11.jpg" alt="Beacon — resource category cards including SNAP, CalFresh, Medi-Cal, and Veteran benefits" style="width:100%;display:block;"></div>
+          <div class="cs-shot"><img src="Images/beacon-12.jpg" alt="Beacon — application component architecture" style="width:100%;display:block;"></div>
+          
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>The <em>system</em> in practice</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>To bridge every touchpoint&mdash;from zero login onboarding to live shelter discovery and assistance screening&mdash;the system had to remain effortless under acute stress. Each component provides essential structural guidance without competing with what matters most: immediate access to aid.</p>
+        <p>The result is a unified visual system that transforms fragmented public services into one seamless, battery-conscious experience, using high-contrast typography and modular utility cards to build trust from the first screen to the final action.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-img-pair">
+          <div class="cs-shot"><img src="Images/beacon-13.jpg" alt="Beacon — program resource components" style="width:100%;display:block;"></div>
+          <div class="cs-shot"><img src="Images/beacon-14.jpg" alt="Beacon — landing and assistance screener" style="width:100%;display:block;"></div>
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RETROSPECTIVE ============ -->
+    <section class="cs-row" id="retrospective" style="padding-bottom:160px;">
+      <p class="cs-eyebrow">Retrospective</p>
+      <div class="cs-row-label reveal">
+        <h2>Winning the  <em>user empathy</em> award</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>Receiving the Real World User Empathy award at the Google Designathon was a powerful affirmation of our hybrid process. While AI served as a force multiplier for rapid interaction mapping, grounding our data in the lived realities of unhoused individuals and 211 operators is what truly defined Beacon.</p>
+      </div>
+      <div class="cs-row-media reveal">
+        <div class="cs-img-pair">
+          <div class="cs-shot"><img src="Images/beacon-15.jpg" alt="Beacon — Google x HCI Designathon, Real World User Empathy award" style="width:100%;display:block;"></div>
+          <div class="cs-shot"><img src="Images/beacon-16.jpg" alt="Beacon — isometric mockup composite" style="width:100%;display:block;"></div>
+        </div>
+      </div>
+
+      <div class="cs-row-label reveal cs-extra-gap-label">
+        <h2>My <em>key</em> takeaways</h2>
+      </div>
+      <div class="cs-divider" aria-hidden="true"></div>
+      <div class="cs-row-content reveal">
+        <p>This project reinforced that while AI serves as an incredible force multiplier for rapid data synthesis and interaction mapping, human empathy remains irreplaceable. Designing under harsh physical and psychological constraints&mdash;dying batteries, acute stress, and deep systemic mistrust&mdash;proved that when you build with empathy for the most vulnerable user, you create a cleaner, more resilient product for everyone.</p>
+        <div class="cs-takeaway-list">
+          <div class="cs-takeaway-card">
+            <span class="cs-takeaway-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16"><path d="M0 0h16v16H0z" fill="none"/><path fill="currentColor" d="M9 7h2.898a.5.5 0 0 1 .376.83L6 15l1-6H4.102a.5.5 0 0 1-.377-.83L10 1z"/></svg>
+            </span>
+            <div class="cs-takeaway-text">
+              <h5>AI as a force multiplier, not a substitute</h5>
+              <p>NotebookLM let us synthesize literature in hours, but the insights that mattered most came from picking up the phone and experiencing a broken system firsthand.</p>
+            </div>
+          </div>
+          <div class="cs-takeaway-card">
+            <span class="cs-takeaway-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path fill="currentColor" d="M8 12a4 4 0 1 0 8 0 4 4 0 1 0 -8 0" opacity=".2" stroke="none"/><path fill="currentColor" d="M11 12a1 1 0 1 0 2 0 1 1 0 1 0 -2 0" opacity=".2" stroke="none"/><path d="M8 12a4 4 0 1 0 8 0 4 4 0 1 0 -8 0"/><path d="M12 2v3"/><path d="M12 19v3"/><path d="M2 12h3"/><path d="M19 12h3"/><path d="M11 12a1 1 0 1 0 2 0 1 1 0 1 0 -2 0"/></g></svg>
+            </span>
+            <div class="cs-takeaway-text">
+              <h5>Scope for survival, not coverage</h5>
+              <p>Every design decision was tested against one question: does this help someone act safely, in seconds, on a dying phone?</p>
+            </div>
+          </div>
+          <div class="cs-takeaway-card">
+            <span class="cs-takeaway-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="1.25em" height="1em" viewBox="0 0 640 512"><path d="M0 0h640v512H0z" fill="none"/><path fill="currentColor" d="M434.7 64h-85.9c-8 0-15.7 3-21.6 8.4l-98.3 90c-.1.1-.2.3-.3.4c-16.6 15.6-16.3 40.5-2.1 56c12.7 13.9 39.4 17.6 56.1 2.7c.1-.1.3-.1.4-.2l79.9-73.2c6.5-5.9 16.7-5.5 22.6 1c6 6.5 5.5 16.6-1 22.6l-26.1 23.9L504 313.8c2.9 2.4 5.5 5 7.9 7.7V128l-54.6-54.6c-5.9-6-14.1-9.4-22.6-9.4M544 128.2v223.9c0 17.7 14.3 32 32 32h64V128.2zm48 223.9c-8.8 0-16-7.2-16-16s7.2-16 16-16s16 7.2 16 16s-7.2 16-16 16M0 384h64c17.7 0 32-14.3 32-32V128.2H0zm48-63.9c8.8 0 16 7.2 16 16s-7.2 16-16 16s-16-7.2-16-16c0-8.9 7.2-16 16-16m435.9 18.6L334.6 217.5l-30 27.5c-29.7 27.1-75.2 24.5-101.7-4.4c-26.9-29.4-24.8-74.9 4.4-101.7L289.1 64h-83.8c-8.5 0-16.6 3.4-22.6 9.4L128 128v223.9h18.3l90.5 81.9c27.4 22.3 67.7 18.1 90-9.3l.2-.2l17.9 15.5c15.9 13 39.4 10.5 52.3-5.4l31.4-38.6l5.4 4.4c13.7 11.1 33.9 9.1 45-4.7l9.5-11.7c11.2-13.8 9.1-33.9-4.6-45.1"/></svg>
+            </span>
+            <div class="cs-takeaway-text">
+              <h5>Trust as a product feature</h5>
+              <p>By making privacy an upfront promise rather than a settings toggle, we addressed the core barrier preventing unhoused communities from utilizing digital tools.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -322,5 +674,26 @@
 </section>
 
 <script src="stellar.js"></script>
+<script>
+  // ---- CONTENTS sidebar scroll-spy (page-specific to beacon.html) ----
+  (function () {
+    const links = Array.from(document.querySelectorAll('#csContentList a'));
+    if (!links.length) return;
+    const sections = links
+      .map(a => document.getElementById(a.getAttribute('href').slice(1)))
+      .filter(Boolean);
+    if (!sections.length) return;
+
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const id = entry.target.id;
+        links.forEach(a => a.classList.toggle('current', a.getAttribute('href') === '#' + id));
+      });
+    }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+
+    sections.forEach(sec => io.observe(sec));
+  })();
+</script>
 </body>
 </html>

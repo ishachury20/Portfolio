@@ -32,7 +32,7 @@
     --panel:#efeeea;
     --panel-2:#f6f5f2;
     --line:#e2e0da;
-    --ink:#15161a;
+    --ink:#2f2f2f;
     --ink-soft:#56565c;
     --muted:#9a9a96;
     --dark:#191919;
@@ -127,26 +127,31 @@
     gap: 2px;
     -webkit-backdrop-filter: blur(18px) saturate(140%);
     backdrop-filter: blur(18px) saturate(140%);
-    background: rgba(17, 17, 17, 0.38);
+    /* solid-ish dark fill (not just a thin tint) so the pill looks the same
+       dark shade on every page, regardless of what's behind it — a dark
+       hero (landing) or a white page surface (about) */
+    background: rgba(17, 17, 17, 0.42);
     border: 1px solid rgba(255, 255, 255, 0.25); /* Changed from #A8A8A8 */
     border-radius: 999px;
     padding: 7px;
     position: relative;
   }
   .nav-tabs .tab{position:relative;font-size:0.8rem;line-height:1;color:#686868;padding:9px 22px;border-radius:999px;transition:background .2s ease, color .2s ease;}
-  .nav-tabs .tab:hover{color:#fff;}
+  /* inactive tab (whichever one it is, on whichever page) always needs to read
+     light against the dark pill above — keyed off :not(.active) instead of a
+     page-specific class so Work-on-about and About-on-landing always match */
+  .nav-tabs .tab:not(.active){color:#FDFDFD;}
+  .nav-tabs .tab:not(.active):hover{color:#fff;}
   .nav-tabs .tab.active {
     background: rgba(80, 80, 80, 0.5); /* Softer background fill */
     color: #fff;
-    /* Reduced opacity and spread for a smoother blend */ 
-    box-shadow: 0 0 15px rgba(85, 85, 85, 0.5); 
+    /* Reduced opacity and spread for a smoother blend */
+    box-shadow: 0 0 15px rgba(85, 85, 85, 0.5);
   }
   .nav-tabs .tab.active .tab-notch{
     content:"";position:absolute;top:-7px;left:50%;transform:translateX(-50%);
     width:18px;height:3px;border-radius:2px;background:#fff;
   }
-  .nav-tabs .tab.about-link{color:#FDFDFD;}
-  .nav-tabs .tab.about-link:hover{color:#fff;}
   .nav-right{display:flex;align-items:center;gap:34px;}
   .link-arrow{font-size:0.8em;display:inline-block;margin-left:2px;}
   /* the glyph itself is solid white (only alpha varies) — brightness()
@@ -249,7 +254,7 @@
 
   .section.work{
     background:#ffffff;position:relative;z-index:5;
-    border-radius:60px 60px 0 0;margin-top:80px;padding-top:140px;
+    border-radius:60px 60px 0 0;margin-top:80px;padding-top:140px;padding-bottom:200px;
   }
   .case-tags{font-size:0.86rem;color:var(--muted);margin:0 0 16px;letter-spacing:0.01em;}
 
@@ -258,6 +263,7 @@
      heading row + tags, then description), big number floating outside
      the left margin. */
   .case-card{margin-bottom:160px;position:relative;}
+  .case-card:last-of-type{margin-bottom:70px;}
   .case-card-link{position:absolute;inset:0;z-index:4;border-radius:24px;}
   .case-num{
     position:absolute;top:10px;left:-112px;width:90px;text-align:center;
@@ -286,7 +292,7 @@
      If you swap in a differently-cropped hero image for a card, its
      baked-in shadow height will change and this number will need
      re-tuning to match. */
-  .cg-caption{margin-top:-8px;padding-top:0;display:flex;align-items:flex-start;gap:18px;position:relative;z-index:2;}
+  .cg-caption{margin-top:-8px;padding-top:0;display:flex;align-items:center;gap:18px;position:relative;z-index:2;}
   .case-card-gratitude .cg-caption{margin-top:20px;}
   .case-card-beacon .cg-caption{margin-top:-30px;}
   .cg-client-logo-box{
@@ -299,18 +305,20 @@
   .cg-client-logo{display:block;width:60%;height:60%;object-fit:contain;}
   .cg-caption-text{flex:1 1 auto;min-width:0;}
   .cg-caption-head{
-    display:flex;align-items:flex-end;flex-wrap:wrap;gap:8px 16px;margin-bottom:10px;
+    display:flex;align-items:center;flex-wrap:wrap;gap:8px 16px;margin-bottom:4px;
   }
-  .cg-caption-head h3{font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:1.4rem;color:var(--ink);margin:0;}
-  .cg-caption .case-tags{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:0.8rem;color:var(--muted);margin:0;}
-  .cg-caption p{font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.95rem;color:var(--ink-soft);line-height:1.65;margin:0;max-width:520px;}
+  .cg-caption-head h3{font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:1.4rem;color:var(--ink);margin:6px 0 0;}
+  .cg-caption .case-tags{font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:0.92rem;color:var(--muted);margin:0;display:flex;align-items:center;gap:12px;position:relative;top:4.5px;}
+  .cg-caption .case-tags::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--muted);flex-shrink:0;}
+  .cg-caption .case-tags .tag-dot{width:4px;height:4px;border-radius:50%;background:var(--muted);flex-shrink:0;display:inline-block;}
+  .cg-caption p{font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.95rem;color:var(--ink-soft);line-height:1.65;margin:-2px 0 0;max-width:none;}
 
   @media (max-width:1240px){ .case-num{position:static;display:block;margin-bottom:10px;} }
 
   /* ---------------- sandbox: two separate containers with a gap ---------------- */
   .sandbox{background:#fff;position:relative;z-index:5;padding-top:10px;padding-bottom:300px;}
-  .sandbox-head{display:flex;align-items:center;gap:32px;justify-content:center;margin-bottom:70px;}
-  .sandbox-head .ln{flex:1;height:1px;background:#333333;position:relative;}
+  .sandbox-head{display:flex;align-items:center;gap:32px;justify-content:center;margin-bottom:100px;}
+  .sandbox-head .ln{flex:1;height:1.25px;background:#3c3c3c;position:relative;}
   .sandbox-head .ln::before,
   .sandbox-head .ln::after{
     content:"";position:absolute;top:50%;transform:translateY(-50%);
@@ -328,7 +336,7 @@
   }
   .sandbox-img{width:100%;height:auto;border-radius:0;display:block;}
   .sandbox-info{
-    background:var(--ink);color:var(--on-dark);border-radius:24px;padding:56px 64px;
+    background: #191919;;color:var(--on-dark);border-radius:24px;padding:56px 64px;
     aspect-ratio:1620/1281;   /* = Talking-V2.png's exact ratio, so both cards match at every screen size */
     position:relative;display:flex;flex-direction:column;justify-content:center;transition:opacity .2s ease;
     overflow:hidden;   /* clips the arrow semicircle exactly at the panel edge */
@@ -433,4 +441,143 @@
   }
   @media (max-width:1440px){
     #scale-root{width:100%;transform:none !important;}
+  }
+  /* ============================================================
+     ABOUT PAGE (about.html)
+     ------------------------------------------------------------
+     Styles specific to the About page's layout: the intro title,
+     staggered story grid, experience rows, and tech-stack dock.
+     Shared nav/footer/section rules above this block already cover
+     about.html too — this is only what's unique to that page.
+     ============================================================ */
+
+  /* white page surface from the very top down to the footer */
+  .about-main{background:#fff;position:relative;z-index:5;padding:150px 0 190px;}
+
+  /* eyebrow with the little dot marker (matches the reference) */
+  .about-eyebrow{
+    display:flex;align-items:center;gap:10px;
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:0.78rem;
+    letter-spacing:0.16em;text-transform:uppercase;color:var(--muted);
+    margin:0 0 54px;
+  }
+  .about-eyebrow::before{
+    content:"";width:9px;height:9px;border-radius:50%;
+    background:#565656;flex-shrink:0;
+    box-shadow:
+      0 0 8px rgba(86,86,86,0.8),
+      0 0 18px rgba(86,86,86,0.45),
+      0 0 34px rgba(86,86,86,0.28);   /* ← added outer glow layer */
+  }
+
+  /* ---- intro title (right after ABOUT ME eyebrow) ---- */
+  .about-intro-title{
+    font-family:'Be Vietnam Pro',sans-serif;font-weight:550;
+    font-size:2.2rem;line-height:1.35;letter-spacing:-0.01em;
+    margin:0 0 70px;
+    background:linear-gradient(90deg,#676666,#4c4c4c);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .about-intro-title em{
+    font-family:'Bitter',serif;font-weight:1100;font-style:italic;
+  }
+
+  /* ---- staggered story grid (Perry-style) ---- */
+  .story-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:110px;align-items:start;}
+  .story-col{display:flex;flex-direction:column;gap:56px;}
+  .story-col.right{padding-top:26px;}   /* slight offset so the columns stagger */
+
+  .story-photo{width:100%;height:auto;display:block;border-radius:22px;}
+
+  .story-text h3{
+    font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:1.15rem;
+    color:var(--ink);margin:0 0 12px;
+  }
+  .story-text p{
+    font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.95rem;
+    color:var(--ink-soft);line-height:1.7;margin:0 0 14px;max-width:none;   /* ← spans the full photo width now */
+  }
+  .story-sig{display:flex;align-items:center;gap:14px;}
+  .sig-line{width:28px;height:1px;border-radius:999px;background:var(--ink);flex-shrink:0;}
+  .sig-name{font-family:'Beau Rivage',cursive;font-size:2.1rem;color:var(--ink);line-height:1;}
+
+  /* ---- experience ---- */
+  .about-exp{margin-top:110px;padding-top:90px;border-top:1px solid var(--line);}
+  /* COMPANY / ROLE SPACING:
+     - grid-template-columns first value = width of the company-name column
+     - gap = horizontal space between the company name and the role block  */
+  .exp-row{
+    display:grid;grid-template-columns:280px 1fr;gap:300px;align-items:start;
+    padding:44px 0;
+  }
+  .exp-co{
+    font-family:'Alexandria',sans-serif;font-weight:700;
+    font-size:2.1rem;color:var(--ink);letter-spacing:-0.01em;   /* ← bigger company name */
+  }
+  .exp-role{
+    font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:1.35rem;   /* ← bigger role title */
+    color:var(--ink);margin:0 0 12px;
+  }
+  .exp-date{
+    font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.95rem;
+    color:var(--muted);margin:0 0 36px;
+  }
+  .exp-desc{
+    font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.95rem;
+    color:var(--ink-soft);line-height:1.7;margin:0;max-width:420px;
+  }
+
+
+  /* ---- tech stack dock (bottom of experience) ----
+     Cards render grayscale by default; hovering fills the colour back in
+     and the card magnifies + hops up, mac-dock style. */
+  .tech-dock-wrap{margin-top:90px;}
+  .tech-dock-wrap .about-eyebrow{margin-bottom:24px;}
+  .tech-dock{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:14px 30px;width:100%;   /* ← stretches to the content margins now */
+    box-shadow:0 14px 34px rgba(0,0,0,0.03);
+  }
+  .dock-divider{width:1px;height:36px;background:var(--line);margin:0 8px;flex-shrink:0;}
+
+  /* each icon is wrapped in .dock-item so the tooltip can anchor to it
+     without disturbing the img's own hover transform */
+  .dock-item{position:relative;display:flex;}
+  .tech-dock img{
+    width:52px;height:auto;display:block;
+    filter:grayscale(1) opacity(0.72);
+    transform-origin:bottom center;
+    transition:transform .28s cubic-bezier(0.2,0.9,0.3,1.3), filter .22s ease;
+  }
+  .dock-item:hover img{
+    filter:grayscale(0) opacity(1);
+    transform:translateY(-12px) scale(1.25);
+  }
+
+  /* macOS-style label that pops up above the icon on hover */
+  .dock-tip{
+    position:absolute;bottom:calc(100% + 16px);left:50%;
+    transform:translateX(-50%) translateY(4px) scale(0.92);
+    background:#1c1c1c;color:#fff;
+    font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:0.76rem;
+    padding:6px 12px;border-radius:18px;white-space:nowrap;
+    opacity:0;pointer-events:none;
+    transition:opacity .18s ease, transform .18s cubic-bezier(0.2,0.9,0.3,1.3);
+    z-index:2;
+  }
+
+  .dock-item:hover .dock-tip{
+    opacity:1;transform:translateX(-50%) translateY(-100%) scale(1);
+  }
+  @media (max-width:860px){
+    .tech-dock{flex-wrap:wrap;justify-content:center;border-radius:26px;}
+    .dock-divider{display:none;}
+  }
+
+  @media (max-width:860px){
+    .story-grid{grid-template-columns:1fr;row-gap:56px;}
+    .story-col.right{padding-top:0;}
+    .story-photo,.story-col.right .story-photo{width:100%;}
+    .exp-row{grid-template-columns:1fr;gap:10px;}
   }

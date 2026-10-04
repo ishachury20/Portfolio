@@ -61,7 +61,7 @@
   .cs-fixed-back{position:fixed;top:26px;left:40px;z-index:50;}
   .cs-fixed-right{
     position:fixed;top:26px;right:40px;z-index:50;   /* same 40px as .cs-fixed-back, so Back/Next sit equidistant from the edges */
-    display:flex;flex-direction:column;align-items:flex-end;gap:20px;
+    display:flex;flex-direction:column;align-items:flex-start;gap:20px;
   }
   /* Back: simple single-layer pill. Next: outer glass ring + inner text
      "bubble" matching .tab.active — the nested-pill look used site-wide. */
@@ -135,10 +135,9 @@
   .cs-content-nav{
     /* no longer independently fixed/positioned — it's a normal-flow child
        of .cs-fixed-right, stacked directly beneath the Next button.
-       Plain text, no panel/background behind it. Nudged left of the
-       Next button above it, rather than sharing its exact right edge. */
+       Plain text, no panel/background behind it. Left-aligned flush with
+       the Next button's left edge above it. */
     text-align:left;
-    margin-right:10px;
     margin-top:30px;
   }
   .cs-content-label{
