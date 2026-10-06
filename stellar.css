@@ -180,20 +180,58 @@
     z-index:-1;
   }
   .nav-link-plain:hover::before{opacity:1;}
-  .nav-toggle{display:none;background:none;border:0;font-size:1.3rem;color:#fff;order:3;}
-  .mobile-resume{display:none;}
+  /* ---- contact menu button + dropdown (phone only; hidden on desktop/tablet) ---- */
+  .nav-menu-btn{
+    display:none;position:relative;flex-shrink:0;
+    width:46px;height:46px;padding:0;border-radius:50%;
+    align-items:center;justify-content:center;color:#FDFDFD;cursor:pointer;
+    -webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);
+    background:rgba(17,17,17,0.42);
+    border:1px solid rgba(255,255,255,0.25);
+    transition:background .2s ease, transform .2s ease;
+  }
+  .nav-menu-btn:hover{background:rgba(25,25,25,0.6);}
+  .nav-menu-btn svg{width:20px;height:20px;position:absolute;transition:opacity .2s ease, transform .25s ease;}
+  .nav-menu-btn .ico-x{opacity:0;transform:rotate(-45deg) scale(.8);}
+  .nav-menu-btn[aria-expanded="true"] .ico-at{opacity:0;transform:rotate(45deg) scale(.8);}
+  .nav-menu-btn[aria-expanded="true"] .ico-x{opacity:1;transform:none;}
+  .nav-menu{
+    display:none;position:absolute;top:calc(100% + 8px);right:6px;min-width:200px;
+    flex-direction:column;padding:8px;border-radius:22px;
+    -webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);
+    background:rgba(17,17,17,0.82);border:1px solid rgba(255,255,255,0.2);
+    box-shadow:0 14px 34px rgba(0,0,0,0.25);
+    opacity:0;visibility:hidden;transform:translateY(-6px);
+    transition:opacity .2s ease, transform .2s ease, visibility .2s;
+  }
+  .nav-menu.open{opacity:1;visibility:visible;transform:none;}
+  .nav-menu a{
+    display:flex;align-items:center;justify-content:space-between;gap:20px;
+    padding:13px 16px;border-radius:14px;color:#FDFDFD;font-size:0.88rem;line-height:1;
+    transition:background .2s ease;
+  }
+  .nav-menu a:hover{background:rgba(255,255,255,0.08);}
+  .nav-menu a svg{width:12px;height:12px;flex-shrink:0;}
 
-  @media (max-width:820px){
-    .nav-inner .nav-links{
-      position:fixed;top:92px;left:16px;right:16px;transform:none;background:#111111;
-      flex-direction:column;align-items:flex-start;gap:0;padding:8px 22px 16px;display:none;
-      border-radius:22px;box-shadow:0 10px 28px rgba(0,0,0,0.25);
-    }
-    .nav-links.open{display:flex;flex-direction:column;align-items:stretch;gap:14px;}
-    .nav-tabs{width:100%;justify-content:center;}
-    .mobile-resume{display:flex;align-items:center;gap:6px;width:100%;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.12);color:var(--on-dark-soft);}
-    .nav-toggle{display:block;}
+  /* TABLET (<=1000px): same nav as desktop, just tighter */
+  @media (max-width:1000px){
+    .nav-inner{padding:0 18px;}
+    .nav-right{gap:26px;}
+  }
+  /* PHONE (<=680px): brand + Resume/LinkedIn fold away. The Work/About pill
+     stays on the left; a round "@" button on the right opens a small
+     dropdown with LinkedIn + Resume (same pattern as perryw-2023.webflow.io). */
+  @media (max-width:680px){
+    /* the nav sits 12px in from the screen edge (.nav-tray), so this padding lines the
+       Work/About pill and the arrow button up with the page's content margin:
+       12 + 20 = 32px (landing page), 12 + 8 = 20px (About page, whose margin is 20px) */
+    .nav-inner{padding:0 20px;}
+    body:has(.about-main) .nav-inner{padding:0 8px;}
+    .brand{display:none;}
+    .nav-inner .nav-links{position:static;transform:none;}
     .nav-right{display:none;}
+    .nav-menu-btn{display:inline-flex;}
+    .nav-menu{display:flex;}
   }
 
   /* ---------------- hero block (dark, fills the entire first viewport) ---------------- */
@@ -395,8 +433,8 @@
 
 
 
-  @media (max-width:900px){ .footer-inner{grid-template-columns:1fr 1fr;} .footer-art{display:none;} }
-  @media (max-width:560px){ .footer-inner{grid-template-columns:1fr;} .footer-name{font-size:1.7rem;} }
+  @media (max-width:900px){ .footer-inner{grid-template-columns:1fr 1fr;row-gap:36px;} .footer-inner > div:first-child{grid-column:1 / -1;} .footer-art{display:none;} }
+  @media (max-width:560px){ .footer-name{font-size:1.7rem;} }
 
   /* ---------------- gallery (two opposite-direction scrolling rows) ---------------- */
   .gallery{background:#fff;position:relative;z-index:5;padding:20px 0;}
@@ -570,14 +608,196 @@
   .dock-item:hover .dock-tip{
     opacity:1;transform:translateX(-50%) translateY(-100%) scale(1);
   }
-  @media (max-width:860px){
-    .tech-dock{flex-wrap:wrap;justify-content:center;border-radius:26px;}
-    .dock-divider{display:none;}
+  /* ---- responsive: TABLET keeps the staggered two-column story, just tighter ---- */
+  @media (max-width:1000px){
+    .about-main{padding:130px 0 150px;}
+    .about-intro-title{font-size:1.6rem;margin-bottom:48px;}
+    .story-text h3{font-size:1.02rem;margin-bottom:10px;}
+    .story-text p{font-size:0.85rem;line-height:1.65;}
+    .story-grid{column-gap:40px;}
+    .story-col{gap:44px;}
+    .about-exp{margin-top:90px;padding-top:70px;}
+    .exp-row{grid-template-columns:200px 1fr;gap:56px;}
+    .exp-co{font-size:1.5rem;}
+    .exp-role{font-size:1.15rem;}
+    .exp-date,.exp-desc{font-size:0.85rem;}
+    .about-eyebrow{font-size:0.72rem;}
+    .tech-dock-wrap{display:none;}   /* tech stack hidden on tablet + phone */
+  }
+  /* ---- responsive: PHONE collapses to a single column ---- */
+  @media (max-width:680px){
+    .about-main{padding:116px 0 110px;}
+    .about-main .wrap{width:calc(100% - 40px);}
+    .about-eyebrow{margin-bottom:28px;}
+    .about-intro-title{font-size:1.45rem;line-height:1.3;margin-bottom:36px;}
+    .story-grid{grid-template-columns:1fr;row-gap:44px;}
+    .story-col.right{padding-top:0;}
+    .exp-row{grid-template-columns:1fr;gap:10px;padding:32px 0;}
+    .exp-co{font-size:1.35rem;}
+    .exp-date{margin-bottom:18px;}
+    .exp-desc{max-width:none;}
   }
 
-  @media (max-width:860px){
-    .story-grid{grid-template-columns:1fr;row-gap:56px;}
-    .story-col.right{padding-top:0;}
-    .story-photo,.story-col.right .story-photo{width:100%;}
-    .exp-row{grid-template-columns:1fr;gap:10px;}
+  /* ============================================================
+     TABLET + PHONE (<=1000px) — work page
+     ============================================================ */
+  @media (max-width:1000px){
+    /* case studies: text only, no client logos */
+  
+    /* Let's Get Talking card: smaller type, inner outline pushed out toward the edge */
+    .sandbox-info{padding:34px 36px;}
+    .sandbox-info::before{inset:7px;border-radius:18px;}
+    .sandbox-info h3{font-size:1.05rem;margin-bottom:8px;}
+    .sandbox-info p{font-size:0.82rem;line-height:1.5;margin-bottom:28px;}
+    .sandbox-info .credit{font-size:0.8rem;}
   }
+
+
+/* =====================================================================
+   TABLET (<=1000px) — round 3 tweaks
+   ===================================================================== */
+.cg-inline-title{display:none;}
+@media (max-width:1000px){
+  /* 1) nav: name only, no "Interaction Designer" */
+  .brand-role{display:none;}
+
+  /* 2 + 3) work cards: smaller text, no bullets, title folded into the description */
+  .cg-client-logo-box{display:none;}
+  .cg-caption-head h3{display:none;}
+  .cg-inline-title{display:inline;font-weight:700;color:var(--ink);}
+  .cg-inline-title::after{content:" \2013";font-weight:500;color:var(--ink-soft);}
+  .cg-caption .case-tags{display:none;}   /* tags (Social Impact, UI/UX…) removed at tablet */
+  .cg-caption-head{margin-bottom:0;}
+  .cg-caption p{font-size:0.85rem;line-height:1.65;margin:0;}   /* same as About body text */
+
+  /* 6) white section pulled up; arrow closer to the first card */
+  .section.work{margin-top:0;padding-top:104px;padding-bottom:90px;border-radius:28px 28px 0 0;}
+  .scroll-arrow{margin:-50px 0 64px;}
+  .footer-block{border-radius:24px 24px 0 0;}
+  .case-card-beacon .cg-caption{margin-top:-10px;}
+  .case-card{margin-bottom:64px;}
+  .case-card:last-of-type{margin-bottom:20px;}
+
+  /* 4) Let's Get Talking: less rounded */
+  /* LGT card: everything scales with the viewport so the 2-up layout holds until the phone stack */
+  .sandbox-info{border-radius:clamp(8px,1.6vw,12px);padding:clamp(16px,4.4vw,36px);}
+  .sandbox-info::before{inset:clamp(5px,1vw,7px);border-radius:clamp(4px,1vw,7px);}
+  .sandbox-info h3{font-size:clamp(0.82rem,2.2vw,1.05rem);margin-bottom:clamp(4px,1vw,8px);}
+  .sandbox-info p{font-size:clamp(0.66rem,1.7vw,0.82rem);line-height:1.5;margin-bottom:clamp(12px,3.4vw,28px);}
+  .sandbox-info .credit{font-size:clamp(0.66rem,1.65vw,0.8rem);}
+  .sandbox-slide{gap:clamp(12px,2.6vw,28px);}
+
+  /* 8 + 9) tighter spacing around PUBLICATIONS */
+  .sandbox{padding-top:0;padding-bottom:150px;}
+  .sandbox-head{margin-bottom:36px;}
+
+  /* 5) footer: one flowing row — name, then Pages and Contact right next to it */
+  .footer-inner{display:flex;flex-wrap:wrap;align-items:flex-start;column-gap:56px;row-gap:28px;}
+  .footer-inner > div:first-child{grid-column:auto;margin-right:auto;}
+  .footer-col + .footer-col{margin-right:clamp(40px,12vw,110px);}   /* nudges Pages + Contact left of the edge */
+
+  /* 7) HERO PUSH-DOWN — change these two numbers:
+        .hero-main padding-top  -> moves the hero image AND the controller down together
+        .hero-final-controller bottom -> moves only the controller (more negative = lower) */
+  .hero-main{padding-top:66px;}
+  .hero-final-controller{bottom:-20%;}
+
+  /* publications: no side lines */
+  .sandbox-head .ln{display:none;}
+
+  /* footer Pages / Contact: smaller type */
+  .footer-heading{font-size:0.62rem;margin-bottom:10px;}
+  .footer-col a{font-size:0.78rem;margin-bottom:7px;}
+}
+@media (max-width:560px){
+  .footer-inner{column-gap:40px;}
+  .footer-inner > div:first-child{flex:0 0 100%;margin-right:0;}
+}
+
+/* phone: stack the publication card under its image */
+@media (max-width:680px){
+  .sandbox-slide{grid-template-columns:1fr;}
+  .sandbox-info{aspect-ratio:auto;padding:30px 28px;border-radius:12px;}
+  .sandbox-info::before{inset:7px;border-radius:7px;}
+  .sandbox-info h3{font-size:1.05rem;}
+  .sandbox-info p{font-size:0.85rem;margin-bottom:24px;}
+  .sandbox-info .credit{font-size:0.82rem;}
+}
+
+/* =====================================================================
+   PHONE (<=680px) — round 8
+   ===================================================================== */
+@media (max-width:680px){
+
+  /* 3) down arrow: smaller, with less space above and below */
+  .section.work{padding-top:84px;}
+  .scroll-arrow{margin:-50px 0 26px;}
+  .scroll-arrow svg{width:18px;height:18px;}
+
+  /* 4) more room between the screenshot and its caption (HealthChat, Genesis, Beacon) */
+  .case-card-healthchat .cg-caption,
+  .case-card-genesis .cg-caption{margin-top:14px;}
+  .case-card-beacon .cg-caption{margin-top:10px;}
+
+  /* 5) Let's Get Talking card = same size as the image above it */
+  .sandbox-info{aspect-ratio:1620/1281;padding:clamp(22px,6vw,48px);}
+  .sandbox-info h3{font-size:clamp(0.92rem,2.7vw,1.1rem);}
+  .sandbox-info p{font-size:clamp(0.72rem,2.05vw,0.88rem);margin-bottom:clamp(12px,3.4vw,26px);}
+  .sandbox-info .credit{font-size:clamp(0.72rem,1.95vw,0.84rem);}
+  .sandbox-head h2{font-size:clamp(1.25rem,4.6vw,1.6rem);}   /* PUBLICATIONS heading */
+
+  /* 6) About: single column, alternating image / text:
+        UCSC photo, "This is my story", Singapore photo, "My background",
+        Chinatown photo, "HCI", Berkley photo, "Bloop", ACM photo, "Making it happen",
+        NYC photo, "In my spare time", signature.
+        (.story-col{display:contents} lets the children be re-ordered across both columns.)
+        To change the sequence, change the order numbers below. */
+  .story-grid{row-gap:28px;}
+  .story-col{display:contents;}
+  .story-col:not(.right) > :nth-child(1){order:1;}    /* UCSC photo */
+  .story-col.right       > :nth-child(1){order:2;}    /* This is my story */
+  .story-col.right       > :nth-child(2){order:3;}    /* Singapore photo */
+  .story-col:not(.right) > :nth-child(2){order:4;}    /* My background in game design */
+  .story-col:not(.right) > :nth-child(3){order:5;}    /* Chinatown photo */
+  .story-col.right       > :nth-child(3){order:6;}    /* This thing called HCI */
+  .story-col.right       > :nth-child(4){order:7;}    /* Berkley photo */
+  .story-col:not(.right) > :nth-child(4){order:8;}    /* Bloop */
+  .story-col:not(.right) > :nth-child(5){order:9;}    /* ACM photo */
+  .story-col.right       > :nth-child(5){order:10;}   /* Making it all happen */
+  .story-col.right       > :nth-child(6){order:11;}   /* NYC photo */
+  .story-col:not(.right) > :nth-child(6){order:12;}   /* In my spare time */
+  .story-col:not(.right) > :nth-child(7){order:13;margin-top:8px;}   /* signature */
+}
+
+/* =====================================================================
+   LANDING PAGE HERO IMAGE — CORNER ROUNDING (change the numbers here)
+   The radius steps down as the screen gets smaller. Bigger = rounder.
+   ===================================================================== */
+.hero-final-bg{border-radius:32px;}                              /* desktop, above 1200px */
+@media (max-width:1200px){ .hero-final-bg{border-radius:28px;} } /* small laptop */
+@media (max-width:1000px){ .hero-final-bg{border-radius:21px;} } /* tablet */
+@media (max-width:680px){  .hero-final-bg{border-radius:20px;} } /* phone */
+@media (max-width:425px){  .hero-final-bg{border-radius:11px;} }
+@media (max-width:375px){  .hero-final-bg{border-radius:10px;} }
+@media (max-width:320px){  .hero-final-bg{border-radius:8px;} }
+
+/* =====================================================================
+   HERO CONTROLLER — hover shake
+   A small, low-key shake while the cursor is over the controller (or while
+   it's pressed on touch screens). To tune: amplitude = the px / deg values in
+   the keyframes, speed = the 0.55s, delay between shakes = none (it loops
+   while hovered).
+   ===================================================================== */
+.hero-final-controller{pointer-events:auto;cursor:grab;transform-origin:50% 60%;-webkit-tap-highlight-color:transparent;}
+@keyframes controller-shake{
+  0%,100%{transform:translate(0,0) rotate(0deg);}
+  20%{transform:translate(-2px,1px) rotate(-1deg);}
+  40%{transform:translate(2px,-1px) rotate(1deg);}
+  60%{transform:translate(-1.5px,1px) rotate(-0.7deg);}
+  80%{transform:translate(1px,0) rotate(0.5deg);}
+}
+.hero-final-controller:hover,
+.hero-final-controller:active{animation:controller-shake .55s ease-in-out infinite;}
+@media (prefers-reduced-motion: reduce){
+  .hero-final-controller:hover,.hero-final-controller:active{animation:none;}
+}

@@ -30,19 +30,21 @@
 })();
 
 
-// ---- Mobile nav toggle ----
-const navToggle = document.getElementById('navToggle');
-const navLinks  = document.getElementById('navLinks');
-if (navToggle && navLinks) {
-  navToggle.addEventListener('click', () => {
-    const open = navLinks.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', open);
-  });
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    navToggle.setAttribute('aria-expanded', false);
-  }));
-}
+// ---- Phone nav: "@" button opens the LinkedIn / Resume dropdown ----
+(function () {
+  const btn  = document.getElementById('navToggle');
+  const menu = document.getElementById('navMenu');
+  if (!btn || !menu) return;
+  function setOpen(open) {
+    menu.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', open);
+  }
+  btn.addEventListener('click', (e) => { e.stopPropagation(); setOpen(!menu.classList.contains('open')); });
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('click', (e) => { if (!menu.contains(e.target)) setOpen(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+  window.addEventListener('resize', () => { if (window.innerWidth > 680) setOpen(false); });
+})();
 
 // ---- Scroll reveal ----
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

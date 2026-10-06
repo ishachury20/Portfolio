@@ -21,6 +21,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&family=Caveat:wght@500;600&family=Alexandria:wght@700;800&family=Noto+Serif:wght@700&family=Be+Vietnam+Pro:wght@400;500;700&family=Space+Grotesk:wght@500;600&family=Beau+Rivage&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="stellar.css">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
 
@@ -32,17 +36,16 @@
         <span class="brand-role">Interaction Designer</span>
       </span>
     </a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
     <div class="nav-links" id="navLinks">
       <div class="nav-tabs">
         <a href="#work" class="tab active">Work<span class="tab-notch"></span></a>
         <a href="about.html" class="tab about-link">About</a>
       </div>
-       <a class="mobile-resume" href="#">Resume <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAmCAYAAABOFCLqAAABzklEQVR42u2Yv2sVQRCAv7FSSNAYYh6RgCIRSwsVJFgELF4j+AcINqYzhf4JksZCkKCN+RfsYhFQYhMUTJdCJI2tihh9BBVRP5sXkHB73rtfsXgDxy27M7PfzszesgdDGcpgEk04VTvAJDABTPXbP4GliPhVC4x6GDgHHO9PsPt0/mofy3HxAxiPiJ2qq521HnlROTJqDxitIYvbEXG0NIx6EPhWW6FGZM57oKDxd2CtxgKfrpqmi8Ad4DKwA2wDn/rv3fZvYL6AuwsRsdHod0JdK1jEV0qnqSDIEjBXUL3TGIw6DywMYNIMjDoLPEoM308U/mTtMOpJYCUx/DwibgHvGo+MOgKsAmMZw1vA1X77fRtpegyczujvAd2I6A0KUzYq93K27dwe3etZSnWBXMsBuZGh303ojlQFuZQD8iBhczahf6oKyAn1Y8Lx0xy70YTNTOmdo75OON1Sj/zD/skemzdVorKSAPlcZIXqjLqoPlMfqlNlQe4W3TlNn8J5O+dmmyDnc0CW2wSZVj8kQNbbBDmkbiZA3qpjbcIsJkC+qGdavWKqLxMw3abnzjq1X2X03Y6I1X25gKvL/Wh8VRfYb1HH1Ynhv5Gh/M/yB9jP6uDs4UMlAAAAAElFTkSuQmCC" class="btn-arrow" alt=""></a>
     </div>
     <div class="nav-right">
        <a class="nav-link-plain" href="#">Resume <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAmCAYAAABOFCLqAAABzklEQVR42u2Yv2sVQRCAv7FSSNAYYh6RgCIRSwsVJFgELF4j+AcINqYzhf4JksZCkKCN+RfsYhFQYhMUTJdCJI2tihh9BBVRP5sXkHB73rtfsXgDxy27M7PfzszesgdDGcpgEk04VTvAJDABTPXbP4GliPhVC4x6GDgHHO9PsPt0/mofy3HxAxiPiJ2qq521HnlROTJqDxitIYvbEXG0NIx6EPhWW6FGZM57oKDxd2CtxgKfrpqmi8Ad4DKwA2wDn/rv3fZvYL6AuwsRsdHod0JdK1jEV0qnqSDIEjBXUL3TGIw6DywMYNIMjDoLPEoM308U/mTtMOpJYCUx/DwibgHvGo+MOgKsAmMZw1vA1X77fRtpegyczujvAd2I6A0KUzYq93K27dwe3etZSnWBXMsBuZGh303ojlQFuZQD8iBhczahf6oKyAn1Y8Lx0xy70YTNTOmdo75OON1Sj/zD/skemzdVorKSAPlcZIXqjLqoPlMfqlNlQe4W3TlNn8J5O+dmmyDnc0CW2wSZVj8kQNbbBDmkbiZA3qpjbcIsJkC+qGdavWKqLxMw3abnzjq1X2X03Y6I1X25gKvL/Wh8VRfYb1HH1Ynhv5Gh/M/yB9jP6uDs4UMlAAAAAElFTkSuQmCC" class="btn-arrow" alt=""></a>
     </div>
+    <a class="nav-menu-btn" id="navResume" href="#" target="_blank" rel="noopener" aria-label="Resume"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg></a>
   </div>
 </nav>
 
@@ -73,7 +76,7 @@
               <h3>HealthChat</h3>
               <div class="case-tags"><span>Interface Design</span><span class="tag-dot"></span><span>Social Impact</span></div>
             </div>
-            <p>An AI-assisted chat tool that helps patients organize their symptoms and questions before a doctor's visit.</p>
+            <p><strong class="cg-inline-title">HealthChat</strong> An AI-assisted chat tool that helps patients organize their symptoms and questions before a doctor's visit.</p>
           </div>
         </div>
       </article>
@@ -89,7 +92,7 @@
               <h3>Genesis</h3>
               <div class="case-tags"><span>Interface Design</span><span class="tag-dot"></span><span>User Research</span></div>
             </div>
-            <p>A moving-services platform that redesigns the end to end moving experience reducing friction for both movers and clients.</p>
+            <p><strong class="cg-inline-title">Genesis</strong> A moving-services platform that redesigns the end to end moving experience reducing friction for both movers and clients.</p>
           </div>
         </div>
       </article>
@@ -105,7 +108,7 @@
               <h3>Gratitude</h3>
               <div class="case-tags"><span>Social impact</span><span class="tag-dot"></span><span>UI/UX design</span></div>
             </div>
-            <p>A UCSC Tech4Good site celebrating student gratitude toward the campus community's unsung heroes.</p>
+            <p><strong class="cg-inline-title">Gratitude</strong> A UCSC Tech4Good site celebrating student gratitude toward the campus community's unsung heroes.</p>
           </div>
         </div>
       </article>
@@ -121,7 +124,7 @@
               <h3>Beacon</h3>
               <div class="case-tags"><span>Interface Design</span><span class="tag-dot"></span><span>Social Impact</span></div>
             </div>
-            <p>A civic-resource app helping unhoused residents quickly find nearby shelters, food, and assistance programs.</p>
+            <p><strong class="cg-inline-title">Beacon</strong> A civic-resource app helping unhoused residents quickly find nearby shelters, food, and assistance programs.</p>
           </div>
         </div>
       </article>
