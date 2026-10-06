@@ -48,6 +48,7 @@
   *{box-sizing:border-box;}
   html{
     scroll-behavior:smooth;
+    -webkit-text-size-adjust:100%;text-size-adjust:100%;   /* stops phones auto-enlarging paragraphs when rotated */
   }
   body{
     margin:0;
@@ -835,7 +836,7 @@
     -webkit-background-clip:text;background-clip:text;color:transparent;
     /* glow around the sentence — raise the 0.3 / 22px for a stronger halo */
     filter:drop-shadow(0 0 22px rgba(255,255,255,0.3));
-    filter:drop-shadow(0 0 52px rgba(255,255,255,0.3)); 
+    filter:drop-shadow(0 0 10px rgba(255,255,255,0.28)) drop-shadow(0 0 30px rgba(255,255,255,0.4));   /* heading glow: raise the alphas / blur for more */
     margin-bottom:50px;
   }
   /* the "special" part: much thicker + larger */
@@ -859,4 +860,12 @@
 /* landing page, phone: no scroll-fade — everything is simply there */
 @media (max-width:680px){
   body:has(.hero-mobile) .reveal{opacity:1;transform:none;transition:none;}
+}
+/* =====================================================================
+   PHONE — Let's Get Talking card: more side margin / breathing room, smaller arrow
+   ===================================================================== */
+@media (max-width:680px){
+  .sandbox-info{padding:38px 36px;overflow:visible;}   /* side + top/bottom space around the text */
+  .sandbox-info::before{inset:10px;border-radius:9px;}
+  .sandbox-info .credit img{width:9px;height:auto;}    /* arrow size */
 }
