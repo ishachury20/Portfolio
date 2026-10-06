@@ -458,12 +458,20 @@
   }
 
   /* tablet: less rounded white surface */
-  @media (max-width:1100px){ .cs-main{border-radius:28px 28px 0 0;} }
+  @media (max-width:1100px){
+    .cs-main{border-radius:28px 28px 0 0;}
+    /* HERO IMAGE CORNER ROUNDING (tablet, 1100px and below) — change this number (desktop is 30px, phone is set further down) */
+    .cs-cover{border-radius:20px;}
+  }
 
   .cs-back-img{display:none;}
   /* ===== phone (<=680px): case-study page tweaks ===== */
   @media (max-width:680px){
     /* Back button: arrow only */
+    /* no tall empty dark block above the hero image: let the hero shrink to its content */
+    .cs-hero{min-height:0;}
+    .cs-hero-title-wrap{flex:none;padding:30px 24px 0;}
+    .cs-hero-title{margin-bottom:20px;}
     .cs-back-label,.cs-back-arrow{display:none;}
     /* round arrow-only Back button, using the same arrow image as the nav (rotated to point left) */
     .cs-pill-back{width:36px;height:36px;padding:0;gap:0;justify-content:center;border-radius:50%;}

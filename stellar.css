@@ -801,3 +801,62 @@
 @media (prefers-reduced-motion: reduce){
   .hero-final-controller:hover,.hero-final-controller:active{animation:none;}
 }
+
+/* =====================================================================
+   PHONE HERO (<=680px) — text hero instead of the hero image
+   Edit the words in index.html (look for class="hero-mobile").
+   ===================================================================== */
+.hero-mobile{display:none;}
+@media (max-width:680px){
+  .hero-visual{display:none;}                 /* hero image + controller hidden on phone */
+  .hero-mobile{
+    display:flex;flex-direction:column;
+    padding:8px 0 4px;
+  }
+  .hero-block{background:#191919;}
+  .hm-eyebrow{
+    display:flex;align-items:center;gap:12px;margin:0;
+    font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.95rem;
+    letter-spacing:-0.01em;color:#929292;
+  }
+  .hm-dot{
+    width:9px;height:9px;border-radius:50%;background:#fff;flex-shrink:0;
+    box-shadow:0 0 5px rgba(255, 255, 255, 1);
+    box-shadow:0 0 15px rgba(255, 255, 255, 1);    /* dot glow: raise/lower these numbers */
+  }
+  .hm-name{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:0.01em;color:#929292;}
+  /* title styled like the About page title: Be Vietnam Pro medium, gradient fill,
+     the <em> part in Bitter bold italic (gradient runs light -> mid grey for the dark background) */
+  .hm-title{
+    margin:clamp(26px,6vh,48px) 0 0;
+    font-family:'Be Vietnam Pro',sans-serif;font-weight:550;
+    font-size:clamp(1.75rem,8.2vw,2.5rem);line-height:1.3;letter-spacing:-0.01em;
+    background:linear-gradient(2700deg,#ffffff 0%,#cbcbcb 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    /* glow around the sentence — raise the 0.3 / 22px for a stronger halo */
+    filter:drop-shadow(0 0 22px rgba(255,255,255,0.3));
+    filter:drop-shadow(0 0 52px rgba(255,255,255,0.3)); 
+    margin-bottom:50px;
+  }
+  /* the "special" part: much thicker + larger */
+  .hm-title em{font-family:'Bitter',serif;font-weight:800;font-style:italic;font-size:0.85em;line-height:1.1;letter-spacing:-0.01em;}
+  
+  .hm-sub-1{
+    margin:10px 0 0;
+    font-family:'Be Vietnam Pro',sans-serif;font-weight:600;
+    font-size:clamp(1rem,3.7vw,1.1rem);letter-spacing:-0.005em;color:#dadada;
+  }
+
+  .hm-sub{
+    margin:10px 0 0;
+    font-family:'Be Vietnam Pro',sans-serif;font-weight:500;
+    font-size:clamp(0.85rem,3.7vw,1rem);letter-spacing:-0.005em;color:#767676;
+  }
+  .hero-main{padding-bottom:20px;}
+}
+
+
+/* landing page, phone: no scroll-fade — everything is simply there */
+@media (max-width:680px){
+  body:has(.hero-mobile) .reveal{opacity:1;transform:none;transition:none;}
+}
