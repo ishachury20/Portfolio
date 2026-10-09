@@ -352,6 +352,27 @@
   .cg-caption .case-tags .tag-dot{width:4px;height:4px;border-radius:50%;background:var(--muted);flex-shrink:0;display:inline-block;}
   .cg-caption p{font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.95rem;color:var(--ink-soft);line-height:1.65;margin:-2px 0 0;max-width:none;}
 
+  /* ---- case-card hover: top glow ----
+     GLOW (::before) → soft light that starts at the TOP of the card and fades downward.
+                       height = how far it reaches, the rgba alpha values = how strong it is.
+     Only runs on devices that can really hover, and is switched off for reduced motion. */
+  .case-card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:46%;
+    background:
+      radial-gradient(ellipse 75% 100% at 50% 0%, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 45%, rgba(255,255,255,0) 100%),
+      linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 100%);
+    opacity:0;
+    transition:opacity .45s ease;
+    pointer-events:none;
+    z-index:3;               /* above the image, below the clickable link layer (z 4) */
+  }
+  @media (hover:hover){
+    .case-card:hover::before{opacity:1;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .case-card::before{transition:none;}
+  }
+
   @media (max-width:1240px){ .case-num{position:static;display:block;margin-bottom:10px;} }
 
   /* ---------------- sandbox: two separate containers with a gap ---------------- */
@@ -644,7 +665,7 @@
      ============================================================ */
   @media (max-width:1000px){
     /* case studies: text only, no client logos */
-  
+
     /* Let's Get Talking card: smaller type, inner outline pushed out toward the edge */
     .sandbox-info{padding:34px 36px;}
     .sandbox-info::before{inset:7px;border-radius:18px;}
@@ -841,7 +862,7 @@
   }
   /* the "special" part: much thicker + larger */
   .hm-title em{font-family:'Bitter',serif;font-weight:800;font-style:italic;font-size:0.85em;line-height:1.1;letter-spacing:-0.01em;}
-  
+
   .hm-sub-1{
     margin:10px 0 0;
     font-family:'Be Vietnam Pro',sans-serif;font-weight:600;
