@@ -530,11 +530,11 @@
 
   .story-text h3{
     font-family:'Be Vietnam Pro',sans-serif;font-weight:700;font-size:1.15rem;
-    color:var(--ink);margin:0 0 12px;
+    color:var(--ink);margin:0 0 22px;
   }
   .story-text p{
     font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:0.95rem;
-    color:var(--ink-soft);line-height:1.7;margin:0 0 14px;max-width:none;   /* ← spans the full photo width now */
+    color:var(--ink-soft);line-height:1.7;margin:0 0 24px;max-width:none;   /* ← spans the full photo width now */
   }
   .story-sig{display:flex;align-items:center;gap:14px;}
   .sig-line{width:28px;height:1px;border-radius:999px;background:var(--ink);flex-shrink:0;}
