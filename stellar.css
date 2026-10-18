@@ -260,7 +260,7 @@
   .hero-main{padding-top:66px;padding-bottom:80px;}
   .hero-main-visual{display:block;}
   .hero-visual{position:relative;width:100%;}
-  .hero-final-bg{width:100%;display:block;border-radius:32px;}
+  .hero-final-bg{width:100%;display:block;border-radius:0;}   /* no corner rounding (the PNG is already shaped) — raise this number to round it again */
   /* controller layered on top, anchored to the bottom-right, sized as a
      fraction of the background image so it scales with it responsively */
   .hero-final-controller{
@@ -651,7 +651,7 @@
     .about-main{padding:116px 0 110px;}
     .about-main .wrap{width:calc(100% - 40px);}
     .about-eyebrow{margin-bottom:28px;}
-    .about-intro-title{font-size:1.45rem;line-height:1.3;margin-bottom:36px;}
+    .about-intro-title{font-size:1.2rem;line-height:1.3;margin-bottom:36px;}   /* ← phone size of "I'm passionate about creating products…" */
     .story-grid{grid-template-columns:1fr;row-gap:44px;}
     .story-col.right{padding-top:0;}
     .exp-row{grid-template-columns:1fr;gap:10px;padding:32px 0;}
@@ -890,6 +890,32 @@
 }
 
 /* =====================================================================
+   PHONE HERO SPOTLIGHT (<=479px) — a soft cone of light coming from ABOVE the top of the screen, drawn over
+   everything (nav, hero text, logos). It only ever brightens (screen blend), so it vanishes on the white sections.
+   Pure CSS (no image). Tweak:
+     --spot-spread -> width of the cone (deg; bigger = wider)      --spot-length -> how far down it reaches
+     --spot-power  -> brightness (0–1)                              --spot-origin -> how far ABOVE the screen the light
+                                                                     starts (bigger = wider at the top, no visible tip)
+   ===================================================================== */
+@media (max-width:479px){
+  body::before{
+    --spot-spread:66deg;--spot-length:680px;--spot-power:.34;--spot-origin:110px;
+    content:"";position:fixed;left:0;right:0;top:-40px;height:var(--spot-length);transform-origin:top center;opacity:var(--spot-o,1);   /* ← top: raise (more negative) to move the light higher */
+    pointer-events:none;z-index:200;mix-blend-mode:screen;
+    background:radial-gradient(ellipse 75% 100% at 50% calc(-1 * var(--spot-origin)),
+      rgba(255,255,255,calc(var(--spot-power) * 1)) 0%, rgba(255,255,255,calc(var(--spot-power) * 0.55)) 30%,
+      rgba(255,255,255,calc(var(--spot-power) * 0.16)) 62%, transparent 100%);
+    -webkit-mask-image:conic-gradient(from calc(180deg - var(--spot-spread) / 2) at 50% calc(-1 * var(--spot-origin)),
+      transparent 0deg, #000 calc(var(--spot-spread) * .42), #000 calc(var(--spot-spread) * .58), transparent var(--spot-spread), transparent 360deg);
+            mask-image:conic-gradient(from calc(180deg - var(--spot-spread) / 2) at 50% calc(-1 * var(--spot-origin)),
+      transparent 0deg, #000 calc(var(--spot-spread) * .42), #000 calc(var(--spot-spread) * .58), transparent var(--spot-spread), transparent 360deg);
+    filter:blur(16px);
+    animation:hero-spot 6s ease-in-out infinite alternate;}
+  @keyframes hero-spot{from{transform:scaleY(.95);}to{transform:scaleY(1.05);}}   /* slow breathing */
+  @media (prefers-reduced-motion:reduce){body::before{animation:none;}}
+}
+
+/* =====================================================================
    LARGE PHONE / SMALL TABLET (480px - 680px) — nav
    Just the name in the left corner; the Work/About tab sits right next to
    the arrow button on the right. (At 479px and below the nav is unchanged:
@@ -1039,8 +1065,20 @@
   .he-dot{
     width:5px;height:5px;border-radius:50%;background:#fff;   /* ← inner dot: white fill */
     box-shadow:0 0 3px #fff,0 0 8px #fff,0 0 16px rgba(255,255,255,0.95),0 0 28px rgba(255,255,255,0.7),0 0 44px rgba(255,255,255,0.4);   /* ← glow */
+    animation:he-dot-fade 2.6s ease-in-out infinite;   /* ← 2.6s = one full cycle (higher = slower) */
   }
+  /* the dot never disappears: it breathes between a half-strength glow and an extra-bright one.
+     ← dim = the 0%/100% line, bright = the 50% line (add/raise the last number in a glow layer for a bigger, brighter glow) */
+  @keyframes he-dot-fade{
+    0%,100%{opacity:.6;box-shadow:0 0 3px rgba(255,255,255,.7),0 0 8px rgba(255,255,255,.5),0 0 16px rgba(255,255,255,.4),0 0 28px rgba(255,255,255,.2);}
+    50%{opacity:1;box-shadow:0 0 4px #fff,0 0 10px #fff,0 0 20px #fff,0 0 34px rgba(255,255,255,.95),0 0 56px rgba(255,255,255,.7),0 0 84px rgba(255,255,255,.45);}
+  }
+  @media (prefers-reduced-motion:reduce){.he-dot{animation:none;}}
   .he-name{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:0.03em;color:#b4b4b4;}
+  /* vertical gradient on the eyebrow text: white at the top -> its normal colour at the bottom
+     (name: #fff -> #b4b4b4, "Interaction Designer": #fff -> #929292) */
+  .he-text{background:linear-gradient(to bottom,#ffffff,#929292);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .he-name{background:linear-gradient(to bottom,#ffffff,#b4b4b4);-webkit-background-clip:text;background-clip:text;color:transparent;}
 }
 
 /* collapsed nav (<=680px) */
@@ -1061,12 +1099,20 @@
 .cg-media picture{display:block;}
 @media (max-width:479px){
   /* 1) LOGO CAROUSEL — clipped at the page margins, loops forever */
-  .logo-marquee{display:block;overflow:hidden;margin:34px 0 28px;}
+  .logo-marquee{display:block;overflow:hidden;margin:50px 0 28px;}   /* ← first number = space above the logos (raise to move them down) */
   .logo-track{display:flex;width:max-content;animation:logo-scroll 28s linear infinite;}   /* ← 28s = speed (higher = slower) */
-  .logo-track img{display:block;height:28px;width:auto;flex:none;opacity:0.55;}   /* ← logo size / brightness (opacity: 1 = full, lower = dimmer) */
+  /* HERO LOCK: the hero stays pinned to the top while the white section scrolls up over it.
+     (delete the next rule to go back to a normal scrolling hero) */
+  .hero-block{position:sticky;top:0;}
+  .section.work{margin-top:-44px;}   /* ← pulls the white section up over the bottom of the hero (bigger negative number = higher) */
+  .logo-track img{display:block;height:28px;width:auto;flex:none;opacity:0.4;}   /* ← logo size / brightness (opacity: 1 = full, lower = dimmer) */
   @keyframes logo-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
   @media (prefers-reduced-motion:reduce){.logo-track{animation:none;}}
 }
+
+/* short card descriptions on phones (Gratitude, Beacon, Let's Get Talking): full text on desktop, shorter text <=580px */
+.cg-d-short{display:none;}
+@media (max-width:580px){.cg-d-full{display:none;}.cg-d-short{display:inline;}}
 
 /* the taller phone card outlines (2576 x 1800) are used at <=580px — positions below are % of that image */
 @media (max-width:580px){
@@ -1091,9 +1137,12 @@
     .cg-screen{left:calc((10.69% - .74%) * 100 / 98.52);width:calc(78% * 100 / 98.52);}
     .cg-shade{left:17.34%;right:17.99%;}
   }
+  /* ~360px phones (card <=300px wide): the screenshot is the card width minus a fixed side margin, so it grows
+     with the card and the gap under the description stays ~12px.
+     ← screenshot size: lower 70px for a BIGGER screenshot (less gap), raise it for a smaller one. Keep the two 35px = half of it. */
   @container (max-width:300px){
-    .cg-screen{left:calc((13.69% - .74%) * 100 / 98.52);width:calc(72% * 100 / 98.52);}
-    .cg-shade{left:19.83%;right:20.48%;}
+    .cg-screen{left:calc(35px - .74cqw);width:calc(100cqw - 70px);}
+    .cg-shade{left:calc(35px + .081 * (100cqw - 70px));right:calc(35px + .081 * (100cqw - 70px) + .65cqw);}
   }
 }
 
@@ -1106,3 +1155,39 @@
   .cg-overlay{--text-down:1px;margin-top:var(--text-down);}               /* ← push text down: raise 3px */
   .cg-overlay-sub{--title-gap:4px;top:calc(max(2.1cqw,10px) + var(--title-gap));}   /* ← title→description space: raise 4px */
 }
+
+/* =====================================================================
+   LOADING SCREEN (index.html only) — the screen starts white; a dark panel (your hero colour) wipes in from the left
+   as the page loads, with the name centred across the split (its colour flips where the two halves meet) and a % counter
+   on the right. At 100% the screen is fully dark, the name fades, and the hero is right there underneath.
+     --ld-dark  -> the panel colour (matches the hero)     --ld-light -> the starting colour
+     timings live in stellar.js ("LOADING SCREEN")
+   ===================================================================== */
+.loader{--ld-dark:#191919;--ld-light:#f4f4f2;
+  display:none;position:fixed;inset:0;z-index:9999;background:var(--ld-light);overflow:hidden;
+  font-family:'Be Vietnam Pro',sans-serif;
+  opacity:1;transition:opacity .8s ease .35s,visibility 0s linear 1.15s;}
+html.is-loading .loader{display:block;}
+html.is-loading{overflow:hidden;}
+html.no-loader .loader{display:none;}
+.loader.is-done{opacity:0;visibility:hidden;pointer-events:none;}
+/* the dark panel that wipes across */
+.ld-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--ld-dark);will-change:width;}
+/* the name: white text with "difference" blending = black on the light side, light on the dark side */
+.ld-name{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);margin:0;text-align:center;
+  font-family:'Space Grotesk',sans-serif;font-weight:300;font-size:clamp(1.05rem,2.3vw,1.7rem);letter-spacing:.2em;text-transform:uppercase;
+  color:#fff;mix-blend-mode:difference;transition:opacity .6s ease;}
+.ld-name b{font-weight:700;}
+.ld-role{display:block;margin-top:14px;font-family:'Be Vietnam Pro',sans-serif;font-weight:400;font-size:.52em;letter-spacing:.34em;opacity:.55;}
+.loader.is-done .ld-name,.loader.is-done .ld-meter{opacity:0;}
+/* the counter + a thin line, on the right */
+.ld-meter{position:absolute;right:clamp(18px,5vw,72px);top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:14px;
+  color:#fff;mix-blend-mode:difference;opacity:.55;transition:opacity .5s ease;}
+.ld-pct{font-family:'Space Grotesk',sans-serif;font-size:clamp(.7rem,1.3vw,.86rem);letter-spacing:.1em;font-variant-numeric:tabular-nums;min-width:3.2em;text-align:right;}
+.ld-pct b{font-weight:500;}
+.ld-line{display:block;width:clamp(26px,6vw,84px);height:1px;background:currentColor;opacity:.7;}
+@media (max-width:580px){
+  .ld-name{letter-spacing:.16em;}
+  .ld-meter{top:auto;bottom:clamp(28px,7vh,56px);transform:none;}   /* counter moves to the bottom-right on phones */
+}
+@media (prefers-reduced-motion:reduce){.loader{transition-duration:.2s;}}

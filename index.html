@@ -20,6 +20,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&family=Inter:wght@400;500;600&family=Caveat:wght@500;600&family=Alexandria:wght@700;800&family=Noto+Serif:wght@700&family=Be+Vietnam+Pro:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Beau+Rivage&family=Bitter:ital,wght@1,700;1,800;1,900&display=swap" rel="stylesheet">
+<!-- loading screen: decide before first paint whether to show it (once per visit; coming back from a case study skips it) -->
+<script>try{document.documentElement.classList.add(sessionStorage.getItem('ic-loader-seen')?'no-loader':'is-loading');}catch(e){document.documentElement.classList.add('is-loading');}</script>
 <link rel="stylesheet" href="stellar.css">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
@@ -27,6 +29,15 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
+
+<!-- LOADING SCREEN — a dark panel wipes across a white screen as the page loads, then the name fades into the hero
+     (styles: "LOADING SCREEN" in stellar.css, logic: stellar.js) -->
+<div class="loader" id="loader" role="status" aria-live="polite" aria-label="Loading">
+  <div class="ld-fill" id="ldFill" aria-hidden="true"></div>
+  <p class="ld-name" aria-hidden="true"><b>ISHA</b> CHURY<span class="ld-role">Interaction Designer</span></p>
+  <div class="ld-meter" aria-hidden="true"><span class="ld-pct"><b id="ldNum">0</b>%</span><i class="ld-line"></i></div>
+</div>
+<noscript><style>.loader{display:none!important}</style></noscript>
 
 <nav class="nav-tray" id="mainNav">
   <div class="nav-inner">
@@ -120,7 +131,7 @@
           <div class="cg-shade reveal" aria-hidden="true"></div>
           <div class="cg-overlay reveal">
             <h3 class="cg-overlay-title">Gratitude</h3>
-            <p class="cg-overlay-sub"><span class="cg-overlay-meta">Tech4Good Lab '26 &mdash;</span> A site celebrating student gratitude toward the campus community&rsquo;s unsung heroes</p>
+            <p class="cg-overlay-sub"><span class="cg-overlay-meta">Tech4Good Lab '26 &mdash;</span> <span class="cg-d-full">A site celebrating student gratitude toward the campus community&rsquo;s unsung heroes</span><span class="cg-d-short">A site celebrating student gratitude for campus heroes</span></p>
           </div>
         </div>
       </article>
@@ -134,7 +145,7 @@
           <div class="cg-shade reveal" aria-hidden="true"></div>
           <div class="cg-overlay reveal">
             <h3 class="cg-overlay-title">Beacon</h3>
-            <p class="cg-overlay-sub"><span class="cg-overlay-meta">Google Designathon '25 &mdash;</span> A civic-resource app helping unhoused residents find shelter, food, and assistance</p>
+            <p class="cg-overlay-sub"><span class="cg-overlay-meta">Google Designathon '25 &mdash;</span> <span class="cg-d-full">A civic-resource app helping unhoused residents find shelter, food, and assistance</span><span class="cg-d-short">A civic app helping unhoused residents find shelter and food</span></p>
           </div>
         </div>
       </article>
@@ -155,7 +166,7 @@
         <div class="cg-shade reveal" aria-hidden="true"></div>
         <div class="cg-overlay reveal">
           <h3 class="cg-overlay-title">Let&rsquo;s Get Talking</h3>
-          <p class="cg-overlay-sub"><span class="cg-overlay-meta">ACM Publication | DIS Pictorial '26 &mdash;</span> A conversational card game engaging men in infertility dialogue</p>
+          <p class="cg-overlay-sub"><span class="cg-overlay-meta">ACM Publication | DIS Pictorial '26 &mdash;</span> <span class="cg-d-full">A conversational card game engaging men in infertility dialogue</span><span class="cg-d-short">A card game on infertility for men</span></p>
         </div>
       </div>
     </article>

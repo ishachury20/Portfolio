@@ -144,7 +144,27 @@ if (!prefersReduced && 'IntersectionObserver' in window) {
     }),
     { threshold: 0.12 }
   );
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  // Case-study cards: every layer of a card (outline, screenshot, shadow, text, number) is revealed TOGETHER,
+  // and only once the card's images have loaded — so nothing shows up before the rest (no bare background first).
+  const cardIO = new IntersectionObserver(
+    (entries) => entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      cardIO.unobserve(e.target);
+      const card = e.target;
+      const imgs = Array.from(card.querySelectorAll('img'));
+      const ready = Promise.all(imgs.map(img => (img.decode ? img.decode() : Promise.resolve()).catch(() => {})));
+      const timeout = new Promise(res => setTimeout(res, 1500));   // never wait longer than this for slow images
+      Promise.race([ready, timeout]).then(() => {
+        requestAnimationFrame(() => card.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible')));
+      });
+    }),
+    { threshold: 0.12, rootMargin: '0px 0px 120px 0px' }   // starts a little early so the images are ready as the card scrolls in
+  );
+  document.querySelectorAll('.reveal').forEach(el => {
+    const card = el.closest('.case-card');
+    if (card) { if (!card.dataset.revealWatched) { card.dataset.revealWatched = '1'; cardIO.observe(card); } }
+    else io.observe(el);
+  });
 } else {
   document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
 }
@@ -195,4 +215,77 @@ if (!prefersReduced && 'IntersectionObserver' in window) {
   }
   if (arrow) arrow.addEventListener('click', () => goTo((index + 1) % slides.length));
   render();
+})();
+
+// ---- phone hero spotlight: fade it out as the white section scrolls over the pinned hero ----
+(function () {
+  const mq = window.matchMedia('(max-width:479px)');
+  const hero = document.querySelector('.hero-block');
+  if (!hero) return;
+  let ticking = false;
+  function update() {
+    ticking = false;
+    if (!mq.matches) { document.documentElement.style.removeProperty('--spot-o'); return; }
+    const h = hero.offsetHeight || 1;
+    const o = Math.max(0, Math.min(1, 1 - window.scrollY / (h * 0.7)));   // ← 0.7 = fade out after scrolling 70% of the hero's height
+    document.documentElement.style.setProperty('--spot-o', o.toFixed(3));
+  }
+  function onScroll() { if (!ticking) { ticking = true; requestAnimationFrame(update); } }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update();
+})();
+
+
+// ---- LOADING SCREEN (index.html) ----
+// A dark panel wipes across the white screen as the page loads (progress eases toward ~90% while waiting, then runs to 100%
+// once the page, images and fonts are ready — never faster than MIN_MS, so it doesn't just flash). At 100% the name fades
+// and the (dark) screen dissolves into the hero.
+(function () {
+  const el = document.getElementById('loader');
+  if (!el) return;
+  const root = document.documentElement;
+  const MIN_MS = 1800;     // ← shortest the loading screen stays up (ms)
+  const MAX_MS = 6000;     // ← give up waiting after this long and open the site anyway (ms)
+  const HOLD_MS = 450;     // ← pause at 100% before the name fades (ms)
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const minMs = reduced ? 600 : MIN_MS;
+  const num = document.getElementById('ldNum'), fill = document.getElementById('ldFill');
+  const start = performance.now();
+  let pct = 0, ready = false, finished = false;
+
+  const loaded = new Promise(res => {
+    if (document.readyState === 'complete') res(); else window.addEventListener('load', res, { once: true });
+  });
+  const fonts = (document.fonts && document.fonts.ready) ? document.fonts.ready.catch(() => {}) : Promise.resolve();
+  Promise.all([loaded, fonts]).then(() => { ready = true; });
+  setTimeout(() => { ready = true; }, MAX_MS);
+
+  function paint() {
+    num.textContent = Math.round(pct);
+    fill.style.width = pct + '%';
+  }
+  function finish() {
+    if (finished) return;
+    finished = true;
+    try { sessionStorage.setItem('ic-loader-seen', '1'); } catch (e) {}
+    setTimeout(() => {
+      el.classList.add('is-done');
+      root.classList.remove('is-loading');
+      setTimeout(() => el.remove(), 1500);
+    }, HOLD_MS);
+  }
+  function tick(now) {
+    const t = Math.max(0, now - start);   // (the first animation frame can be stamped slightly before `start`)
+    let target = Math.min(90, 90 * (1 - Math.exp(-t / 1200)));
+    if (ready) target = Math.min(100, Math.max(target, 100 * t / minMs));
+    pct += (target - pct) * 0.12 + 0.05;
+    if (pct > target) pct = target;
+    if (pct < 0) pct = 0;
+    if (ready && t >= minMs && pct > 99.4) pct = 100;
+    paint();
+    if (pct < 100) requestAnimationFrame(tick); else finish();
+  }
+  paint();
+  requestAnimationFrame(tick);
 })();
