@@ -105,7 +105,32 @@ document.querySelectorAll('.cg-screen').forEach(function (img) {
       }
     } catch (e) { frac = null; }
   }
+  // PHONES (<=479px): size the screenshot so there's always the same small gap (FIT_GAP px) between the card's
+  // description and the screenshot — whatever the phone's width or however many lines the description takes.
+  // (It's the biggest the screenshot can be without touching the text; capped at the normal desktop size.)
+  const FIT_GAP = 3;                    // ← gap under the description on phones, in px (lower = bigger screenshot)
+  const phoneMQ = window.matchMedia('(max-width:479px)');
+  function fit() {
+    const sub = media.querySelector('.cg-overlay-sub');
+    const shade = media.querySelector('.cg-shade');
+    if (!phoneMQ.matches || !sub || frac == null || !img.naturalWidth) { img.style.width = ''; img.style.left = ''; if (shade) { shade.style.left = ''; shade.style.right = ''; } return; }
+    const cr = clip.getBoundingClientRect(), sr = sub.getBoundingClientRect();
+    const ch = clip.clientHeight, cw = clip.clientWidth;
+    if (!ch || !cw) return;
+    const liftPx = media.clientWidth * LIFT / 100;
+    const ratio = img.naturalHeight / img.naturalWidth;
+    let w = ((ch + liftPx - (sr.bottom - cr.top) - FIT_GAP) / frac) / ratio;
+    w = Math.max(media.clientWidth * 0.62, Math.min(w, cw * 0.9041 / 0.9852));
+    img.style.width = w + 'px';
+    img.style.left = ((cw - w) / 2) + 'px';
+    if (shade) {   // keep the soft shadow under the screenshot lined up with it
+      const mw = media.clientWidth, L = clip.offsetLeft + (cw - w) / 2;
+      shade.style.left = (L + 0.081 * w) + 'px';
+      shade.style.right = (mw - (L + w) + 0.081 * w + 0.0065 * mw) + 'px';
+    }
+  }
   function place() {
+    fit();
     if (frac == null) return;
     const ch = clip.clientHeight, ih = img.clientHeight;
     if (!ch || !ih) return;
@@ -117,6 +142,9 @@ document.querySelectorAll('.cg-screen').forEach(function (img) {
   window.addEventListener('resize', place);
   window.addEventListener('stellar-relayout', place);
   if (window.ResizeObserver) new ResizeObserver(place).observe(clip);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);   // text re-wraps once the fonts arrive
+  window.addEventListener('load', place);
+  if (phoneMQ.addEventListener) phoneMQ.addEventListener('change', place);
 });
 
 // ---- Phone nav: "@" button opens the LinkedIn / Resume dropdown ----
