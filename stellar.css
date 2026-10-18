@@ -791,17 +791,6 @@
   .story-col:not(.right) > :nth-child(7){order:13;margin-top:8px;}   /* signature */
 }
 
-/* =====================================================================
-   LANDING PAGE HERO IMAGE — CORNER ROUNDING (change the numbers here)
-   The radius steps down as the screen gets smaller. Bigger = rounder.
-   ===================================================================== */
-.hero-final-bg{border-radius:32px;}                              /* desktop, above 1200px */
-@media (max-width:1200px){ .hero-final-bg{border-radius:28px;} } /* small laptop */
-@media (max-width:1000px){ .hero-final-bg{border-radius:21px;} } /* tablet */
-@media (max-width:680px){  .hero-final-bg{border-radius:20px;} } /* phone */
-@media (max-width:425px){  .hero-final-bg{border-radius:11px;} }
-@media (max-width:375px){  .hero-final-bg{border-radius:10px;} }
-@media (max-width:320px){  .hero-final-bg{border-radius:8px;} }
 
 /* =====================================================================
    HERO CONTROLLER — hover shake
@@ -825,11 +814,11 @@
 }
 
 /* =====================================================================
-   PHONE HERO (<=680px) — text hero instead of the hero image
+   PHONE HERO (<=479px) — text/image hero instead of the hero image (480px and up keeps the original hero image + controller)
    Edit the words in index.html (look for class="hero-mobile").
    ===================================================================== */
 .hero-mobile{display:none;}
-@media (max-width:680px){
+@media (max-width:479px){
   .hero-visual{display:none;}                 /* hero image + controller hidden on phone */
   .hero-mobile{
     display:flex;flex-direction:column;
@@ -856,8 +845,8 @@
     background:linear-gradient(2700deg,#ffffff 0%,#cbcbcb 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent;
     /* glow around the sentence — raise the 0.3 / 22px for a stronger halo */
-    filter:drop-shadow(0 0 22px rgba(255,255,255,0.3));
-    filter:drop-shadow(0 0 10px rgba(255,255,255,0.28)) drop-shadow(0 0 30px rgba(255,255,255,0.4));   /* heading glow: raise the alphas / blur for more */
+    filter:drop-shadow(0 0 22px rgba(152, 152, 152, 0.3));
+    filter:drop-shadow(0 0 10px rgba(152,152,152,0.28)) drop-shadow(0 0 30px rgba(135, 135, 135, 0.4));   /* heading glow: raise the alphas / blur for more */
     margin-bottom:50px;
   }
   /* the "special" part: much thicker + larger */
@@ -889,4 +878,231 @@
   .sandbox-info{padding:38px 36px;overflow:visible;}   /* side + top/bottom space around the text */
   .sandbox-info::before{inset:10px;border-radius:9px;}
   .sandbox-info .credit img{width:9px;height:auto;}    /* arrow size */
+}
+
+/* =====================================================================
+   PHONE HERO IMAGE (<=479px) — Images/hero-phone-v2.jpg replaces the live-text hero.
+   The words stay in the HTML (.hm-text) for screen readers / SEO but are hidden visually.
+   ===================================================================== */
+@media (max-width:479px){
+  .hm-image{display:block;width:100%;height:auto;}
+  .hm-text{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+}
+
+/* =====================================================================
+   LARGE PHONE / SMALL TABLET (480px - 680px) — nav
+   Just the name in the left corner; the Work/About tab sits right next to
+   the arrow button on the right. (At 479px and below the nav is unchanged:
+   tab on the left, arrow on the right, no name.)
+   ===================================================================== */
+@media (min-width:480px) and (max-width:680px){
+  .brand{display:flex;margin-right:auto;}
+  .brand-role{display:block;}   /* "Interaction Designer" under the name */
+  .nav-inner{justify-content:flex-start;}
+  .nav-menu-btn{margin-left:12px;}
+}
+
+/* =====================================================================
+   HEALTHCHAT CARD — title + description layered ON TOP of the card image
+   (Images/MS.jpg). Sizes are in "cqw" (1cqw = 1% of the card's width), so the
+   text scales with the image at every screen size. To nudge it:
+     left / top           -> where the text block sits on the card
+     font-size (title)    -> .cg-overlay-title      (the clamp's middle value)
+     font-size (desc)     -> .cg-overlay-sub        (the clamp's middle value)
+   ===================================================================== */
+.case-card-healthchat .cg-media,.case-card-genesis .cg-media,.case-card-gratitude .cg-media,.case-card-beacon .cg-media,.case-card-pub .cg-media{position:relative;container-type:inline-size;}   /* overlay is measured against the image itself, so it stays put even when the number above shifts the image */
+.cg-overlay{
+  position:absolute;z-index:3;pointer-events:none;
+  --text-up:0.2cqw;   /* ← MOVE TEXT UP: raise this number to lift the title + description (0.5cqw ≈ 5px at full size); 0 = original position */
+  left:9.1%;right:7%;top:calc(6cqw * var(--card-stretch,1) - var(--text-up));   /* top = the diamond's centre line — the title is centred on it */
+}
+.cg-overlay-title{
+  position:absolute;left:0;top:0;transform:translateY(calc(-50% + 0.1em));   /* centres the title on the diamond at every size */
+  margin:0;white-space:nowrap;
+  font-family:'Be Vietnam Pro',sans-serif;font-weight:600;
+  font-size:max(1.9cqw,10px);line-height:1.2;letter-spacing:-0.005em;color:#f4f4f4;
+}
+.cg-overlay-sub{
+  position:absolute;left:0;right:0;top:max(2.1cqw,10px);
+  margin:0;font-family:'Be Vietnam Pro',sans-serif;font-weight:400;
+  font-size:max(1.45cqw,7.5px);line-height:1.3;letter-spacing:0.005em;color:#a9a9a9;
+}
+.cg-overlay-meta{font-weight:600;color:#cfcfcf;}
+
+/* =====================================================================
+   LANDING PAGE — eyebrow tags (CASE STUDIES / PUBLICATIONS) + divider line
+   The eyebrows reuse the About page's .about-eyebrow look (dot + small caps).
+   ===================================================================== */
+.home-eyebrow{margin:0 0 74px;}
+.work .home-eyebrow{margin-top:-34px;}          /* pulls CASE STUDIES up under the arrow */
+.home-divider{
+  height:1px;margin:90px 0 0;
+  background:linear-gradient(90deg,#ffffff 0%,#575757 50%,#ffffff 100%);   /* fades in and out at both ends */
+}
+.section.work{padding-bottom:110px;}              /* was 200px — the line now sits in this space */
+.sandbox{padding-top:0;}
+@media (max-width:1000px){
+  .work .home-eyebrow{margin-top:-30px;margin-bottom:44px;}
+  .home-divider{margin-top:50px;}
+  .section.work{padding-bottom:70px;}
+  .home-eyebrow{margin-bottom:44px;}
+}
+@media (max-width:680px){
+  .work .home-eyebrow{margin-top:-6px;margin-bottom:28px;}
+  .home-divider{margin-top:36px;}
+  .section.work{padding-bottom:56px;}
+}
+
+
+/* ---- HealthChat card: layered shell + screenshot with hover lift ---- */
+/* .cg-clip = the area inside the card's inner border. Its bottom edge sits flush with the bottom of the inner line
+   (the screenshot covers the line there, like the reference). Numbers are % of the card image (2576 x 1650 design). */
+.cg-clip{position:absolute;z-index:1;pointer-events:none;
+  left:.74%;right:.74%;top:1.15%;bottom:1.27%;border-radius:1.75cqw;overflow:hidden;}
+.cg-screen{position:absolute;display:block;max-width:none;
+  left:calc((4.49% - .74%) * 100 / 98.52);top:calc((13.57% - 1.15%) * 100 / 97.58);
+  width:calc(90.41% * 100 / 98.52);height:auto;
+  transform:translateY(0);transition:transform .7s cubic-bezier(.22,.8,.24,1);will-change:transform;}
+@media (hover:hover){
+  .case-card-healthchat:hover .cg-screen,.case-card-healthchat:focus-within .cg-screen,
+  .case-card-genesis:hover .cg-screen,.case-card-genesis:focus-within .cg-screen,
+  .case-card-gratitude:hover .cg-screen,.case-card-gratitude:focus-within .cg-screen,
+  .case-card-beacon:hover .cg-screen,.case-card-beacon:focus-within .cg-screen,
+  .case-card-pub:hover .cg-screen,.case-card-pub:focus-within .cg-screen{transform:translateY(calc(-1 * var(--lift,1.7cqw)));}
+}
+@media (prefers-reduced-motion:reduce){.cg-screen{transition:none;}}
+
+/* Soft shadow under the screenshot's bottom edge, drawn OVER the outline image (the strip between the inner line and card edge) */
+.cg-shade{position:absolute;z-index:2;pointer-events:none;
+  left:12.2%;right:12.85%;top:98.73%;bottom:0;
+  background:linear-gradient(to bottom,rgba(0,0,0,.9) 0%,rgba(0,0,0,.55) 45%,rgba(0,0,0,0) 100%);   /* ← darkness */
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 5%,#000 95%,transparent 100%);
+          mask-image:linear-gradient(90deg,transparent 0,#000 5%,#000 95%,transparent 100%);}
+
+/* Publications card (same layered build as the HealthChat card) */
+.case-card-pub{margin-bottom:0;}
+
+/* =====================================================================
+   EVEN SPACING — gap between case-study cards = space above the divider
+   line = space below the divider line. Change --card-gap to change all three.
+   ===================================================================== */
+:root{--card-gap:120px;
+  --gap-above-divider:var(--card-gap);   /* ← space ABOVE the divider line (last card -> line) */
+  --gap-below-divider:var(--card-gap);   /* ← space BELOW the divider line (line -> Publications card) */
+}
+@media (max-width:1000px){:root{--card-gap:52px;}}
+.case-card{margin-bottom:var(--card-gap);}
+.case-card:last-of-type{margin-bottom:0;}      /* the divider's own margin supplies the gap below the last card */
+.case-card-pub{margin-bottom:0;}
+.home-divider{margin:var(--gap-above-divider) 0 0;}
+.section.work{padding-bottom:var(--gap-below-divider);}
+.sandbox{padding-top:0;}
+@media (max-width:1000px){
+  .case-card:last-of-type{margin-bottom:0;}
+  .home-divider{margin-top:var(--gap-above-divider);}
+  .section.work{padding-bottom:var(--gap-below-divider);}
+}
+@media (max-width:680px){
+  .home-divider{margin-top:var(--gap-above-divider);}
+  .section.work{padding-bottom:var(--gap-below-divider);}
+}
+
+
+/* =====================================================================
+   CARD HOVER GLOW — softer
+   --glow-strength: 1 = the original glow, 0 = no glow. Lower = softer.
+   ===================================================================== */
+:root{--glow-strength:0.8;}
+.case-card::before{transition:opacity .7s ease;}
+@media (hover:hover){
+  .case-card:hover::before{opacity:var(--glow-strength);}
+}
+
+
+/* =====================================================================
+   COLLAPSED NAV (<=680px): hero eyebrow + radial hero background + softer corners
+   ===================================================================== */
+.hero-eyebrow{display:none;}
+/* eyebrow: phones only (<=479px) */
+@media (max-width:479px){
+  /* 1) eyebrow: outer ring (no fill) -> inner white glowing dot -> "Isha Chury — Interaction Designer" */
+  .hero-eyebrow{
+    display:flex;align-items:center;gap:10px;margin:40px 0 30px;   /* ← first number = how far the eyebrow sits down from the top */
+    font-family:'Be Vietnam Pro',sans-serif;font-weight:500;font-size:clamp(0.64rem,3.15vw,0.82rem);text-transform:uppercase;white-space:nowrap;   /* ← size (middle number) */
+    letter-spacing:0.03em;color:#929292;
+  }
+  .he-ring{
+    width:13px;height:13px;border-radius:50%;flex-shrink:0;
+    border:1px solid rgba(255,255,255,0.3);      /* ← outer ring: no background, just the outline */
+    display:flex;align-items:center;justify-content:center;
+  }
+  .he-dot{
+    width:5px;height:5px;border-radius:50%;background:#fff;   /* ← inner dot: white fill */
+    box-shadow:0 0 3px #fff,0 0 8px #fff,0 0 16px rgba(255,255,255,0.95),0 0 28px rgba(255,255,255,0.7),0 0 44px rgba(255,255,255,0.4);   /* ← glow */
+  }
+  .he-name{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:0.03em;color:#b4b4b4;}
+}
+
+/* collapsed nav (<=680px) */
+@media (max-width:680px){
+  /* 2) less rounding on the white section's top corners and the footer's top corners */
+  .section.work{border-radius:14px 14px 0 0;}
+  .footer-block{border-radius:14px 14px 0 0;}
+
+  /* 3) more space beneath the down arrow */
+  .scroll-arrow{margin-bottom:var(--arrow-space,38px);}   /* ← space beneath the arrow; 34px = the space above it (84px section padding − 50px pull-up) */
+}
+
+
+/* =====================================================================
+   PHONE (<=479px): logo carousel + roomier card outline
+   ===================================================================== */
+.logo-marquee{display:none;}
+.cg-media picture{display:block;}
+@media (max-width:479px){
+  /* 1) LOGO CAROUSEL — clipped at the page margins, loops forever */
+  .logo-marquee{display:block;overflow:hidden;margin:34px 0 28px;}
+  .logo-track{display:flex;width:max-content;animation:logo-scroll 28s linear infinite;}   /* ← 28s = speed (higher = slower) */
+  .logo-track img{display:block;height:28px;width:auto;flex:none;opacity:0.55;}   /* ← logo size / brightness (opacity: 1 = full, lower = dimmer) */
+  @keyframes logo-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  @media (prefers-reduced-motion:reduce){.logo-track{animation:none;}}
+}
+
+/* the taller phone card outlines (2576 x 1800) are used at <=580px — positions below are % of that image */
+@media (max-width:580px){
+  .cg-clip{left:.74%;right:.74%;top:1.06%;bottom:1%;border-radius:1.75cqw;}
+  .cg-shade{top:99.06%;}
+  .cg-overlay{top:calc(6.5cqw - var(--text-up));}   /* diamond centre line on the phone outline */
+}
+
+/* =====================================================================
+   NARROW CARDS (<=479px phones) — the card text uses fixed pixel sizes (so it stays readable) while the card
+   itself keeps shrinking, so on very small screens the description wraps onto 2 lines and runs into the
+   screenshot. Fix: as the CARD gets narrower, the screenshot shrinks a little (it's pinned to the bottom, so
+   its top edge drops) and the text gets more room. Each step says "when the card is this wide or narrower,
+   make the screenshot this wide (% of the card)". Lower the % to give the text more room; raise it for a bigger shot.
+   ===================================================================== */
+@media (max-width:479px){
+  @container (max-width:380px){
+    .cg-screen{left:calc((7.69% - .74%) * 100 / 98.52);width:calc(84% * 100 / 98.52);}
+    .cg-shade{left:14.86%;right:15.51%;}
+  }
+  @container (max-width:340px){
+    .cg-screen{left:calc((10.69% - .74%) * 100 / 98.52);width:calc(78% * 100 / 98.52);}
+    .cg-shade{left:17.34%;right:17.99%;}
+  }
+  @container (max-width:300px){
+    .cg-screen{left:calc((13.69% - .74%) * 100 / 98.52);width:calc(72% * 100 / 98.52);}
+    .cg-shade{left:19.83%;right:20.48%;}
+  }
+}
+
+/* =====================================================================
+   PHONE CARDS (<=580px, where the phone outline image is used): nudge the text block
+   --text-down  -> pushes BOTH the title and the description down together (px)
+   --title-gap  -> extra space between the title and the description (px)
+   ===================================================================== */
+@media (max-width:580px){
+  .cg-overlay{--text-down:1px;margin-top:var(--text-down);}               /* ← push text down: raise 3px */
+  .cg-overlay-sub{--title-gap:4px;top:calc(max(2.1cqw,10px) + var(--title-gap));}   /* ← title→description space: raise 4px */
 }
