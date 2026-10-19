@@ -912,14 +912,6 @@
     /* no blur filter: Safari clips a blurred, masked, blended layer to its box and shows a hard edge — the softness is baked into the gradient stops instead */
     will-change:transform;-webkit-backface-visibility:hidden;backface-visibility:hidden;
     animation:hero-spot 6s ease-in-out infinite alternate;}
-  /* iPhone Safari: the beam can't draw into the status-bar strip above the page, so its brightest part used to end in a hard line at the very top.
-     Fade the beam IN over the first ~100px of the screen instead (--spot-top-fade) so there's no visible cutoff. */
-  @supports (-webkit-touch-callout:none){
-    body::before{
-      -webkit-mask-image:linear-gradient(to bottom, transparent calc(var(--spot-extra) + 40px), #000 calc(var(--spot-extra) + 40px + 100px)),conic-gradient(from calc(180deg - var(--spot-spread) / 2) at 50% calc(var(--spot-extra) - var(--spot-origin)), transparent 0deg, #000 calc(var(--spot-spread) * .5), #000 calc(var(--spot-spread) * .5), transparent var(--spot-spread), transparent 360deg);
-              mask-image:linear-gradient(to bottom, transparent calc(var(--spot-extra) + 40px), #000 calc(var(--spot-extra) + 40px + 100px)),conic-gradient(from calc(180deg - var(--spot-spread) / 2) at 50% calc(var(--spot-extra) - var(--spot-origin)), transparent 0deg, #000 calc(var(--spot-spread) * .5), #000 calc(var(--spot-spread) * .5), transparent var(--spot-spread), transparent 360deg);
-      -webkit-mask-composite:source-in;mask-composite:intersect;}
-  }
   @keyframes hero-spot{from{transform:scaleY(.95);}to{transform:scaleY(1.05);}}   /* slow breathing */
   @media (prefers-reduced-motion:reduce){body::before{animation:none;}}
 }
