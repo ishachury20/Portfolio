@@ -906,10 +906,11 @@
       rgba(255,255,255,calc(var(--spot-power) * 1)) 0%, rgba(255,255,255,calc(var(--spot-power) * 0.55)) 30%,
       rgba(255,255,255,calc(var(--spot-power) * 0.16)) 62%, transparent 100%);
     -webkit-mask-image:conic-gradient(from calc(180deg - var(--spot-spread) / 2) at 50% calc(var(--spot-extra) - var(--spot-origin)),
-      transparent 0deg, #000 calc(var(--spot-spread) * .42), #000 calc(var(--spot-spread) * .58), transparent var(--spot-spread), transparent 360deg);
+      transparent 0deg, #000 calc(var(--spot-spread) * .5), #000 calc(var(--spot-spread) * .5), transparent var(--spot-spread), transparent 360deg);
             mask-image:conic-gradient(from calc(180deg - var(--spot-spread) / 2) at 50% calc(var(--spot-extra) - var(--spot-origin)),
-      transparent 0deg, #000 calc(var(--spot-spread) * .42), #000 calc(var(--spot-spread) * .58), transparent var(--spot-spread), transparent 360deg);
-    filter:blur(16px);
+      transparent 0deg, #000 calc(var(--spot-spread) * .5), #000 calc(var(--spot-spread) * .5), transparent var(--spot-spread), transparent 360deg);
+    /* no blur filter: Safari clips a blurred, masked, blended layer to its box and shows a hard edge — the softness is baked into the gradient stops instead */
+    will-change:transform;-webkit-backface-visibility:hidden;backface-visibility:hidden;
     animation:hero-spot 6s ease-in-out infinite alternate;}
   @keyframes hero-spot{from{transform:scaleY(.95);}to{transform:scaleY(1.05);}}   /* slow breathing */
   @media (prefers-reduced-motion:reduce){body::before{animation:none;}}

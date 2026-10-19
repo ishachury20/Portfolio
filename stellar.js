@@ -141,7 +141,12 @@ document.querySelectorAll('.cg-screen').forEach(function (img) {
   if (img.complete) init(); else img.addEventListener('load', init);
   window.addEventListener('resize', place);
   window.addEventListener('stellar-relayout', place);
-  if (window.ResizeObserver) new ResizeObserver(place).observe(clip);
+  if (window.ResizeObserver) {
+    const ro = new ResizeObserver(place);
+    ro.observe(clip);
+    const sub0 = media.querySelector('.cg-overlay-sub'); if (sub0) ro.observe(sub0);   // description re-wraps when web fonts arrive (Safari: after fonts.ready)
+  }
+  if (document.fonts && document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', place);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);   // text re-wraps once the fonts arrive
   window.addEventListener('load', place);
   window.addEventListener('pageshow', place);
