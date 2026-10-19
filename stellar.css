@@ -899,15 +899,15 @@
    ===================================================================== */
 @media (max-width:479px){
   body::before{
-    --spot-spread:66deg;--spot-length:680px;--spot-power:.34;--spot-origin:110px;
-    content:"";position:fixed;left:0;right:0;top:-40px;height:var(--spot-length);transform-origin:top center;opacity:var(--spot-o,1);   /* ← top: raise (more negative) to move the light higher */
+    --spot-spread:66deg;--spot-length:680px;--spot-power:.34;--spot-origin:110px;--spot-extra:320px;   /* extra = beam drawn this far above the screen so Safari's toolbar/overscroll never reveals its top edge */
+    content:"";position:fixed;left:0;right:0;top:calc(-40px - var(--spot-extra));height:calc(var(--spot-length) + var(--spot-extra));transform-origin:50% var(--spot-extra);opacity:var(--spot-o,1);   /* ← top: raise (more negative) to move the light higher */
     pointer-events:none;z-index:200;mix-blend-mode:screen;
-    background:radial-gradient(ellipse 75% 100% at 50% calc(-1 * var(--spot-origin)),
+    background:radial-gradient(ellipse 75% var(--spot-length) at 50% calc(var(--spot-extra) - var(--spot-origin)),
       rgba(255,255,255,calc(var(--spot-power) * 1)) 0%, rgba(255,255,255,calc(var(--spot-power) * 0.55)) 30%,
       rgba(255,255,255,calc(var(--spot-power) * 0.16)) 62%, transparent 100%);
-    -webkit-mask-image:conic-gradient(from calc(180deg - var(--spot-spread) / 2) at 50% calc(-1 * var(--spot-origin)),
+    -webkit-mask-image:conic-gradient(from calc(180deg - var(--spot-spread) / 2) at 50% calc(var(--spot-extra) - var(--spot-origin)),
       transparent 0deg, #000 calc(var(--spot-spread) * .42), #000 calc(var(--spot-spread) * .58), transparent var(--spot-spread), transparent 360deg);
-            mask-image:conic-gradient(from calc(180deg - var(--spot-spread) / 2) at 50% calc(-1 * var(--spot-origin)),
+            mask-image:conic-gradient(from calc(180deg - var(--spot-spread) / 2) at 50% calc(var(--spot-extra) - var(--spot-origin)),
       transparent 0deg, #000 calc(var(--spot-spread) * .42), #000 calc(var(--spot-spread) * .58), transparent var(--spot-spread), transparent 360deg);
     filter:blur(16px);
     animation:hero-spot 6s ease-in-out infinite alternate;}

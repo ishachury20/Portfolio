@@ -108,7 +108,7 @@ document.querySelectorAll('.cg-screen').forEach(function (img) {
   // PHONES (<=479px): size the screenshot so there's always the same small gap (FIT_GAP px) between the card's
   // description and the screenshot — whatever the phone's width or however many lines the description takes.
   // (It's the biggest the screenshot can be without touching the text; capped at the normal desktop size.)
-  const FIT_GAP = 3;                    // ← gap under the description on phones, in px (lower = bigger screenshot)
+  const FIT_GAP = 10;                    // ← gap under the description on phones, in px (lower = bigger screenshot)
   const phoneMQ = window.matchMedia('(max-width:479px)');
   function fit() {
     const sub = media.querySelector('.cg-overlay-sub');
@@ -144,6 +144,9 @@ document.querySelectorAll('.cg-screen').forEach(function (img) {
   if (window.ResizeObserver) new ResizeObserver(place).observe(clip);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(place);   // text re-wraps once the fonts arrive
   window.addEventListener('load', place);
+  window.addEventListener('pageshow', place);
+  media.closest('.case-card')?.addEventListener('transitionend', place, true);   // re-fit once the reveal slide-in finishes (measuring mid-slide pulled the screenshot up)
+  setTimeout(place, 300); setTimeout(place, 1200);   // safety re-fit after the loader / fonts settle
   if (phoneMQ.addEventListener) phoneMQ.addEventListener('change', place);
 });
 
