@@ -1192,3 +1192,4 @@ html.no-loader .loader{display:none;}
   .ld-meter{top:auto;bottom:clamp(28px,7vh,56px);transform:none;}   /* counter moves to the bottom-right on phones */
 }
 @media (prefers-reduced-motion:reduce){.loader{transition-duration:.2s;}}
+
