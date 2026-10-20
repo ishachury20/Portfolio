@@ -912,6 +912,14 @@
     /* no blur filter: Safari clips a blurred, masked, blended layer to its box and shows a hard edge — the softness is baked into the gradient stops instead */
     will-change:transform;-webkit-backface-visibility:hidden;backface-visibility:hidden;
     animation:hero-spot 6s ease-in-out infinite alternate;}
+  /* iPhone Safari: the beam can't draw into the status-bar strip above the page, so its brightest part used to end in a hard line at the very top.
+     Fade the beam IN over the first ~100px of the screen instead (--spot-top-fade) so there's no visible cutoff. */
+  @supports (-webkit-touch-callout:none){
+    body::before{
+      -webkit-mask-image:linear-gradient(to bottom, transparent calc(var(--spot-extra) + 40px), #000 calc(var(--spot-extra) + 40px + 100px)),conic-gradient(from calc(180deg - var(--spot-spread) / 2) at 50% calc(var(--spot-extra) - var(--spot-origin)), transparent 0deg, #000 calc(var(--spot-spread) * .5), #000 calc(var(--spot-spread) * .5), transparent var(--spot-spread), transparent 360deg);
+              mask-image:linear-gradient(to bottom, transparent calc(var(--spot-extra) + 40px), #000 calc(var(--spot-extra) + 40px + 100px)),conic-gradient(from calc(180deg - var(--spot-spread) / 2) at 50% calc(var(--spot-extra) - var(--spot-origin)), transparent 0deg, #000 calc(var(--spot-spread) * .5), #000 calc(var(--spot-spread) * .5), transparent var(--spot-spread), transparent 360deg);
+      -webkit-mask-composite:source-in;mask-composite:intersect;}
+  }
   @keyframes hero-spot{from{transform:scaleY(.95);}to{transform:scaleY(1.05);}}   /* slow breathing */
   @media (prefers-reduced-motion:reduce){body::before{animation:none;}}
 }
@@ -1101,13 +1109,13 @@
 @media (max-width:479px){
   /* 1) LOGO CAROUSEL — clipped at the page margins, loops forever */
   .logo-marquee{display:block;overflow:hidden;margin:50px 0 28px;}   /* ← first number = space above the logos (raise to move them down) */
-  .logo-track{display:flex;width:max-content;animation:logo-scroll 28s linear infinite;}   /* ← 28s = speed (higher = slower) */
+  .logo-track{display:flex;width:max-content;will-change:transform;-webkit-backface-visibility:hidden;animation:logo-scroll 28s linear infinite;}   /* ← 28s = speed (higher = slower) */
   /* HERO LOCK: the hero stays pinned to the top while the white section scrolls up over it.
      (delete the next rule to go back to a normal scrolling hero) */
   .hero-block{position:sticky;top:0;}
   .section.work{margin-top:-44px;}   /* ← pulls the white section up over the bottom of the hero (bigger negative number = higher) */
-  .logo-track img{display:block;height:28px;width:auto;flex:none;opacity:0.4;}   /* ← logo size / brightness (opacity: 1 = full, lower = dimmer) */
-  @keyframes logo-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+  .logo-track img{display:block;height:28px;width:auto;aspect-ratio:3555 / 129;flex:none;opacity:0.4;}   /* ← logo size / brightness (opacity: 1 = full, lower = dimmer) */
+  @keyframes logo-scroll{from{transform:translate3d(0,0,0);}to{transform:translate3d(-50%,0,0);}}   /* translate3d + will-change: Safari otherwise can leave the strip frozen until a refresh */
   @media (prefers-reduced-motion:reduce){.logo-track{animation:none;}}
 }
 
@@ -1192,4 +1200,3 @@ html.no-loader .loader{display:none;}
   .ld-meter{top:auto;bottom:clamp(28px,7vh,56px);transform:none;}   /* counter moves to the bottom-right on phones */
 }
 @media (prefers-reduced-motion:reduce){.loader{transition-duration:.2s;}}
-

@@ -325,3 +325,24 @@ if (!prefersReduced && 'IntersectionObserver' in window) {
   paint();
   requestAnimationFrame(tick);
 })();
+
+
+// ---- Phone logo carousel: (re)start the scroll once everything has loaded ----
+// Safari can start the CSS animation while the strip is still 0px wide (images / fonts not in yet) and then leave it frozen
+// until a refresh. Restarting it after load, after the loading screen, and when the tab comes back makes it always run.
+(function () {
+  const track = document.querySelector('.logo-track');
+  if (!track) return;
+  function restart() {
+    track.style.animation = 'none';
+    void track.offsetWidth;            // force a reflow so the animation really restarts
+    track.style.animation = '';
+  }
+  track.querySelectorAll('img').forEach(img => { if (!img.complete) img.addEventListener('load', restart); });
+  window.addEventListener('load', restart);
+  window.addEventListener('pageshow', restart);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) restart(); });
+  const ld = document.getElementById('loader');
+  if (ld) ld.addEventListener('transitionend', restart);
+  setTimeout(restart, 600); setTimeout(restart, 2500);
+})();
