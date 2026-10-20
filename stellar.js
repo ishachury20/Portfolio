@@ -130,6 +130,7 @@ document.querySelectorAll('.cg-screen').forEach(function (img) {
     }
   }
   function place() {
+    if (frac == null && img.naturalWidth) measure();   // Safari can report the image 'complete' before its pixels are readable — keep retrying until they are
     fit();
     if (frac == null) return;
     const ch = clip.clientHeight, ih = img.clientHeight;
@@ -138,7 +139,9 @@ document.querySelectorAll('.cg-screen').forEach(function (img) {
     img.style.top = ((ch + liftPx - frac * ih) / ch * 100) + '%';
   }
   function init() { measure(); place(); }
-  if (img.complete) init(); else img.addEventListener('load', init);
+  init();
+  img.addEventListener('load', init);
+  if (img.decode) img.decode().then(init).catch(() => {});
   window.addEventListener('resize', place);
   window.addEventListener('stellar-relayout', place);
   if (window.ResizeObserver) {
