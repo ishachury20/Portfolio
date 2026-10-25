@@ -898,7 +898,7 @@
    ===================================================================== */
 @media (max-width:479px){
   body::before{
-    --spot-spread:66deg;--spot-length:680px;--spot-power:.04;--spot-origin:110px;
+    --spot-spread:66deg;--spot-length:680px;--spot-power:.18;--spot-origin:110px;
     content:"";position:fixed;left:0;right:0;top:-40px;height:var(--spot-length);transform-origin:top center;opacity:var(--spot-o,1);   /* ← top: raise (more negative) to move the light higher */
     pointer-events:none;z-index:200;mix-blend-mode:screen;
     background:radial-gradient(ellipse 75% 100% at 50% calc(-1 * var(--spot-origin)),
